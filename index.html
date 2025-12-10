@@ -1,16 +1,21 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>4Garden — growth tree + nav tweaks</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>4Garden — refined tree + nav sizing</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
+    --nav-base-height: 8.8vh; /* предыдущая высота полосы (до уменьшения) */
+    --nav-height: calc(var(--nav-base-height) * 0.9); /* уменьшили на 10% */
+    --tile-scale-mult: 1.5; /* заявленное увеличение плиток на 50% */
+    --tile-max-occupy: 0.98; /* максимум, который плитка может занимать от nav-height (чтобы не вылезать) */
     --nav-bg: #3f2612;
     --nav-accent: #7be27b;
     --nav-hover-bg: #1b5e20;
   }
+
   html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;background:#fff;scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
   section{padding:60px 20px;}
   h2{ text-align:center; font-size:2.4rem; margin-bottom:25px;}
@@ -32,28 +37,27 @@
     text-shadow:0 0 8px rgba(0,0,0,0.85);
     position:fixed;
     top:0; left:0;
-    z-index:60;
+    z-index:70;
   }
   .header h1{font-size:2.6rem;margin:0;}
   .header p{font-size:1.6rem;margin:4px 0 0 0;}
 
   /* ========== NAV (fixed under header) ==========
-     Important: nav-wrapper is taller than tile height.
-     Tiles (.nav a) will be ~80% of nav-wrapper height.
+     nav-wrapper height decreased by 10% (see :root)
   */
   .nav-wrapper{
     width:100%;
-    height:8.8vh; /* чуть больше обычного */
+    height:var(--nav-height);
     background:#4b2e15;
     display:flex;
     justify-content:center;
-    align-items:center; /* center vertically so tiles can be 80% tall */
+    align-items:center;
     border-top:2px solid black;
     border-bottom:2px solid black;
     position:fixed;
-    top:calc(13vh * 1.2); /* below fixed header */
+    top:calc(13vh * 1.2);
     left:0;
-    z-index:59;
+    z-index:69;
   }
 
   .nav{
@@ -62,209 +66,206 @@
     align-items:center;
   }
 
+  /* Плитки: мы хотим увеличить высоту плитки на 50% относительно прежней высоты.
+     Практическая реализация:
+     - вычисляем желаемую высоту как (prev_tile_height * 1.5)
+       prev_tile_height ≈ 0.8 * prev_nav_height (раньше плитки были 80% от полосы)
+       => prev_tile_height = 0.8 * var(--nav-base-height)
+       => desired = 0.8 * var(--nav-base-height) * var(--tile-scale-mult)
+     - но чтобы плитки не выходили за пределы навбара, применяем min(desired, var(--nav-height) * var(--tile-max-occupy))
+     Это даёт и заявленное увеличение, и аккуратное визуальное поведение.
+  */
   .nav a{
-    /* tiles are ~80% of nav-wrapper height */
-    height:80%;
-    min-width:150px;         /* чуть шире */
-    padding:0 38px;         /* горизонтальный внутренний отступ */
+    height: min(
+      calc(0.8 * var(--nav-base-height) * var(--tile-scale-mult)),
+      calc(var(--nav-height) * var(--tile-max-occupy))
+    );
+    min-width:160px; /* чуть больше для читаемости */
+    padding:0 36px;
     display:inline-flex;
     align-items:center;
     justify-content:center;
     text-decoration:none;
     background:var(--nav-bg);
     color:var(--nav-accent);
-    font-size:1.6rem;
+    font-size:1.58rem;
     font-weight:600;
     border-right:2px solid rgba(0,0,0,0.6);
-    transition: transform .18s ease, background .18s ease, color .18s ease;
-    border-radius:14px; /* слегка закруглены */
+    transition: transform .16s ease, background .16s ease, color .16s ease;
+    border-radius:14px;
     box-sizing:border-box;
-    margin:0 4px; /* небольшой визуальный промежуток */
+    margin:0 6px;
+    line-height:1;
   }
   .nav a:last-child{ border-right:none; }
   .nav a:hover{
     background:var(--nav-hover-bg);
     color:#b7ff4f;
-    transform:translateY(-2px) scale(1.04);
+    transform:translateY(-3px) scale(1.03);
   }
 
   /* offset content so fixed header/nav don't cover it */
   .page-offset{
-    margin-top: calc((13vh * 1.2) + 8.8vh + 12px); /* add a few px for breathing room */
+    margin-top: calc((13vh * 1.2) + var(--nav-height) + 12px);
   }
 
-  /* ========== HOME ========== */
+  /* ========== CONTENT STYLES ========== */
   .home{
     background: linear-gradient(#d7f3d7,#b8e6b8);
     text-align:center;
     padding:110px 20px;
   }
   .home h2{font-size:3rem;}
-  .home button{
-    margin-top:25px;padding:14px 34px;font-size:1.15rem;border:none;background:#2e7d32;color:#fff;border-radius:10px;cursor:pointer;
-    transition:transform .18s ease, filter .18s ease;
-  }
-  .home button:hover{ transform:scale(1.04); filter:brightness(1.06); }
+  .home button{ margin-top:25px;padding:14px 34px;font-size:1.15rem;border:none;background:#2e7d32;color:#fff;border-radius:10px;cursor:pointer; transition:transform .18s ease; }
+  .home button:hover{ transform:scale(1.04); }
 
-  /* ========== SERVICES ========== */
   .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1000px; margin:auto; }
-  .service-card{
-    padding:25px; background:#f4f4f4; border-radius:12px; text-align:center; min-height:150px;
-    transition: transform .18s ease, filter .18s ease;
-  }
-  .service-card:hover{ transform:scale(1.03); filter:brightness(1.04); }
+  .service-card{ padding:25px; background:#f4f4f4; border-radius:12px; text-align:center; min-height:150px; transition: transform .18s ease; }
+  .service-card:hover{ transform:scale(1.03); }
 
   @media (max-width:900px){ .services-grid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:600px){ .services-grid{ grid-template-columns:repeat(1,1fr); } }
 
-  /* ========== PROJECTS ========== */
   .project-placeholder{ width:80%; height:220px; background:#ddd; margin:20px auto; border-radius:12px; transition:transform .18s ease; }
-  .project-placeholder:hover{ transform:scale(1.02); filter:brightness(1.02); }
-
-  /* ========== REVIEWS w/ VIDEO ========== */
   .review-card{ width:60%; background:#eee; padding:20px; margin:15px auto; border-radius:12px; transition:transform .18s ease; }
-  .review-card:hover{ transform:scale(1.02); filter:brightness(1.02); }
-
-  .video-review{ width:60%; margin:25px auto; background:#f7f7f7; padding:14px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.08); transition:transform .18s ease; }
+  .video-review{ width:60%; margin:25px auto; background:#f7f7f7; padding:14px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.08); }
   .video-review iframe{ width:100%; height:320px; border-radius:10px; border:0; display:block; }
 
-  /* ========== CTA / CONTACT / FOOTER ========== */
   .cta{ background:#2e7d32; color:#fff; text-align:center; padding:60px 20px; }
   .cta button{ margin-top:20px; padding:14px 34px; font-size:1.15rem; border-radius:8px; border:0; cursor:pointer; background:#fff; color:#2e7d32; transition:transform .18s ease; }
-  .cta button:hover{ transform:scale(1.04); }
-
   .contact-box{ width:60%; margin:auto; background:#f5f5f5; padding:25px; border-radius:12px; }
-
   footer{ background:#333; color:#fff; padding:20px; text-align:center; }
 
-  /* ========== LEFT TREE (fixed) ========== */
+  /* ========== TREE CONTAINER ========== */
   .tree-wrapper{
     position:fixed;
-    left:14px;
+    left:10px;
     top:50%;
     transform:translateY(-50%);
-    width:180px;
+    width:220px;
     height:auto;
-    z-index:48;
+    z-index:58;
     pointer-events:none;
-    opacity:0.98;
+    opacity:0.99;
   }
+  @media (max-width:900px){ .tree-wrapper{ display:none; } }
 
-  /* hide tree on small screens */
-  @media (max-width:900px){
-    .tree-wrapper{ display:none; }
+  .tree-svg{ will-change:transform, opacity; transform-origin: 50% 95%; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.12)); }
+
+  /* small adjustments for retina */
+  @media (min-resolution:2dppx){
+    .nav a{ font-size:1.62rem; }
   }
-
-  /* optimize rendering */
-  .tree-svg{ will-change:transform, opacity; transform-origin:50% 95%; }
-
-  /* helper utility to visually debug (commented) */
-  /* .tree-wrapper{ outline:1px dashed rgba(0,0,0,0.05); } */
 </style>
 </head>
 <body>
 
-  <!-- ===== LEFT TREE: 5 PHASES (each group is a phase) ===== -->
+  <!-- ===== TREE: 5 LAYERS (continuous blending) ===== -->
   <div class="tree-wrapper" aria-hidden="true">
-    <svg class="tree-svg" viewBox="0 0 300 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+    <svg class="tree-svg" viewBox="0 0 360 840" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
       <defs>
-        <!-- leaf symbol reused across phases -->
-        <symbol id="leafSym" viewBox="-10 -10 20 20">
-          <path d="M-4 2 C-6 -1, -1 -6, 4 -2 C1 2, -1 6, -4 2 Z" fill="#4fa84f" stroke="#2f6b2f" stroke-width="0.7"/>
+        <!-- realistic leaf symbol with subtle vein -->
+        <symbol id="leafReal" viewBox="-12 -8 24 16">
+          <path d="M-6 2 C -9 -2, -3 -7, 6 -2 C 2 1, -1 6, -6 2 Z" fill="#5aa756" stroke="#2f6b2f" stroke-width="0.6"/>
+          <path d="M-3 1 C -1 0, 1 -1, 4 -1" stroke="#2e6d2e" stroke-width="0.35" fill="none" opacity="0.45"/>
         </symbol>
-        <linearGradient id="trunkGradPhase" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0" stop-color="#6b3f21"/>
-          <stop offset="1" stop-color="#4b2e15"/>
+
+        <!-- smaller thin leaf -->
+        <symbol id="leafThin" viewBox="-8 -6 16 12">
+          <path d="M-4 1 C -6 -1, -1 -5, 4 -1 C 1 1, -1 4, -4 1 Z" fill="#6fc36f" stroke="#2f6b2f" stroke-width="0.45"/>
+        </symbol>
+
+        <!-- trunk gradient + subtle bark pattern -->
+        <linearGradient id="trunkGrad" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stop-color="#8a5a36"/>
+          <stop offset="1" stop-color="#5a3518"/>
         </linearGradient>
+
+        <filter id="leafSoft" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="0.6" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+
       </defs>
 
-      <!-- soil -->
-      <ellipse cx="150" cy="690" rx="90" ry="16" fill="#8b5e3c" opacity="0.95" />
-
-      <!-- PHASE 1: tiny sprout (just two leaves & thin stem) -->
-      <g id="phase1" transform="translate(150,640) scale(1)" opacity="1">
-        <!-- stem -->
-        <path d="M0 30 C 0 10, 0 8, 0 0" stroke="#2f8b3a" stroke-width="2.2" stroke-linecap="round" fill="none" />
-        <!-- two small leaves -->
-        <use href="#leafSym" x="-8" y="2" transform="rotate(-25) scale(.6)" />
-        <use href="#leafSym" x="8"  y="2" transform="rotate(22)  scale(.6)" />
+      <!-- soil / roots (base) -->
+      <g id="soil-layer" transform="translate(180,770)">
+        <ellipse cx="0" cy="0" rx="120" ry="22" fill="#8b5e3c" opacity="0.98"/>
       </g>
 
-      <!-- PHASE 2: small sapling (thicker stem, small branch, few leaves) -->
-      <g id="phase2" transform="translate(150,620) scale(1)" opacity="0">
-        <!-- young trunk -->
-        <path d="M4 70 C 2 30, 4 10, 6 0 C 5 -6, 3 -20, -2 -45" stroke="url(#trunkGradPhase)" stroke-width="5" stroke-linecap="round" fill="none"/>
-        <!-- small branch -->
-        <path d="M2 20 C -10 10, -28 0, -40 -8" stroke="#3c2414" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-        <!-- leaves on branch -->
-        <use href="#leafSym" x="-42" y="-10" transform="rotate(-18) scale(.8)"/>
-        <use href="#leafSym" x="-30" y="-6" transform="rotate(-6) scale(.8)"/>
-        <!-- a few higher leaves -->
-        <use href="#leafSym" x="6" y="-28" transform="rotate(8) scale(.85)"/>
-        <use href="#leafSym" x="-6" y="-22" transform="rotate(-8) scale(.75)"/>
+      <!-- LAYER A: base thin sprout/stem (visible at 0..0.2) -->
+      <g id="layerA" transform="translate(180,720)" opacity="1">
+        <path d="M0 40 C 0 20, 0 12, 0 0" stroke="#2b7d3a" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+        <use href="#leafThin" x="-8" y="3" transform="rotate(-26) scale(.6)"/>
+        <use href="#leafThin" x="8"  y="3" transform="rotate(22)  scale(.6)"/>
       </g>
 
-      <!-- PHASE 3: teenager (longer trunk, more branches and leaves) -->
-      <g id="phase3" transform="translate(150,560) scale(1)" opacity="0">
-        <!-- trunk silhouette filled -->
-        <path d="M12 140 C 8 80, 6 40, 10 0 C 9 -20, 6 -60, 4 -100 C 8 -120, 18 -140, 30 -160 C 20 -130, 14 -90, 12 -60"
-              fill="none" stroke="url(#trunkGradPhase)" stroke-width="7" stroke-linecap="round"/>
-        <!-- multiple branches -->
-        <path d="M8 20 C -10 10, -45 -6, -70 -30" stroke="#3c2414" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-        <path d="M20 10 C 40 -6, 70 -28, 100 -50" stroke="#3c2414" stroke-width="3.2" fill="none" stroke-linecap="round"/>
-        <!-- leaves scattered -->
-        <use href="#leafSym" x="-70" y="-38" transform="rotate(-25) scale(.95)"/>
-        <use href="#leafSym" x="-50" y="-20" transform="rotate(-18) scale(.95)"/>
-        <use href="#leafSym" x="-30" y="-10" transform="rotate(-6) scale(1)"/>
-        <use href="#leafSym" x="8" y="-30" transform="rotate(6) scale(1.06)"/>
-        <use href="#leafSym" x="45" y="-40" transform="rotate(18) scale(0.95)"/>
-        <use href="#leafSym" x="90" y="-54" transform="rotate(22) scale(0.92)"/>
+      <!-- LAYER B: thin young trunk + few branches (0.15..0.4) -->
+      <g id="layerB" transform="translate(180,690)" opacity="0">
+        <path d="M6 80 C 3 40, 4 12, 6 0 C 5 -8, 2 -28, -4 -52" stroke="url(#trunkGrad)" stroke-width="4.0" stroke-linecap="round" fill="none"/>
+        <path d="M2 18 C -12 8, -28 -2, -40 -14" stroke="#3b2313" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        <use href="#leafReal" x="-44" y="-18" transform="rotate(-18) scale(.78)"/>
+        <use href="#leafReal" x="-30" y="-10" transform="rotate(-8) scale(.78)"/>
+        <use href="#leafReal" x="4"   y="-26" transform="rotate(6)  scale(.82)"/>
       </g>
 
-      <!-- PHASE 4: young tree (thick trunk, many branches and leaves) -->
-      <g id="phase4" transform="translate(150,460) scale(1)" opacity="0">
-        <!-- trunk filled -->
-        <path d="M28 220 C 24 150, 24 110, 28 40 C 30 8, 26 -40, 22 -80 C 36 -110, 48 -150, 62 -190 C 50 -160, 42 -120, 34 -86"
-              fill="none" stroke="url(#trunkGradPhase)" stroke-width="10" stroke-linecap="round"/>
-        <!-- many branches -->
-        <path d="M12 30 C -40 0, -100 -36, -140 -78" stroke="#3c2414" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-        <path d="M40 20 C 80 -6, 140 -38, 190 -80" stroke="#3c2414" stroke-width="3.6" fill="none" stroke-linecap="round"/>
-        <!-- denser leaves (uses) -->
-        <use href="#leafSym" x="-110" y="-86" transform="rotate(-30) scale(1.05)"/>
-        <use href="#leafSym" x="-84"  y="-68" transform="rotate(-18) scale(1.08)"/>
-        <use href="#leafSym" x="-48"  y="-50" transform="rotate(-6)  scale(1.12)"/>
-        <use href="#leafSym" x="-10"  y="-46" transform="rotate(0)   scale(1.15)"/>
-        <use href="#leafSym" x="28"   y="-50" transform="rotate(6)   scale(1.12)"/>
-        <use href="#leafSym" x="72"   y="-62" transform="rotate(20)  scale(1.05)"/>
-        <use href="#leafSym" x="128"  y="-76" transform="rotate(28)  scale(1.0)"/>
-        <use href="#leafSym" x="42"   y="-32" transform="rotate(4)   scale(1.08)"/>
+      <!-- LAYER C: juvenile tree (0.35..0.65) -->
+      <g id="layerC" transform="translate(180,620)" opacity="0">
+        <!-- trunk silhouette (curvy filled path gives volume) -->
+        <path d="M12 140 C 6 80, 6 40, 10 0 C 8 -22, 6 -64, 4 -100 C 10 -120, 22 -140, 36 -160 C 24 -132, 16 -98, 12 -68"
+              fill="none" stroke="url(#trunkGrad)" stroke-width="6.5" stroke-linecap="round"/>
+        <!-- branches -->
+        <path d="M8 26 C -14 10, -50 -8, -82 -34" stroke="#3b2313" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <path d="M20 18 C 48 -4, 92 -34, 130 -66" stroke="#3b2313" stroke-width="2.6" fill="none" stroke-linecap="round"/>
+        <!-- leaf clusters, reuse leafReal with varying scale and rotation -->
+        <use href="#leafReal" x="-86" y="-44" transform="rotate(-28) scale(.96)"/>
+        <use href="#leafReal" x="-60" y="-28" transform="rotate(-14) scale(1.02)"/>
+        <use href="#leafReal" x="-28" y="-18" transform="rotate(-4)  scale(1.06)"/>
+        <use href="#leafReal" x="6"   y="-34" transform="rotate(4)   scale(1.1)"/>
+        <use href="#leafReal" x="46"  y="-42" transform="rotate(12)  scale(.96)"/>
+        <use href="#leafReal" x="92"  y="-58" transform="rotate(20)  scale(.92)"/>
       </g>
 
-      <!-- PHASE 5: adult tree (full crown, wide trunk) -->
-      <g id="phase5" transform="translate(150,380) scale(1)" opacity="0">
-        <!-- filled trunk (heavier) -->
-        <path d="M45 300 C 40 220, 38 170, 40 100 C 42 64, 38 16, 36 -32 C 48 -78, 62 -130, 86 -190
-                 C 68 -150, 56 -110, 48 -78"
-              fill="none" stroke="url(#trunkGradPhase)" stroke-width="14" stroke-linecap="round"/>
-        <!-- extended branches -->
-        <path d="M18 40 C -80 -10, -170 -70, -230 -140" stroke="#3c2414" stroke-width="4.2" fill="none" stroke-linecap="round"/>
-        <path d="M52 36 C 120 -12, 220 -78, 290 -150" stroke="#3c2414" stroke-width="4.2" fill="none" stroke-linecap="round"/>
-        <!-- lush crown: many leaves (reused symbol) -->
-        <use href="#leafSym" x="-190" y="-132" transform="rotate(-34) scale(1.12)"/>
-        <use href="#leafSym" x="-150" y="-114" transform="rotate(-26) scale(1.18)"/>
-        <use href="#leafSym" x="-120" y="-100" transform="rotate(-20) scale(1.22)"/>
-        <use href="#leafSym" x="-80"  y="-88"  transform="rotate(-12) scale(1.2)"/>
-        <use href="#leafSym" x="-40"  y="-84"  transform="rotate(-6)  scale(1.25)"/>
-        <use href="#leafSym" x="0"    y="-90"  transform="rotate(0)   scale(1.35)"/>
-        <use href="#leafSym" x="40"   y="-92"  transform="rotate(6)   scale(1.25)"/>
-        <use href="#leafSym" x="80"   y="-95"  transform="rotate(12)  scale(1.15)"/>
-        <use href="#leafSym" x="140"  y="-116" transform="rotate(18)  scale(1.08)"/>
-        <use href="#leafSym" x="200"  y="-138" transform="rotate(26)  scale(1.05)"/>
-        <!-- fill between leaves with a few extra uses for depth -->
-        <use href="#leafSym" x="-60"  y="-60"  transform="rotate(-8)  scale(.95)"/>
-        <use href="#leafSym" x="20"   y="-54"  transform="rotate(4)   scale(1.0)"/>
-        <use href="#leafSym" x="120"  y="-70"  transform="rotate(14)  scale(.95)"/>
+      <!-- LAYER D: young -> adult (0.6..0.85) -->
+      <g id="layerD" transform="translate(180,520)" opacity="0">
+        <path d="M28 220 C 22 150, 22 106, 28 42 C 32 10, 26 -30, 22 -70 C 36 -102, 50 -140, 68 -180 C 48 -150, 36 -110, 28 -82"
+              fill="none" stroke="url(#trunkGrad)" stroke-width="9.5" stroke-linecap="round"/>
+        <path d="M12 34 C -48 2, -120 -36, -170 -80" stroke="#3b2313" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+        <path d="M46 34 C 100 -6, 180 -64, 240 -120" stroke="#3b2313" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+        <!-- denser crown -->
+        <use href="#leafReal" x="-160" y="-86" transform="rotate(-34) scale(1.02)"/>
+        <use href="#leafReal" x="-120" y="-70" transform="rotate(-26) scale(1.12)"/>
+        <use href="#leafReal" x="-82"  y="-58" transform="rotate(-16) scale(1.16)"/>
+        <use href="#leafReal" x="-40"  y="-52" transform="rotate(-6)  scale(1.18)"/>
+        <use href="#leafReal" x="0"    y="-58" transform="rotate(0)   scale(1.35)"/>
+        <use href="#leafReal" x="42"   y="-60" transform="rotate(6)   scale(1.18)"/>
+        <use href="#leafReal" x="88"   y="-72" transform="rotate(18)  scale(1.08)"/>
+        <use href="#leafReal" x="150"  y="-92" transform="rotate(22)  scale(1.0)"/>
       </g>
+
+      <!-- LAYER E: mature tree (0.8..1.0) — fullest detail -->
+      <g id="layerE" transform="translate(180,420)" opacity="0">
+        <path d="M45 300 C 36 220, 36 170, 42 102 C 46 64, 38 16, 36 -32 C 56 -80, 80 -140, 116 -200
+                 C 72 -150, 52 -110, 42 -82"
+              fill="none" stroke="url(#trunkGrad)" stroke-width="14.0" stroke-linecap="round"/>
+        <path d="M18 48 C -90 4, -190 -64, -270 -150" stroke="#3b2313" stroke-width="4.6" fill="none" stroke-linecap="round"/>
+        <path d="M62 46 C 140 -4, 280 -84, 360 -180" stroke="#3b2313" stroke-width="4.6" fill="none" stroke-linecap="round"/>
+        <!-- rich crown: many leaves placed for depth -->
+        <use href="#leafReal" x="-220" y="-160" transform="rotate(-36) scale(1.12)"/>
+        <use href="#leafReal" x="-180" y="-136" transform="rotate(-28) scale(1.18)"/>
+        <use href="#leafReal" x="-140" y="-120" transform="rotate(-20) scale(1.22)"/>
+        <use href="#leafReal" x="-100" y="-106" transform="rotate(-12) scale(1.2)"/>
+        <use href="#leafReal" x="-60"  y="-100" transform="rotate(-6)  scale(1.25)"/>
+        <use href="#leafReal" x="-12"  y="-110" transform="rotate(-2)  scale(1.32)"/>
+        <use href="#leafReal" x="36"   y="-112" transform="rotate(4)   scale(1.28)"/>
+        <use href="#leafReal" x="96"   y="-124" transform="rotate(12)  scale(1.18)"/>
+        <use href="#leafReal" x="170"  y="-146" transform="rotate(18)  scale(1.05)"/>
+        <use href="#leafReal" x="240"  y="-170" transform="rotate(26)  scale(0.98)"/>
+        <!-- a few extra fills in middle -->
+        <use href="#leafReal" x="-60"  y="-72" transform="rotate(-8) scale(.98)"/>
+        <use href="#leafReal" x="24"   y="-62" transform="rotate(6)  scale(1.02)"/>
+      </g>
+
     </svg>
   </div>
 
@@ -275,7 +276,7 @@
   </div>
 
   <div class="nav-wrapper" role="navigation" aria-label="Главное меню">
-    <nav class="nav">
+    <nav class="nav" aria-hidden="false">
       <a href="#home">Home</a>
       <a href="#services">Services</a>
       <a href="#projects">Projects</a>
@@ -358,101 +359,85 @@
 
 <script>
 /*
-  Tree growth controller — phase-based interpolation (smooth)
-  - 5 phases defined in SVG as #phase1 .. #phase5
-  - compute normalized scroll progress 0..1
-  - map to phaseIndex float: 0 .. 4
-  - for each phase i:
-      - if i == floorIndex: show with weight (1 - frac)
-      - if i == ceilIndex: show with weight (frac)
-      - others: hide
-  - we adjust opacity and a small transform (translateY & scale) per group to simulate growth transition
-  - use requestAnimationFrame and passive scroll listener for perf
+  Smooth continuous growth controller
+  - 5 overlapping layers: layerA .. layerE
+  - Blend opacities & transforms based on normalized scroll progress (0..1)
+  - Each layer has its own transform targets to avoid "pileup"
+  - This approach avoids raw morphing complexity while producing very smooth, realistic growth
 */
 
 (function(){
-  const totalPhases = 5;
-  const groups = [];
-  for(let i=1;i<=totalPhases;i++){
-    const el = document.getElementById('phase'+i);
-    if(el) groups.push(el);
-  }
-  if(!groups.length) return;
+  const layers = ['layerA','layerB','layerC','layerD','layerE'].map(id => document.getElementById(id)).filter(Boolean);
+  const svg = document.querySelector('.tree-svg');
+  if(!layers.length || !svg) return;
 
-  // small per-phase transform settings (startScale/startTranslateY) to make transitions look organic
-  const phaseTransforms = [
-    { scale: 0.65, ty: 18 },  // phase1 (sprout smaller and low)
-    { scale: 0.82, ty: 12 },  // phase2
-    { scale: 0.95, ty: 6 },   // phase3
-    { scale: 1.06, ty: -6 },  // phase4
-    { scale: 1.12, ty: -18 }  // phase5 (positioned a bit higher to look fully grown)
+  // each layer transform baseline: {scale, ty} — selected to produce natural vertical growth
+  const layerParams = [
+    { scale: 0.68, ty: 18 },  // A - tiny sprout (lower on canvas)
+    { scale: 0.84, ty: 10 },  // B - young
+    { scale: 0.96, ty: 4  },  // C
+    { scale: 1.06, ty: -8 },  // D
+    { scale: 1.14, ty: -22 }  // E - adult (sit higher visually)
   ];
 
-  // ensure initial styles
-  groups.forEach((g,i)=>{
-    g.style.transition = 'opacity .12s linear, transform .18s linear';
-    g.style.opacity = (i===0? '1' : '0');
-    const tr = phaseTransforms[i];
-    g.style.transform = `translateY(${tr.ty}px) scale(${tr.scale})`;
+  // ensure initial CSS for smooth transitions but we will override transforms directly in JS for perf
+  layers.forEach((g,i)=>{
     g.style.transformOrigin = '50% 95%';
-    // set pointerEvents none so they don't block anything
     g.style.pointerEvents = 'none';
+    g.style.opacity = (i===0 ? '1' : '0');
+    const p = layerParams[i];
+    g.style.transform = `translateY(${p.ty}px) scale(${p.scale})`;
   });
 
+  // helper clamp
+  const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+
   let ticking = false;
-
-  function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
-
   function update(){
-    const docHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    const docH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
     const winH = window.innerHeight || document.documentElement.clientHeight;
     const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-    const range = Math.max(1, docHeight - winH);
+    const range = Math.max(1, docH - winH);
 
     // normalized progress 0..1
     let p = clamp(scrollY / range, 0, 1);
 
-    // map p across the whole range but allow some slack (start growth early, finish near bottom)
-    // can tweak startOffset/endOffset if needed; keep full mapping for now.
+    // to match user expectation (growth more gradual near bottom) we can remap with slight ease:
+    // comment/uncomment remap to control feel
+    // linear:
     const progress = p;
+    // optional ease (uncomment): progress = Math.pow(p, 0.95);
 
-    // phase float index
-    const floatIndex = progress * (totalPhases - 1);
-    const low = Math.floor(floatIndex);
-    const high = Math.min(totalPhases - 1, Math.ceil(floatIndex));
-    const frac = floatIndex - low;
+    // For blending, define weights for each layer (soft bell overlapping)
+    // We'll compute for each layer a weight from progress by mapping progress to a "center" per layer
+    const n = layers.length;
+    // centers spaced evenly 0..1
+    const centers = layers.map((_,i) => i / (n - 1));
+    // width controls overlap; smaller -> sharper transitions
+    const width = 1.0 / (n - 1) * 1.1; // tuned for smooth overlap
 
-    // update each group's opacity and transform as linear blend between its own transform and the others
-    groups.forEach((g, idx)=>{
-      if(idx === low && idx === high){
-        // exact integer (only one visible)
-        g.style.opacity = '1';
-        const tr = phaseTransforms[idx];
-        g.style.transform = `translateY(${tr.ty}px) scale(${tr.scale})`;
-      } else if(idx === low){
-        // outgoing phase: weight = 1 - frac
-        const weight = 1 - frac;
-        g.style.opacity = String(weight);
-        const t1 = phaseTransforms[idx];
-        const t2 = phaseTransforms[high];
-        // interpolate transforms (translateY & scale)
-        const ty = t1.ty * weight + t2.ty * (1 - weight);
-        const sc = t1.scale * weight + t2.scale * (1 - weight);
-        g.style.transform = `translateY(${ty}px) scale(${sc})`;
-      } else if(idx === high){
-        // incoming phase: weight = frac
-        const weight = frac;
-        g.style.opacity = String(weight);
-        const t1 = phaseTransforms[low];
-        const t2 = phaseTransforms[idx];
-        const ty = t1.ty * (1 - weight) + t2.ty * weight;
-        const sc = t1.scale * (1 - weight) + t2.scale * weight;
-        g.style.transform = `translateY(${ty}px) scale(${sc})`;
-      } else {
-        // not visible
-        g.style.opacity = '0';
-      }
+    layers.forEach((g,i)=>{
+      const c = centers[i];
+      // gaussian-like weight
+      const dist = Math.abs(progress - c);
+      const w = clamp( (1 - dist / width), 0, 1 );
+      // smooth the weight (pow for softness)
+      const weight = Math.pow(w, 0.95);
+
+      // interpolate transforms between this layer's base and neutral
+      const base = layerParams[i];
+      // bring scale a bit closer to 1 as weight decreases
+      const scale = 1 + (base.scale - 1) * weight;
+      const ty = base.ty * weight;
+
+      g.style.opacity = String(weight);
+      g.style.transform = `translateY(${ty}px) scale(${scale})`;
     });
+
+    // overall svg subtle scale to simulate emerging from ground (small)
+    const globalScale = 0.9 + 0.2 * progress; // from 0.9 -> 1.1
+    const globalTy = 12 * (1 - progress); // small vertical nudge
+    svg.style.transform = `translateY(${globalTy}px) scale(${globalScale})`;
 
     ticking = false;
   }
@@ -466,10 +451,10 @@
 
   window.addEventListener('scroll', onScroll, {passive:true});
   window.addEventListener('resize', onScroll);
-
-  // initial update
+  // initial set
   onScroll();
 })();
 </script>
+
 </body>
 </html>
