@@ -8,42 +8,68 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
+            background: #ffffff;
         }
 
+        /* ======== HEADER ======== */
         .header {
             width: 100%;
-            height: 60vh; /* подстраивается под экран */
-            background-image: url('header.jpg'); /* имя твоей картинки */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            height: 60vh; /* адаптивная высота */
+            background-image: url('clearphotowithoutrights.png'); /* ТВОЯ КАРТИНКА */
+            background-size: cover;       /* растягиваем */
+            background-position: center;  /* центр */
+            background-repeat: no-repeat; /* без повторов */
+
             display: flex;
             align-items: center;
             justify-content: center;
+
             color: white;
-            text-shadow: 0px 0px 10px rgba(0,0,0,0.6);
+            text-shadow: 0px 0px 12px rgba(0,0,0,0.7);
         }
 
         .header h1 {
             font-size: 4rem;
+            font-weight: bold;
             margin: 0;
         }
 
+        /* ======== DESCRIPTION BLOCK ======== */
+        .description {
+            padding: 25px;
+            text-align: center;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        /* ======== MOBILE ======== */
         @media (max-width: 768px) {
+            .header {
+                height: 45vh;
+            }
+
             .header h1 {
-                font-size: 2.5rem;
+                font-size: 2.8rem;
+            }
+
+            .description {
+                font-size: 1rem;
+                padding: 15px;
             }
         }
+
     </style>
 </head>
 
 <body>
 
+    <!-- ======== HEADER WITH PHOTO ======== -->
     <div class="header">
         <h1>4Garden</h1>
     </div>
 
-    <div style="padding:20px;">
+    <!-- ======== SIMPLE TEXT BELOW ======== -->
+    <div class="description">
         Lawn mowing, hedge trimming, yard cleanup & roof moss removal
     </div>
 
