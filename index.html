@@ -5,177 +5,157 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>4Garden — premium</title>
 
+<!-- Шрифты -->
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --header-h-mult: 1.2;
-  --base-header-h: 13vh;
-  --header-h: calc(var(--base-header-h) * var(--header-h-mult));
+  :root{
+    --header-h-mult: 1.2;
+    --base-header-h: 13vh;
+    --header-h: calc(var(--base-header-h) * var(--header-h-mult));
 
-  --nav-base-h: 8.8vh;
-  --nav-h: calc(var(--nav-base-h) * 0.9);
+    --nav-base-h: 8.8vh;
+    --nav-h: calc(var(--nav-base-h) * 0.9);
 
-  --accent-green: #7be27b;
-  --nav-bg: #3f2612;
-  --nav-hover: #1b5e20;
-}
+    --tile-increase: 1.15;
+    --tile-max-occupy: 0.98;
 
-html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;background:#fff; color:#12210f; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;}
-*{box-sizing:border-box}
+    --accent-green: #7be27b;
+    --nav-bg: #3f2612;
+    --nav-hover: #1b5e20;
 
-/* ---------------- HEADER ---------------- */
-.header {
-  width:100%;
-  height:var(--header-h);
-  background-image:url('clearphotowithoutrights.png');
-  background-size:cover;
-  background-position:center 32%;
-  position:fixed;
-  top:0; left:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  z-index:120;
-  text-shadow:0 0 8px rgba(0,0,0,0.7);
-  transition:background-position 0.35s linear;
-}
-.header h1{ margin:0; font-size:2.6rem; font-weight:700; letter-spacing:0.6px; text-align:center; }
-.header p{ margin:6px 0 0; font-size:4.1rem; font-weight:500; font-family:'Lora', serif; opacity:0.95; text-align:center; }
+    --glass: rgba(255,255,255,0.06);
+  }
 
-.btn-primary{
-  display:inline-block;
-  padding:18px 42px;
-  font-size:1.5rem;
-  background:linear-gradient(180deg,#00ff4d,#0fa839);
-  color:#fff;
-  border-radius:12px;
-  border:none;
-  cursor:pointer;
-  font-weight:600;
-  box-shadow:0 10px 28px rgba(6,125,50,0.15);
-  transition: transform .16s ease, filter .16s ease;
-}
-.btn-primary:hover{ transform: translateY(-3px); filter:brightness(1.08); }
+  html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;background:#fff;color:#12210f;}
+  *{box-sizing:border-box}
 
-/* ---------------- NAV ---------------- */
-.nav-wrapper{
-  position:fixed;
-  top:var(--header-h);
-  left:0;
-  width:100%;
-  height:var(--nav-h);
-  background:#4b2e15;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-top:2px solid rgba(0,0,0,0.6);
-  border-bottom:2px solid rgba(0,0,0,0.6);
-  z-index:115;
-  box-shadow:0 2px 8px rgba(0,0,0,0.05);
-}
-.nav{
-  display:flex;
-  gap:12px;
-  align-items:center;
-  padding:0 10px;
-}
-.nav a{
-  height: min(calc(0.8 * var(--nav-base-h)), calc(var(--nav-h) * 0.98));
-  min-width:170px;
-  padding:0 36px;
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  background:var(--nav-bg);
-  color:var(--accent-green);
-  font-size:1.55rem;
-  font-weight:600;
-  text-decoration:none;
-  border-radius:14px;
-  border:1px solid rgba(0,0,0,0.28);
-  box-shadow:0 6px 18px rgba(0,0,0,0.10);
-  transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
-  margin:0 6px;
-}
-.nav a:hover{
-  transform: translateY(-3px) scale(1.035);
-  filter:brightness(1.06);
-  box-shadow:0 12px 28px rgba(0,0,0,0.14), 0 2px 6px rgba(0,0,0,0.06);
-  background: linear-gradient(180deg, var(--nav-bg), #332412);
-  color:#dfffbf;
-}
+  /* HEADER */
+  .header {
+    width:100%;
+    height:var(--header-h);
+    background-image:url('clearphotowithoutrights.png');
+    background-size:cover;
+    background-position:center 32%;
+    position:fixed;
+    top:0; left:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    z-index:120;
+    text-shadow:0 0 8px rgba(0,0,0,0.7);
+    transition:background-position 0.35s linear;
+  }
+  .header h1{ margin:0; font-size:2.6rem; font-weight:700; }
+  .header p{ margin:6px 0 0; font-size:1.1rem; font-family:'Lora', serif; }
 
-/* ---------------- PAGE OFFSET ---------------- */
-.page-offset{ margin-top: calc(var(--header-h) + var(--nav-h) + 10px); }
+  /* NAV */
+  .nav-wrapper{
+    position:fixed;
+    top:calc(var(--header-h));
+    left:0;
+    width:100%;
+    height:var(--nav-h);
+    background:#4b2e15;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-top:2px solid rgba(0,0,0,0.6);
+    border-bottom:2px solid rgba(0,0,0,0.6);
+    z-index:115;
+  }
+  .nav{ display:flex; gap:12px; align-items:center; padding:0 10px; }
 
-/* ---------------- HOME ---------------- */
-.home{
-  background: linear-gradient(#eaf7ea 0%, #bfe9bf 100%);
-  text-align:center;
-  padding:110px 20px;
-  transition:transform .25s ease;
-}
+  .nav a{
+    height: min(
+      calc(0.8 * var(--nav-base-h) * var(--tile-increase)),
+      calc(var(--nav-h) * var(--tile-max-occupy))
+    );
+    min-width:170px;
+    padding:0 36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--nav-bg);
+    color:var(--accent-green);
+    font-size:1.55rem;
+    font-weight:600;
+    border-radius:14px;
+    text-decoration:none;
+    border:1px solid rgba(0,0,0,0.28);
+    transition:transform .18s, filter .18s, box-shadow .18s;
+  }
+  .nav a:hover{
+    transform: translateY(-3px) scale(1.035);
+    filter:brightness(1.06);
+    color:#dfffbf;
+  }
 
-/* ---------------- PROGRESS BAR LEFT ---------------- */
-.progress-bar-wrapper{
-  position:fixed;
-  left:12px;
-  top:var(--header-h);
-  width:12px;
-  height:calc(100% - var(--header-h));
-  background:#e0e0e0;
-  border-radius:8px;
-  overflow:hidden;
-  z-index:130;
-}
-.progress-bar-fill{
-  width:100%;
-  height:0%;
-  background:linear-gradient(#7be27b,#0f8a33);
-  transition:height 0.2s linear;
-}
+  /* Page offset */
+  .page-offset{ margin-top: calc(var(--header-h) + var(--nav-h) + 10px); }
 
-/* ---------------- Section appearance ---------------- */
-.appear {
-  transform: translateY(12px) scale(0.996);
-  transition: transform 420ms cubic-bezier(.2,.9,.2,1);
-  will-change:transform;
-}
-.appear.in-view {
-  transform: translateY(0) scale(1);
-}
+  /* HOME */
+  .home{
+    background: linear-gradient(#eaf7ea 0%, #bfe9bf 100%);
+    text-align:center;
+    padding:110px 20px;
+  }
 
-/* ---------------- Responsive ---------------- */
-@media (max-width:1000px){
-  .services-grid, .projects-grid { grid-template-columns: repeat(2, 1fr); }
-  .projects-grid img { height:140px; }
-}
-@media (max-width:700px){
-  .services-grid, .projects-grid { grid-template-columns: 1fr; }
-  .nav{ gap:8px; }
-  .nav a{ min-width:110px; padding:0 14px; font-size:1.1rem; }
-}
+  /* SERVICES */
+  .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 80px; padding:0 14px; }
+  .service-card{
+    background:#fff; border-radius:14px; padding:22px;
+    text-align:center; box-shadow:0 10px 30px rgba(6,20,8,0.04);
+  }
+
+  /* PROJECTS */
+  .projects-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:1100px; margin:auto; padding:0 14px; }
+
+  /* REVIEWS */
+  .review-grid{ max-width:900px; margin:20px auto; display:grid; gap:14px; padding:0 14px; }
+
+  /* CTA */
+  .cta{ background:linear-gradient(180deg,#247b30,#1b6a2b); color:#fff; text-align:center; padding:56px 20px; }
+
+  footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center; margin-top:20px; }
+
+  /* Appear (no fade) */
+  .appear { transform: translateY(12px) scale(0.996); transition: transform .42s cubic-bezier(.2,.9,.2,1); }
+  .appear.in-view { transform: translateY(0) scale(1); }
+
+  /* Back to top */
+  .back-top{
+    position:fixed; right:18px; bottom:18px;
+    width:56px; height:56px; border-radius:50%;
+    background:#e9fbe9;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; z-index:140; transition:transform .16s;
+    opacity:0;
+  }
+  .back-top:hover{ transform:translateY(-6px); }
+
+  /* Responsive */
+  @media (max-width:1000px){
+    .services-grid, .projects-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width:700px){
+    .services-grid, .projects-grid { grid-template-columns: 1fr; }
+    .nav a{ min-width:110px; font-size:1.1rem; padding:0 14px; }
+  }
 </style>
 </head>
 <body>
 
-<!-- PROGRESS BAR -->
-<div class="progress-bar-wrapper">
-  <div class="progress-bar-fill" id="progressFill"></div>
-</div>
-
 <!-- HEADER -->
 <header class="header" id="home">
   <h1>4Garden</h1>
-  <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
-  <button class="btn-primary">Get an Estimate</button>
+  <p>Professional Lawn & Garden Care — clean, green, premium</p>
 </header>
 
 <!-- NAV -->
-<div class="nav-wrapper" role="navigation" aria-label="Главное меню">
+<div class="nav-wrapper">
   <nav class="nav">
     <a href="#home">Home</a>
     <a href="#services">Services</a>
@@ -189,34 +169,98 @@ html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;background:#fff;
 <div class="page-offset"></div>
 
 <main>
-  <section class="home appear"></section>
-  <!-- здесь можно добавить остальные секции Services, Projects, Reviews и т.д., без изменений -->
+
+  <!-- HOME -->
+  <section class="home appear">
+    <h2>Professional Lawn & Garden Care</h2>
+    <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="appear">
+    <h2>Services</h2>
+    <div class="services-grid">
+      <div class="service-card">Lawn Mowing</div>
+      <div class="service-card">Hedge Trimming</div>
+      <div class="service-card">Yard Cleanup</div>
+      <div class="service-card">Landscape Design</div>
+      <div class="service-card">Lighting Installation</div>
+      <div class="service-card">Seasonal Maintenance</div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="appear">
+    <h2>Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card appear"><img src="https://picsum.photos/800/400?random=1"><div>Front Yard</div></div>
+      <div class="project-card appear"><img src="https://picsum.photos/800/400?random=2"><div>Stone Path</div></div>
+      <div class="project-card appear"><img src="https://picsum.photos/800/400?random=3"><div>Moss Clearing</div></div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" class="appear">
+    <h2>Reviews</h2>
+    <div class="review-grid">
+      <div class="review-card appear">"Great work" — Anna</div>
+      <div class="review-card appear">"Amazing lawn" — Mark</div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="appear">
+    <h2>About Us</h2>
+    <p>We combine passion, tools and eco-friendly methods.</p>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta appear">
+    <h2>Ready to Improve Your Yard?</h2>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="appear">
+    <h2>Contact</h2>
+    <p>Phone: (000) 000-0000</p>
+  </section>
+
 </main>
 
-<script>
-/* ================= Scroll progress bar ================= */
-window.addEventListener('scroll', ()=>{
-  const scrollY = window.scrollY || window.pageYOffset;
-  const docH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
-  const winH = window.innerHeight || document.documentElement.clientHeight;
-  const progress = Math.min(1, scrollY / (docH - winH));
-  const fill = document.getElementById('progressFill');
-  if(fill) fill.style.height = (progress*100)+'%';
-});
+<footer>
+  <p>© 2025 4Garden</p>
+</footer>
 
-/* ================= Parallax header ================= */
+<!-- Back to top -->
+<div class="back-top" id="backTop">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6">
+    <path d="M12 2 C12 2, 18 6, 18 11 C18 17, 12 22, 12 22 C12 22, 6 17, 6 11 C6 6, 12 2, 12 2 Z"></path>
+  </svg>
+</div>
+
+<script>
+/* Parallax header */
 (function(){
   const header = document.querySelector('.header');
-  if(!header) return;
-  const initialPos = 32; // %
   window.addEventListener('scroll', ()=>{
-    const sc = window.scrollY || window.pageYOffset;
-    const docH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
-    const winH = window.innerHeight || document.documentElement.clientHeight;
-    const progress = Math.min(1, sc / (docH - winH));
-    const newPos = initialPos + (progress*20 - 10); // от -10% до +10%
-    header.style.backgroundPosition = `center ${newPos}%`;
+    const sc = window.scrollY;
+    header.style.backgroundPosition = `center ${32 - sc*0.02}%`;
   }, {passive:true});
+})();
+
+/* Section appear */
+(function(){
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in-view'); });
+  },{threshold:0.08});
+  document.querySelectorAll('.appear').forEach(el=> io.observe(el));
+})();
+
+/* Back to top */
+(function(){
+  const b = document.getElementById('backTop');
+  window.addEventListener('scroll', ()=> b.style.opacity = window.scrollY>300?'1':'0');
+  b.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
 })();
 </script>
 
