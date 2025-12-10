@@ -15,41 +15,15 @@
             scroll-behavior: smooth;
         }
 
-        /* ======== NAVIGATION MENU ======== */
-        .nav {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.45);
-            position: fixed;
-            top: 0;
-            left: 0;
-            padding: 10px 0;
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            z-index: 10;
-        }
-
-        .nav a {
-            color: white;
-            text-decoration: none;
-            font-size: 1rem;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .nav a:hover {
-            opacity: 0.7;
-        }
-
-        /* ======== HEADER ======== */
+        /* ============================
+           HEADER
+        ============================ */
         .header {
             width: 100%;
-            height: 16vh; /* чуть ниже */
-            margin-top: 50px; /* чтобы не перекрывалась навигацией */
-
+            height: 20vh; /* ещё ниже */
             background-image: url('clearphotowithoutrights.png');
             background-size: cover;
-            background-position: top; /* верх картинки */
+            background-position: top;
             background-repeat: no-repeat;
 
             display: flex;
@@ -58,26 +32,79 @@
             justify-content: center;
 
             color: white;
-            text-shadow: 0px 0px 8px rgba(0,0,0,0.7);
+            text-shadow: 0px 0px 10px rgba(0,0,0,0.7);
         }
 
-        /* Заголовок меньше на 4 */
         .header h1 {
-            font-size: 3rem;    /* уменьшено */
+            font-size: 3rem; /* уменьшено */
             font-weight: 700;
             margin: 0;
         }
 
-        /* Подзаголовок больше на 2 */
+        /* Подзаголовок +2 рем */
         .header p {
-            font-size: 1.4rem;  /* увеличено */
+            font-size: 1.8rem;
             margin: 4px 0 0 0;
         }
 
-        /* ======== MOBILE ======== */
+        /* ============================
+           NAVIGATION BAR (под шапкой)
+        ============================ */
+
+        .nav {
+            width: 100%;
+            height: 20vh; /* такая же толщина как шапка */
+            background: #f2f2f2;
+
+            display: grid;
+            grid-template-columns: repeat(6, 1fr); /* 6 плиток */
+            align-items: center;
+            justify-items: center;
+
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+        }
+
+        .nav a {
+            width: 90%;
+            height: 60%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            text-decoration: none;
+            color: black;
+
+            font-size: 1.8rem; /* +2 рем */
+            font-weight: 600;
+
+            border: 2px solid black;
+            transition: 0.3s;
+            background: white;
+        }
+
+        /* Подсветка при наведении */
+        .nav a:hover {
+            background: #b6e2b6;
+            transform: scale(1.05);
+        }
+
+        /* ============================
+           SECTIONS (пока заглушки)
+        ============================ */
+
+        section {
+            padding: 40px;
+            font-size: 1.4rem;
+        }
+
+        /* ============================
+           MOBILE
+        ============================ */
+
         @media (max-width: 768px) {
             .header {
-                height: 20vh;
+                height: 25vh;
             }
 
             .header h1 {
@@ -85,11 +112,19 @@
             }
 
             .header p {
-                font-size: 1rem;
+                font-size: 1.2rem;
+            }
+
+            .nav {
+                height: auto;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+                padding: 10px 0;
             }
 
             .nav a {
-                font-size: 0.9rem;
+                height: 50px;
+                font-size: 1.2rem;
             }
         }
 
@@ -98,7 +133,17 @@
 
 <body>
 
-    <!-- ======== NAVIGATION ======== -->
+    <!-- ============================
+         HEADER
+    ============================ -->
+    <div class="header" id="home">
+        <h1>4Garden</h1>
+        <p>Lawn mowing, hedge trimming, yard cleanup & roof moss removal</p>
+    </div>
+
+    <!-- ============================
+         NAV MENU
+    ============================ -->
     <div class="nav">
         <a href="#home">Home</a>
         <a href="#services">Services</a>
@@ -108,18 +153,14 @@
         <a href="#contact">Contact</a>
     </div>
 
-    <!-- ======== HEADER ======== -->
-    <div class="header" id="home">
-        <h1>4Garden</h1>
-        <p>Lawn mowing, hedge trimming, yard cleanup & roof moss removal</p>
-    </div>
-
-    <!-- ======== PLACEHOLDER SECTIONS (пока пустые) ======== -->
-    <div id="services" style="height:400px; padding:20px;">Services section</div>
-    <div id="projects" style="height:400px; padding:20px;">Projects section</div>
-    <div id="reviews" style="height:400px; padding:20px;">Reviews section</div>
-    <div id="about" style="height:400px; padding:20px;">About section</div>
-    <div id="contact" style="height:400px; padding:20px;">Contact section</div>
+    <!-- ============================
+         DEMO SECTIONS
+    ============================ -->
+    <section id="services">Services section</section>
+    <section id="projects">Projects section</section>
+    <section id="reviews">Reviews section</section>
+    <section id="about">About section</section>
+    <section id="contact">Contact section</section>
 
 </body>
 </html>
