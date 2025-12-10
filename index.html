@@ -5,22 +5,51 @@
     <title>4Garden</title>
 
     <!-- Красивый шрифт -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
         body {
             margin: 0;
             font-family: 'Poppins', sans-serif;
             background: #ffffff;
+            scroll-behavior: smooth;
+        }
+
+        /* ======== NAVIGATION MENU ======== */
+        .nav {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.45);
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 10px 0;
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            z-index: 10;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .nav a:hover {
+            opacity: 0.7;
         }
 
         /* ======== HEADER ======== */
         .header {
             width: 100%;
-            height: 13vh; /* ещё уже */
+            height: 16vh; /* чуть ниже */
+            margin-top: 50px; /* чтобы не перекрывалась навигацией */
+
             background-image: url('clearphotowithoutrights.png');
             background-size: cover;
-            background-position: top; /* показываем верх картинки */
+            background-position: top; /* верх картинки */
             background-repeat: no-repeat;
 
             display: flex;
@@ -29,24 +58,26 @@
             justify-content: center;
 
             color: white;
-            text-shadow: 0px 0px 10px rgba(0,0,0,0.7);
+            text-shadow: 0px 0px 8px rgba(0,0,0,0.7);
         }
 
+        /* Заголовок меньше на 4 */
         .header h1 {
-            font-size: 3.5rem; /* уменьшено */
+            font-size: 3rem;    /* уменьшено */
             font-weight: 700;
             margin: 0;
         }
 
+        /* Подзаголовок больше на 2 */
         .header p {
-            font-size: 1rem; /* уменьшено */
+            font-size: 1.4rem;  /* увеличено */
             margin: 4px 0 0 0;
         }
 
         /* ======== MOBILE ======== */
         @media (max-width: 768px) {
             .header {
-                height: 18vh;
+                height: 20vh;
             }
 
             .header h1 {
@@ -54,6 +85,10 @@
             }
 
             .header p {
+                font-size: 1rem;
+            }
+
+            .nav a {
                 font-size: 0.9rem;
             }
         }
@@ -63,10 +98,28 @@
 
 <body>
 
-    <div class="header">
+    <!-- ======== NAVIGATION ======== -->
+    <div class="nav">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#projects">Projects</a>
+        <a href="#reviews">Reviews</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <!-- ======== HEADER ======== -->
+    <div class="header" id="home">
         <h1>4Garden</h1>
         <p>Lawn mowing, hedge trimming, yard cleanup & roof moss removal</p>
     </div>
+
+    <!-- ======== PLACEHOLDER SECTIONS (пока пустые) ======== -->
+    <div id="services" style="height:400px; padding:20px;">Services section</div>
+    <div id="projects" style="height:400px; padding:20px;">Projects section</div>
+    <div id="reviews" style="height:400px; padding:20px;">Reviews section</div>
+    <div id="about" style="height:400px; padding:20px;">About section</div>
+    <div id="contact" style="height:400px; padding:20px;">Contact section</div>
 
 </body>
 </html>
