@@ -16,11 +16,12 @@
         }
 
         /* ============================
-           HEADER (очень узкая)
+           HEADER (как раньше ~13vh)
         ============================ */
         .header {
             width: 100%;
-            height: 10vh; /* ещё ниже */
+            height: 13vh; /* оставляем толщину как была */
+
             background-image: url('clearphotowithoutrights.png');
             background-size: cover;
             background-position: top;
@@ -36,36 +37,35 @@
         }
 
         .header h1 {
-            font-size: 3rem; /* уменьшено */
+            font-size: 2.6rem; /* чуть меньше */
             font-weight: 700;
             margin: 0;
         }
 
         .header p {
-            font-size: 1.8rem; /* увеличено */
+            font-size: 1.8rem;
             margin: 4px 0 0 0;
         }
 
         /* ============================
-           NAVIGATION BAR (тонкая + салатовая)
+           NAVIGATION BAR (1.5 раза уже)
         ============================ */
         .nav {
             width: 100%;
-            height: 10vh; /* в 2 раза уже */
+            height: 8.5vh; /* примерно в 1.5 раза тоньше */
+
             background: #d4f4c8; /* салатовый */
 
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            align-items: center;
-            justify-items: center;
+            grid-template-columns: repeat(6, 1fr); /* 6 плиток */
+            align-items: stretch; /* плитки во всю высоту */
+            justify-items: stretch;
 
             border-top: 2px solid black;
             border-bottom: 2px solid black;
         }
 
         .nav a {
-            width: 85%;
-            height: 55%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -73,31 +73,36 @@
             text-decoration: none;
             color: black;
 
-            font-size: 2rem; /* +2 рем */
+            font-size: 2rem;
             font-weight: 600;
 
-            border: 2px solid black;
+            border-right: 2px solid black; /* рамка между плитками */
             background: white;
 
             transition: 0.25s;
         }
 
+        /* убираем рамку у последней плитки */
+        .nav a:last-child {
+            border-right: none;
+        }
+
+        /* подсветка */
         .nav a:hover {
             background: #9adf9a;
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
         /* ============================
            MOBILE
         ============================ */
         @media (max-width: 768px) {
-
             .header {
-                height: 14vh;
+                height: 16vh;
             }
 
             .header h1 {
-                font-size: 2.2rem;
+                font-size: 2rem;
             }
 
             .header p {
@@ -107,13 +112,11 @@
             .nav {
                 height: auto;
                 grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-                padding: 10px 0;
             }
 
             .nav a {
-                height: 45px;
-                font-size: 1.2rem;
+                height: 50px;
+                font-size: 1.4rem;
             }
         }
 
@@ -131,7 +134,7 @@
     </div>
 
     <!-- ============================
-         NAVIGATION
+         NAVIGATION BAR
     ============================ -->
     <div class="nav">
         <a href="#home">Home</a>
@@ -143,7 +146,7 @@
     </div>
 
     <!-- ============================
-         DEMO BLOCKS (пока заглушки)
+         DEMO SECTIONS (заглушки)
     ============================ -->
     <section id="services" style="height:400px; padding:20px;">Services</section>
     <section id="projects" style="height:400px; padding:20px;">Projects</section>
