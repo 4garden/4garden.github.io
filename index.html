@@ -16,15 +16,18 @@
         }
 
         /* ============================
-           HEADER (как раньше ~13vh)
+           HEADER (картинка ещё ниже)
         ============================ */
         .header {
             width: 100%;
-            height: 13vh; /* оставляем толщину как была */
+            height: 13vh;
 
             background-image: url('clearphotowithoutrights.png');
             background-size: cover;
-            background-position: top;
+
+            /* показываем нижнюю часть картинки */
+            background-position: center bottom;
+
             background-repeat: no-repeat;
 
             display: flex;
@@ -33,72 +36,74 @@
             justify-content: center;
 
             color: white;
-            text-shadow: 0px 0px 8px rgba(0,0,0,0.7);
+            text-shadow: 0px 0px 8px rgba(0,0,0,0.8);
         }
 
         .header h1 {
-            font-size: 2.6rem; /* чуть меньше */
+            font-size: 2.6rem;
             font-weight: 700;
             margin: 0;
         }
 
+        /* подзаголовок +1 рем */
         .header p {
-            font-size: 1.8rem;
+            font-size: 2rem;
             margin: 4px 0 0 0;
         }
 
         /* ============================
-           NAVIGATION BAR (1.5 раза уже)
+           NAVIGATION BAR (ещё уже)
         ============================ */
-        .nav {
+        .nav-wrapper {
             width: 100%;
-            height: 8.5vh; /* примерно в 1.5 раза тоньше */
+            height: 5.5vh; /* ещё тоньше */
 
-            background: #d4f4c8; /* салатовый */
+            background: #d4f4c8;
 
-            display: grid;
-            grid-template-columns: repeat(6, 1fr); /* 6 плиток */
-            align-items: stretch; /* плитки во всю высоту */
-            justify-items: stretch;
+            display: flex;
+            align-items: center;
+            justify-content: center;
 
             border-top: 2px solid black;
             border-bottom: 2px solid black;
         }
 
-        .nav a {
+        /* центральный блок плиток */
+        .nav {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 8px;
+        }
 
+        /* плитка */
+        .nav a {
+            padding: 10px 22px;
             text-decoration: none;
-            color: black;
 
-            font-size: 2rem;
+            background: #8b5a2b; /* коричневый как земля */
+            color: #4f7f2a;      /* тёмно-зелёный как листья */
+
+            font-size: 1.9rem;
             font-weight: 600;
 
-            border-right: 2px solid black; /* рамка между плитками */
-            background: white;
+            border: 2px solid black;
 
             transition: 0.25s;
         }
 
-        /* убираем рамку у последней плитки */
-        .nav a:last-child {
-            border-right: none;
-        }
-
-        /* подсветка */
+        /* подсветка при наведении */
         .nav a:hover {
-            background: #9adf9a;
-            transform: scale(1.03);
+            background: #9adf9a;       /* салатовый */
+            color: #1f8a1f;            /* ярко-зелёный */
+            transform: scale(1.06);
         }
 
         /* ============================
            MOBILE
         ============================ */
         @media (max-width: 768px) {
+
             .header {
-                height: 16vh;
+                height: 18vh;
             }
 
             .header h1 {
@@ -106,17 +111,22 @@
             }
 
             .header p {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
+            }
+
+            .nav-wrapper {
+                height: auto;
+                padding: 10px 0;
             }
 
             .nav {
-                height: auto;
-                grid-template-columns: repeat(2, 1fr);
+                flex-wrap: wrap;
+                justify-content: center;
             }
 
             .nav a {
-                height: 50px;
-                font-size: 1.4rem;
+                font-size: 1.3rem;
+                padding: 8px 14px;
             }
         }
 
@@ -136,17 +146,19 @@
     <!-- ============================
          NAVIGATION BAR
     ============================ -->
-    <div class="nav">
-        <a href="#home">Home</a>
-        <a href="#services">Services</a>
-        <a href="#projects">Projects</a>
-        <a href="#reviews">Reviews</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
+    <div class="nav-wrapper">
+        <div class="nav">
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#projects">Projects</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </div>
     </div>
 
     <!-- ============================
-         DEMO SECTIONS (заглушки)
+         DEMO CONTENT
     ============================ -->
     <section id="services" style="height:400px; padding:20px;">Services</section>
     <section id="projects" style="height:400px; padding:20px;">Projects</section>
