@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>4Garden</title>
 
-    <!-- Шрифт -->
+    <!-- Красивый шрифт -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -16,7 +16,8 @@
         }
 
         /* ============================
-           HEADER (картинка чуть выше)
+           HEADER
+           картинка чуть выше (55%)
         ============================ */
         .header {
             width: 100%;
@@ -25,8 +26,8 @@
             background-image: url('clearphotowithoutrights.png');
             background-size: cover;
 
-            /* чуть выше, но всё ещё видно зелёные зоны */
-            background-position: center 65%;
+            /* чуть выше центра */
+            background-position: center 55%;
 
             background-repeat: no-repeat;
 
@@ -52,16 +53,12 @@
 
         /* ============================
            NAVIGATION BAR
-           более тёмный коричневый фон,
-           плитки по толщине меню,
-           центральный блок
         ============================ */
-
         .nav-wrapper {
             width: 100%;
-            height: 7vh; /* чуть шире */
+            height: 7vh; /* чуть шире, но всё ещё компактно */
 
-            background: #5a3c1c; /* тёмный коричневый */
+            background: #4b2e15; /* тёмно-коричневый */
 
             display: flex;
             justify-content: center;
@@ -88,8 +85,8 @@
 
             text-decoration: none;
 
-            background: #4a2f14; /* более тёмная земля */
-            color: #7fff6b;      /* ярко-зелёный */
+            background: #3f2612; /* ещё темнее земля */
+            color: #7be27b;      /* мягкий зелёный */
 
             font-size: 1.9rem;
             font-weight: 600;
@@ -99,22 +96,23 @@
             transition: 0.25s;
         }
 
-        /* убираем рамку у последней */
+        /* последняя плитка без рамки */
         .nav a:last-child {
             border-right: none;
         }
 
-        /* hover */
+        /* ============================
+           HOVER (изумруд + яркий текст)
+        ============================ */
         .nav a:hover {
-            background: #8fbf6b; /* светло-салатовый */
-            color: #19c219;      /* очень ярко-зелёный */
+            background: #1b5e20;   /* тёмный изумруд */
+            color: #b7ff4f;        /* очень яркий зелёный */
             transform: scale(1.05);
         }
 
         /* ============================
            MOBILE
         ============================ */
-
         @media (max-width: 768px) {
             .header {
                 height: 18vh;
