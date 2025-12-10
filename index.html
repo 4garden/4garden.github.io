@@ -1,282 +1,337 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>4Garden — refined tree + nav sizing</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>4Garden — premium</title>
+
+<!-- Шрифты: Poppins для заголовков, Lora для акцентов -->
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+
 <style>
   :root{
-    --nav-base-height: 8.8vh; /* предыдущая высота полосы (до уменьшения) */
-    --nav-height: calc(var(--nav-base-height) * 0.9); /* уменьшили на 10% */
-    --tile-scale-mult: 1.5; /* заявленное увеличение плиток на 50% */
-    --tile-max-occupy: 0.98; /* максимум, который плитка может занимать от nav-height (чтобы не вылезать) */
+    --header-h-mult: 1.2; /* шапка 1.2× */
+    --base-header-h: 13vh;
+    --header-h: calc(var(--base-header-h) * var(--header-h-mult));
+
+    --nav-base-h: 8.8vh;             /* предыдущая бар высота */
+    --nav-h: calc(var(--nav-base-h) * 0.9); /* уменьшили на 10% */
+    --tile-increase: 1.15;           /* плитки выше на 15% */
+    --tile-max-occupy: 0.98;         /* плитка может занимать максимум 98% nav-h */
+
+    --accent-green: #7be27b;
     --nav-bg: #3f2612;
-    --nav-accent: #7be27b;
-    --nav-hover-bg: #1b5e20;
+    --nav-hover: #1b5e20;
+
+    --glass: rgba(255,255,255,0.06);
   }
 
-  html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;background:#fff;scroll-behavior:smooth;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
-  section{padding:60px 20px;}
-  h2{ text-align:center; font-size:2.4rem; margin-bottom:25px;}
-  p{ text-align:center; font-size:1.1rem; margin:6px 0; }
+  html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;background:#fff; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; color:#12210f;}
+  *{box-sizing:border-box}
 
-  /* ========== HEADER (fixed, 1.2×) ========== */
-  .header{
+  /* ---------------- HEADER (fixed, параллакс) ---------------- */
+  .header {
     width:100%;
-    height:calc(13vh * 1.2);
-    background-image: url('clearphotowithoutrights.png');
+    height:var(--header-h);
+    background-image:url('clearphotowithoutrights.png');
     background-size:cover;
     background-position:center 32%;
-    background-repeat:no-repeat;
+    position:fixed;
+    top:0; left:0;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     color:#fff;
-    text-shadow:0 0 8px rgba(0,0,0,0.85);
-    position:fixed;
-    top:0; left:0;
-    z-index:70;
+    z-index:120;
+    text-shadow:0 0 8px rgba(0,0,0,0.7);
+    transition:background-position 0.35s linear;
   }
-  .header h1{font-size:2.6rem;margin:0;}
-  .header p{font-size:1.6rem;margin:4px 0 0 0;}
+  .header h1{ margin:0; font-size:2.6rem; font-weight:700; letter-spacing:0.6px; }
+  .header p{ margin:6px 0 0; font-size:1.1rem; font-weight:500; font-family:'Lora', serif; opacity:0.95; }
 
-  /* ========== NAV (fixed under header) ==========
-     nav-wrapper height decreased by 10% (see :root)
-  */
+  /* ---------------- NAV (fixed under header) ---------------- */
   .nav-wrapper{
+    position:fixed;
+    top:calc(var(--header-h));
+    left:0;
     width:100%;
-    height:var(--nav-height);
+    height:var(--nav-h);
     background:#4b2e15;
     display:flex;
-    justify-content:center;
     align-items:center;
-    border-top:2px solid black;
-    border-bottom:2px solid black;
-    position:fixed;
-    top:calc(13vh * 1.2);
-    left:0;
-    z-index:69;
+    justify-content:center;
+    border-top:2px solid rgba(0,0,0,0.6);
+    border-bottom:2px solid rgba(0,0,0,0.6);
+    z-index:115;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
   }
-
   .nav{
     display:flex;
-    gap:10px;
+    gap:12px;
     align-items:center;
+    padding:0 10px;
   }
 
-  /* Плитки: мы хотим увеличить высоту плитки на 50% относительно прежней высоты.
-     Практическая реализация:
-     - вычисляем желаемую высоту как (prev_tile_height * 1.5)
-       prev_tile_height ≈ 0.8 * prev_nav_height (раньше плитки были 80% от полосы)
-       => prev_tile_height = 0.8 * var(--nav-base-height)
-       => desired = 0.8 * var(--nav-base-height) * var(--tile-scale-mult)
-     - но чтобы плитки не выходили за пределы навбара, применяем min(desired, var(--nav-height) * var(--tile-max-occupy))
-     Это даёт и заявленное увеличение, и аккуратное визуальное поведение.
-  */
   .nav a{
+    /* вычисляем высоту плитки: 0.8 * old_nav_h * tile_increase, но ограничиваем максимум */
     height: min(
-      calc(0.8 * var(--nav-base-height) * var(--tile-scale-mult)),
-      calc(var(--nav-height) * var(--tile-max-occupy))
+      calc(0.8 * var(--nav-base-h) * var(--tile-increase)),
+      calc(var(--nav-h) * var(--tile-max-occupy))
     );
-    min-width:160px; /* чуть больше для читаемости */
+    min-width:170px;
     padding:0 36px;
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    text-decoration:none;
     background:var(--nav-bg);
-    color:var(--nav-accent);
-    font-size:1.58rem;
+    color:var(--accent-green);
+    font-size:1.55rem;
     font-weight:600;
-    border-right:2px solid rgba(0,0,0,0.6);
-    transition: transform .16s ease, background .16s ease, color .16s ease;
+    text-decoration:none;
     border-radius:14px;
-    box-sizing:border-box;
+    border:1px solid rgba(0,0,0,0.28);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+    transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
     margin:0 6px;
-    line-height:1;
   }
-  .nav a:last-child{ border-right:none; }
   .nav a:hover{
-    background:var(--nav-hover-bg);
-    color:#b7ff4f;
-    transform:translateY(-3px) scale(1.03);
+    transform: translateY(-3px) scale(1.035);
+    filter:brightness(1.06);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.14), 0 2px 6px rgba(0,0,0,0.06);
+    background: linear-gradient(180deg, var(--nav-bg), #332412);
+    color:#dfffbf;
   }
 
-  /* offset content so fixed header/nav don't cover it */
-  .page-offset{
-    margin-top: calc((13vh * 1.2) + var(--nav-height) + 12px);
-  }
+  /* ---------------- PAGE OFFSET ---------------- */
+  .page-offset{ margin-top: calc(var(--header-h) + var(--nav-h) + 10px); }
 
-  /* ========== CONTENT STYLES ========== */
+  /* ---------------- HOME ---------------- */
   .home{
-    background: linear-gradient(#d7f3d7,#b8e6b8);
+    background: linear-gradient(#eaf7ea 0%, #bfe9bf 100%);
     text-align:center;
     padding:110px 20px;
+    transition:transform .25s ease;
   }
-  .home h2{font-size:3rem;}
-  .home button{ margin-top:25px;padding:14px 34px;font-size:1.15rem;border:none;background:#2e7d32;color:#fff;border-radius:10px;cursor:pointer; transition:transform .18s ease; }
-  .home button:hover{ transform:scale(1.04); }
+  .home h2{ font-size:3rem; margin-bottom:6px; }
+  .home p{ margin-bottom:14px; color:#274b27; font-weight:500; font-family:'Lora', serif; }
 
-  .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1000px; margin:auto; }
-  .service-card{ padding:25px; background:#f4f4f4; border-radius:12px; text-align:center; min-height:150px; transition: transform .18s ease; }
-  .service-card:hover{ transform:scale(1.03); }
+  .btn-primary{
+    display:inline-block;
+    padding:12px 28px;
+    background:linear-gradient(180deg,#fff 0%, #f0f0f0 100%);
+    color:#2e7d32;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+    box-shadow: 0 8px 22px rgba(46,125,50,0.08);
+    transition: transform .16s ease, filter .16s ease;
+  }
+  .btn-primary:hover{ transform: translateY(-3px); filter:brightness(1.02); }
 
-  @media (max-width:900px){ .services-grid{ grid-template-columns:repeat(2,1fr); } }
-  @media (max-width:600px){ .services-grid{ grid-template-columns:repeat(1,1fr); } }
+  /* ---------------- SERVICES ---------------- */
+  .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 80px; padding:0 14px; }
+  .service-card{
+    background:#fff;
+    border-radius:14px;
+    padding:22px;
+    min-height:150px;
+    text-align:center;
+    box-shadow: 0 10px 30px rgba(6,20,8,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+    transition: transform .18s ease, box-shadow .18s ease;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+  }
+  .service-card:hover{ transform: translateY(-8px) scale(1.02); box-shadow:0 22px 48px rgba(6,20,8,0.08); }
 
-  .project-placeholder{ width:80%; height:220px; background:#ddd; margin:20px auto; border-radius:12px; transition:transform .18s ease; }
-  .review-card{ width:60%; background:#eee; padding:20px; margin:15px auto; border-radius:12px; transition:transform .18s ease; }
-  .video-review{ width:60%; margin:25px auto; background:#f7f7f7; padding:14px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.08); }
-  .video-review iframe{ width:100%; height:320px; border-radius:10px; border:0; display:block; }
+  .icon {
+    width:56px; height:56px; display:inline-flex; align-items:center; justify-content:center;
+    border-radius:12px; background:linear-gradient(180deg,#eef9ee,#e2f3e2); box-shadow: inset 0 -6px 8px rgba(0,0,0,0.03);
+  }
+  .service-title{ font-weight:600; font-size:1.05rem; }
 
-  .cta{ background:#2e7d32; color:#fff; text-align:center; padding:60px 20px; }
-  .cta button{ margin-top:20px; padding:14px 34px; font-size:1.15rem; border-radius:8px; border:0; cursor:pointer; background:#fff; color:#2e7d32; transition:transform .18s ease; }
-  .contact-box{ width:60%; margin:auto; background:#f5f5f5; padding:25px; border-radius:12px; }
-  footer{ background:#333; color:#fff; padding:20px; text-align:center; }
+  /* ---------------- PROJECTS ---------------- */
+  .projects-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:1100px; margin:auto; padding:0 14px; }
+  .project-card{
+    background:#fff; border-radius:12px; overflow:hidden; min-height:220px;
+    box-shadow:0 10px 30px rgba(6,20,8,0.04); border:1px solid rgba(0,0,0,0.035);
+    transition: transform .18s ease, filter .18s ease;
+  }
+  .project-card img{ width:100%; height:160px; object-fit:cover; display:block; }
+  .project-card .meta{ padding:12px 14px; }
+  .project-card:hover{ transform: translateY(-8px); filter:brightness(1.02); }
 
-  /* ========== TREE CONTAINER ========== */
-  .tree-wrapper{
+  /* ---------------- REVIEWS (cards + videos) ---------------- */
+  .review-grid{ max-width:900px; margin:20px auto; display:grid; gap:14px; padding:0 14px; }
+  .review-card{ background:#fff; padding:18px; border-radius:12px; box-shadow:0 10px 26px rgba(6,20,8,0.04); border:1px solid rgba(0,0,0,0.035); }
+  .video-card{ background:#fff; padding:12px; border-radius:12px; box-shadow:0 12px 28px rgba(6,20,8,0.06); overflow:hidden; }
+
+  .video-card iframe{ width:100%; height:320px; border:0; display:block; border-radius:8px; }
+
+  /* ---------------- CTA, CONTACT, FOOTER ---------------- */
+  .cta{ background:linear-gradient(180deg,#247b30,#1b6a2b); color:#fff; text-align:center; padding:56px 20px; margin-top:30px; border-radius:8px; }
+  .contact-box{ width:70%; margin:20px auto; background:#fafafa; padding:20px; border-radius:12px; box-shadow:0 8px 22px rgba(6,20,8,0.03); }
+
+  footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center; margin-top:20px; position:relative; }
+
+  /* ---------------- SVG GRASS (footer accent) ---------------- */
+  .grass{ display:block; width:100%; height:56px; margin-top:-6px; }
+
+  /* ---------------- BACK-TO-TOP leaf ---------------- */
+  .back-top{
     position:fixed;
-    left:10px;
-    top:50%;
-    transform:translateY(-50%);
-    width:220px;
-    height:auto;
-    z-index:58;
-    pointer-events:none;
-    opacity:0.99;
+    right:18px; bottom:18px;
+    width:56px; height:56px; border-radius:50%;
+    background:linear-gradient(180deg,#e9fbe9,#d9f6d4);
+    border:1px solid rgba(0,0,0,0.06);
+    box-shadow:0 12px 32px rgba(6,20,8,0.12);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; z-index:140; transition:transform .16s ease;
+  }
+  .back-top:hover{ transform:translateY(-6px); }
+
+  /* ---------------- TREE (left) improvements ---------------- */
+  .tree-wrapper{
+    position:fixed; left:12px; top:50%; transform:translateY(-50%); width:260px; z-index:110; pointer-events:none;
   }
   @media (max-width:900px){ .tree-wrapper{ display:none; } }
+  .tree-svg{ will-change: transform, opacity; transform-origin:50% 95%; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.12)); }
 
-  .tree-svg{ will-change:transform, opacity; transform-origin: 50% 95%; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.12)); }
+  /* leaf sway: low-cost animation applied to symbol via use transform */
+  @keyframes leaf-sway {
+    0% { transform: rotate(-1deg) translateY(0px); }
+    50% { transform: rotate(1.2deg) translateY(-1px); }
+    100% { transform: rotate(-1deg) translateY(0px); }
+  }
+  .sway { animation: leaf-sway 4.8s ease-in-out infinite; transform-origin:50% 75%; }
 
-  /* small adjustments for retina */
-  @media (min-resolution:2dppx){
-    .nav a{ font-size:1.62rem; }
+  /* ---------------- SECTION APPEAR (no fade) ----------------
+     We'll add class .in-view to elements, and they will move slightly up and scale in.
+     No opacity transitions (user requested no fade).
+  */
+  .appear {
+    transform: translateY(12px) scale(0.996);
+    transition: transform 420ms cubic-bezier(.2,.9,.2,1);
+    will-change:transform;
+  }
+  .appear.in-view {
+    transform: translateY(0) scale(1);
+  }
+
+  /* responsive rules */
+  @media (max-width:1000px){
+    .services-grid, .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    .projects-grid img { height:140px; }
+  }
+  @media (max-width:700px){
+    .services-grid, .projects-grid { grid-template-columns: 1fr; }
+    .nav{ gap:8px; }
+    .nav a{ min-width:110px; padding:0 14px; font-size:1.1rem; }
   }
 </style>
 </head>
 <body>
 
-  <!-- ===== TREE: 5 LAYERS (continuous blending) ===== -->
+  <!-- LEFT TREE: 5-layer blended growth, improved positions to avoid "pile" -->
   <div class="tree-wrapper" aria-hidden="true">
-    <svg class="tree-svg" viewBox="0 0 360 840" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+    <svg class="tree-svg" viewBox="0 0 420 980" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
       <defs>
-        <!-- realistic leaf symbol with subtle vein -->
+        <!-- realistic leaf symbol w/ vein: reused many times -->
         <symbol id="leafReal" viewBox="-12 -8 24 16">
           <path d="M-6 2 C -9 -2, -3 -7, 6 -2 C 2 1, -1 6, -6 2 Z" fill="#5aa756" stroke="#2f6b2f" stroke-width="0.6"/>
           <path d="M-3 1 C -1 0, 1 -1, 4 -1" stroke="#2e6d2e" stroke-width="0.35" fill="none" opacity="0.45"/>
         </symbol>
 
-        <!-- smaller thin leaf -->
-        <symbol id="leafThin" viewBox="-8 -6 16 12">
-          <path d="M-4 1 C -6 -1, -1 -5, 4 -1 C 1 1, -1 4, -4 1 Z" fill="#6fc36f" stroke="#2f6b2f" stroke-width="0.45"/>
+        <!-- tiny sprout leaf -->
+        <symbol id="sprout" viewBox="-8 -6 16 12">
+          <path d="M-3 2 C -4 -1, -1 -4, 3 -1 C 1 1, -1 4, -3 2 Z" fill="#6fc56f" stroke="#2f6b2f" stroke-width="0.45"/>
         </symbol>
 
-        <!-- trunk gradient + subtle bark pattern -->
         <linearGradient id="trunkGrad" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0" stop-color="#8a5a36"/>
-          <stop offset="1" stop-color="#5a3518"/>
+          <stop offset="0" stop-color="#8b5a36"/>
+          <stop offset="1" stop-color="#5b3518"/>
         </linearGradient>
-
-        <filter id="leafSoft" x="-50%" y="-50%" width="200%" height="200%">
-          <feGaussianBlur stdDeviation="0.6" result="b"/>
-          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
 
       </defs>
 
-      <!-- soil / roots (base) -->
-      <g id="soil-layer" transform="translate(180,770)">
-        <ellipse cx="0" cy="0" rx="120" ry="22" fill="#8b5e3c" opacity="0.98"/>
+      <!-- ground -->
+      <g id="ground" transform="translate(210,940)">
+        <ellipse cx="0" cy="0" rx="160" ry="28" fill="#8b5e3c" opacity="0.98"/>
       </g>
 
-      <!-- LAYER A: base thin sprout/stem (visible at 0..0.2) -->
-      <g id="layerA" transform="translate(180,720)" opacity="1">
-        <path d="M0 40 C 0 20, 0 12, 0 0" stroke="#2b7d3a" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-        <use href="#leafThin" x="-8" y="3" transform="rotate(-26) scale(.6)"/>
-        <use href="#leafThin" x="8"  y="3" transform="rotate(22)  scale(.6)"/>
+      <!-- Layer A: sprout (lowest on canvas) -->
+      <g id="layerA" transform="translate(210,850)" opacity="1">
+        <path d="M0 40 C 0 20, 0 12, 0 0" stroke="#2b7d3a" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+        <use href="#sprout" x="-8" y="3" transform="rotate(-26) scale(.64)" class="sway"/>
+        <use href="#sprout" x="8"  y="3" transform="rotate(22)  scale(.64)" class="sway"/>
       </g>
 
-      <!-- LAYER B: thin young trunk + few branches (0.15..0.4) -->
-      <g id="layerB" transform="translate(180,690)" opacity="0">
-        <path d="M6 80 C 3 40, 4 12, 6 0 C 5 -8, 2 -28, -4 -52" stroke="url(#trunkGrad)" stroke-width="4.0" stroke-linecap="round" fill="none"/>
+      <!-- Layer B: small sapling -->
+      <g id="layerB" transform="translate(210,800)" opacity="0">
+        <path d="M6 78 C 3 36, 4 12, 6 0 C 5 -8, 2 -28, -4 -52" stroke="url(#trunkGrad)" stroke-width="4.2" stroke-linecap="round" fill="none"/>
         <path d="M2 18 C -12 8, -28 -2, -40 -14" stroke="#3b2313" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-        <use href="#leafReal" x="-44" y="-18" transform="rotate(-18) scale(.78)"/>
-        <use href="#leafReal" x="-30" y="-10" transform="rotate(-8) scale(.78)"/>
-        <use href="#leafReal" x="4"   y="-26" transform="rotate(6)  scale(.82)"/>
+        <use href="#leafReal" x="-44" y="-18" transform="rotate(-18) scale(.82)" class="sway"/>
+        <use href="#leafReal" x="-30" y="-10" transform="rotate(-8) scale(.82)" class="sway"/>
+        <use href="#leafReal" x="4"   y="-26" transform="rotate(6)  scale(.86)" class="sway"/>
       </g>
 
-      <!-- LAYER C: juvenile tree (0.35..0.65) -->
-      <g id="layerC" transform="translate(180,620)" opacity="0">
-        <!-- trunk silhouette (curvy filled path gives volume) -->
-        <path d="M12 140 C 6 80, 6 40, 10 0 C 8 -22, 6 -64, 4 -100 C 10 -120, 22 -140, 36 -160 C 24 -132, 16 -98, 12 -68"
-              fill="none" stroke="url(#trunkGrad)" stroke-width="6.5" stroke-linecap="round"/>
-        <!-- branches -->
+      <!-- Layer C: juvenile -->
+      <g id="layerC" transform="translate(210,710)" opacity="0">
+        <path d="M12 140 C 6 80, 6 40, 10 0 C 8 -22, 6 -64, 4 -100 C 10 -120, 22 -140, 36 -160" stroke="url(#trunkGrad)" stroke-width="6.8" stroke-linecap="round" fill="none"/>
         <path d="M8 26 C -14 10, -50 -8, -82 -34" stroke="#3b2313" stroke-width="2.6" fill="none" stroke-linecap="round"/>
         <path d="M20 18 C 48 -4, 92 -34, 130 -66" stroke="#3b2313" stroke-width="2.6" fill="none" stroke-linecap="round"/>
-        <!-- leaf clusters, reuse leafReal with varying scale and rotation -->
-        <use href="#leafReal" x="-86" y="-44" transform="rotate(-28) scale(.96)"/>
-        <use href="#leafReal" x="-60" y="-28" transform="rotate(-14) scale(1.02)"/>
-        <use href="#leafReal" x="-28" y="-18" transform="rotate(-4)  scale(1.06)"/>
-        <use href="#leafReal" x="6"   y="-34" transform="rotate(4)   scale(1.1)"/>
-        <use href="#leafReal" x="46"  y="-42" transform="rotate(12)  scale(.96)"/>
-        <use href="#leafReal" x="92"  y="-58" transform="rotate(20)  scale(.92)"/>
+        <use href="#leafReal" x="-86" y="-44" transform="rotate(-28) scale(.98)" class="sway"/>
+        <use href="#leafReal" x="-60" y="-28" transform="rotate(-14) scale(1.02)" class="sway"/>
+        <use href="#leafReal" x="-28" y="-18" transform="rotate(-4)  scale(1.06)" class="sway"/>
+        <use href="#leafReal" x="6"   y="-34" transform="rotate(4)   scale(1.1)" class="sway"/>
+        <use href="#leafReal" x="46"  y="-42" transform="rotate(12)  scale(.96)" class="sway"/>
       </g>
 
-      <!-- LAYER D: young -> adult (0.6..0.85) -->
-      <g id="layerD" transform="translate(180,520)" opacity="0">
-        <path d="M28 220 C 22 150, 22 106, 28 42 C 32 10, 26 -30, 22 -70 C 36 -102, 50 -140, 68 -180 C 48 -150, 36 -110, 28 -82"
-              fill="none" stroke="url(#trunkGrad)" stroke-width="9.5" stroke-linecap="round"/>
+      <!-- Layer D: young adult -->
+      <g id="layerD" transform="translate(210,600)" opacity="0">
+        <path d="M28 220 C 22 150, 22 106, 28 42 C 32 10, 26 -30, 22 -70 C 36 -102, 50 -140, 68 -180" stroke="url(#trunkGrad)" stroke-width="10" stroke-linecap="round" fill="none"/>
         <path d="M12 34 C -48 2, -120 -36, -170 -80" stroke="#3b2313" stroke-width="3.4" fill="none" stroke-linecap="round"/>
         <path d="M46 34 C 100 -6, 180 -64, 240 -120" stroke="#3b2313" stroke-width="3.4" fill="none" stroke-linecap="round"/>
-        <!-- denser crown -->
-        <use href="#leafReal" x="-160" y="-86" transform="rotate(-34) scale(1.02)"/>
-        <use href="#leafReal" x="-120" y="-70" transform="rotate(-26) scale(1.12)"/>
-        <use href="#leafReal" x="-82"  y="-58" transform="rotate(-16) scale(1.16)"/>
-        <use href="#leafReal" x="-40"  y="-52" transform="rotate(-6)  scale(1.18)"/>
-        <use href="#leafReal" x="0"    y="-58" transform="rotate(0)   scale(1.35)"/>
-        <use href="#leafReal" x="42"   y="-60" transform="rotate(6)   scale(1.18)"/>
-        <use href="#leafReal" x="88"   y="-72" transform="rotate(18)  scale(1.08)"/>
-        <use href="#leafReal" x="150"  y="-92" transform="rotate(22)  scale(1.0)"/>
+        <use href="#leafReal" x="-160" y="-86" transform="rotate(-34) scale(1.02)" class="sway"/>
+        <use href="#leafReal" x="-120" y="-70" transform="rotate(-26) scale(1.12)" class="sway"/>
+        <use href="#leafReal" x="-82"  y="-58" transform="rotate(-16) scale(1.16)" class="sway"/>
+        <use href="#leafReal" x="-40"  y="-52" transform="rotate(-6)  scale(1.18)" class="sway"/>
+        <use href="#leafReal" x="0"    y="-58" transform="rotate(0)   scale(1.35)" class="sway"/>
       </g>
 
-      <!-- LAYER E: mature tree (0.8..1.0) — fullest detail -->
-      <g id="layerE" transform="translate(180,420)" opacity="0">
-        <path d="M45 300 C 36 220, 36 170, 42 102 C 46 64, 38 16, 36 -32 C 56 -80, 80 -140, 116 -200
-                 C 72 -150, 52 -110, 42 -82"
-              fill="none" stroke="url(#trunkGrad)" stroke-width="14.0" stroke-linecap="round"/>
+      <!-- Layer E: mature (largest, sits higher) -->
+      <g id="layerE" transform="translate(210,460)" opacity="0">
+        <path d="M45 300 C 36 220, 36 170, 42 102 C 46 64, 38 16, 36 -32 C 56 -80, 80 -140, 116 -200" stroke="url(#trunkGrad)" stroke-width="14.0" stroke-linecap="round" fill="none"/>
         <path d="M18 48 C -90 4, -190 -64, -270 -150" stroke="#3b2313" stroke-width="4.6" fill="none" stroke-linecap="round"/>
         <path d="M62 46 C 140 -4, 280 -84, 360 -180" stroke="#3b2313" stroke-width="4.6" fill="none" stroke-linecap="round"/>
-        <!-- rich crown: many leaves placed for depth -->
-        <use href="#leafReal" x="-220" y="-160" transform="rotate(-36) scale(1.12)"/>
-        <use href="#leafReal" x="-180" y="-136" transform="rotate(-28) scale(1.18)"/>
-        <use href="#leafReal" x="-140" y="-120" transform="rotate(-20) scale(1.22)"/>
-        <use href="#leafReal" x="-100" y="-106" transform="rotate(-12) scale(1.2)"/>
-        <use href="#leafReal" x="-60"  y="-100" transform="rotate(-6)  scale(1.25)"/>
-        <use href="#leafReal" x="-12"  y="-110" transform="rotate(-2)  scale(1.32)"/>
-        <use href="#leafReal" x="36"   y="-112" transform="rotate(4)   scale(1.28)"/>
-        <use href="#leafReal" x="96"   y="-124" transform="rotate(12)  scale(1.18)"/>
-        <use href="#leafReal" x="170"  y="-146" transform="rotate(18)  scale(1.05)"/>
-        <use href="#leafReal" x="240"  y="-170" transform="rotate(26)  scale(0.98)"/>
-        <!-- a few extra fills in middle -->
-        <use href="#leafReal" x="-60"  y="-72" transform="rotate(-8) scale(.98)"/>
-        <use href="#leafReal" x="24"   y="-62" transform="rotate(6)  scale(1.02)"/>
+        <use href="#leafReal" x="-220" y="-160" transform="rotate(-36) scale(1.12)" class="sway"/>
+        <use href="#leafReal" x="-180" y="-136" transform="rotate(-28) scale(1.18)" class="sway"/>
+        <use href="#leafReal" x="-140" y="-120" transform="rotate(-20) scale(1.22)" class="sway"/>
+        <use href="#leafReal" x="-100" y="-106" transform="rotate(-12) scale(1.2)" class="sway"/>
+        <use href="#leafReal" x="-60"  y="-100" transform="rotate(-6)  scale(1.25)" class="sway"/>
+        <use href="#leafReal" x="-12"  y="-110" transform="rotate(-2)  scale(1.32)" class="sway"/>
+        <use href="#leafReal" x="36"   y="-112" transform="rotate(4)   scale(1.28)" class="sway"/>
+        <use href="#leafReal" x="100"  y="-126" transform="rotate(12)  scale(1.18)" class="sway"/>
+        <use href="#leafReal" x="170"  y="-146" transform="rotate(18)  scale(1.05)" class="sway"/>
       </g>
 
     </svg>
   </div>
 
-  <!-- ===== HEADER & NAV ===== -->
-  <div class="header" id="home">
+  <!-- HEADER -->
+  <header class="header" id="home">
     <h1>4Garden</h1>
-    <p>Lawn mowing, hedge trimming, yard cleanup & roof moss removal</p>
-  </div>
+    <p>Professional Lawn & Garden Care — clean, green, premium</p>
+  </header>
 
+  <!-- NAV -->
   <div class="nav-wrapper" role="navigation" aria-label="Главное меню">
-    <nav class="nav" aria-hidden="false">
+    <nav class="nav">
       <a href="#home">Home</a>
       <a href="#services">Services</a>
       <a href="#projects">Projects</a>
@@ -288,145 +343,189 @@
 
   <div class="page-offset"></div>
 
+  <!-- MAIN CONTENT -->
   <main>
-    <div class="home">
+
+    <!-- HOME -->
+    <section class="home appear">
       <h2>Professional Lawn & Garden Care</h2>
       <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
-      <button>Improve Your Garden</button>
-    </div>
+      <button class="btn-primary">Get an Estimate</button>
+    </section>
 
-    <section id="services">
+    <!-- SERVICES -->
+    <section id="services" class="appear">
       <h2>Services</h2>
       <div class="services-grid">
-        <div class="service-card">Lawn Mowing (icon)</div>
-        <div class="service-card">Hedge Trimming (icon)</div>
-        <div class="service-card">Yard Cleanup (icon)</div>
-        <div class="service-card">Landscape Design (icon)</div>
-        <div class="service-card">Lighting Installation (icon)</div>
-        <div class="service-card">Seasonal Maintenance (icon)</div>
+        <div class="service-card">
+          <div class="icon" aria-hidden="true">
+            <!-- mower icon -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h2l1.5 2.5L8 16h8l.5-1 1.5-2.5h2"></path><circle cx="6" cy="18" r="1.8"></circle><circle cx="18" cy="18" r="1.8"></circle></svg>
+          </div>
+          <div class="service-title">Lawn Mowing</div>
+        </div>
+
+        <div class="service-card">
+          <div class="icon" aria-hidden="true">
+            <!-- hedge icon -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11c2 0 3-3 6-3s4 3 6 3 4-3 6-3"></path><path d="M3 15h18"></path></svg>
+          </div>
+          <div class="service-title">Hedge Trimming</div>
+        </div>
+
+        <div class="service-card">
+          <div class="icon" aria-hidden="true">
+            <!-- cleanup icon -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v4"></path><path d="M16 3v4"></path><path d="M3 9h18l-1 9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2L3 9z"></path></svg>
+          </div>
+          <div class="service-title">Yard Cleanup</div>
+        </div>
+
+        <div class="service-card">
+          <div class="icon" aria-hidden="true">
+            <!-- design icon -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a9 9 0 0 0-14.8 0"></path></svg>
+          </div>
+          <div class="service-title">Landscape Design</div>
+        </div>
+
+        <div class="service-card">
+          <div class="icon" aria-hidden="true">
+            <!-- lighting icon -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M5 7l1.4 1.4"></path><path d="M18 7l-1.4 1.4"></path><path d="M7 17l1.4-1.4"></path><path d="M17 17l-1.4-1.4"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </div>
+          <div class="service-title">Lighting Installation</div>
+        </div>
+
+        <div class="service-card">
+          <div class="icon" aria-hidden="true">
+            <!-- seasonal -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"></path><path d="M12 16v6"></path><path d="M4 8l4 8"></path><path d="M20 8l-4 8"></path></svg>
+          </div>
+          <div class="service-title">Seasonal Maintenance</div>
+        </div>
       </div>
     </section>
 
-    <section id="projects">
+    <!-- PROJECTS -->
+    <section id="projects" class="appear">
       <h2>Projects</h2>
-      <div class="project-placeholder"></div>
-      <div class="project-placeholder"></div>
-      <div class="project-placeholder"></div>
+      <div class="projects-grid">
+        <div class="project-card appear"><img src="https://picsum.photos/800/400?random=1" alt="project 1"><div class="meta"><strong>Front Yard Makeover</strong></div></div>
+        <div class="project-card appear"><img src="https://picsum.photos/800/400?random=2" alt="project 2"><div class="meta"><strong>Stone Path & Planting</strong></div></div>
+        <div class="project-card appear"><img src="https://picsum.photos/800/400?random=3" alt="project 3"><div class="meta"><strong>Roof Moss Clearing</strong></div></div>
+      </div>
     </section>
 
-    <section id="reviews">
+    <!-- REVIEWS -->
+    <section id="reviews" class="appear">
       <h2>Reviews</h2>
-      <div class="review-card">"Great service!" – Client</div>
-      <div class="review-card">"My yard looks amazing!" – Client</div>
-      <div class="review-card">"Professional and clean." – Client</div>
+      <div class="review-grid">
+        <div class="review-card appear">"Great work and punctual." — Anna</div>
+        <div class="review-card appear">"My lawn looks amazing after one visit." — Mark</div>
 
-      <div class="video-review">
-        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Customer review video" allowfullscreen></iframe>
-      </div>
-      <div class="video-review">
-        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Customer review video" allowfullscreen></iframe>
+        <div class="video-card appear">
+          <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Customer review" allowfullscreen></iframe>
+        </div>
       </div>
     </section>
 
-    <section id="about" class="about">
+    <!-- ABOUT -->
+    <section id="about" class="appear">
       <h2>About Us</h2>
-      <p>We provide professional landscaping and garden maintenance.</p>
-      <p>Operating for many years with passion and quality.</p>
+      <p>We combine passion, professional tools and eco-friendly methods to keep your yard beautiful.</p>
+      <p style="font-family:'Lora',serif; color:#2f5b2f;">Long-term partnerships, careful planning, and a meticulous approach to every project.</p>
     </section>
 
-    <div class="cta">
+    <!-- CTA -->
+    <section class="cta appear">
       <h2>Ready to Improve Your Yard?</h2>
-      <button>Get a Free Quote</button>
-    </div>
+      <button class="btn-primary">Get a Free Quote</button>
+    </section>
 
-    <section id="contact">
-      <h2>Contact Us</h2>
+    <!-- CONTACT -->
+    <section id="contact" class="appear">
+      <h2>Contact</h2>
       <div class="contact-box">
         <p>Phone: (000) 000-0000</p>
         <p>Email: info@4garden.com</p>
         <p>Address: Your City, USA</p>
-        <p>[Map Placeholder]</p>
-        <p>[Contact Form Placeholder]</p>
       </div>
     </section>
+
   </main>
+
+  <!-- SVG grass accent above footer -->
+  <div style="overflow:hidden;">
+    <svg class="grass" viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#5fb860"/>
+          <stop offset="1" stop-color="#2f7a2f"/>
+        </linearGradient>
+      </defs>
+      <path d="M0 40 C80 0, 160 60, 240 40 C320 20, 400 60, 480 40 C560 20, 640 60, 720 40 C800 20, 880 60, 960 40 C1040 20,1120 60,1200 40 L1200 60 L0 60 Z" fill="url(#g1)"/>
+    </svg>
+  </div>
 
   <footer>
     <p>Home • Services • Projects • Reviews • About • Contact</p>
-    <p>Phone • Email</p>
     <p>© 2025 4Garden</p>
   </footer>
 
-<script>
-/*
-  Smooth continuous growth controller
-  - 5 overlapping layers: layerA .. layerE
-  - Blend opacities & transforms based on normalized scroll progress (0..1)
-  - Each layer has its own transform targets to avoid "pileup"
-  - This approach avoids raw morphing complexity while producing very smooth, realistic growth
-*/
+  <!-- Back to top leaf -->
+  <div class="back-top" id="backTop" title="Наверх" role="button" aria-label="Наверх">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 C12 2, 18 6, 18 11 C18 17, 12 22, 12 22 C12 22, 6 17, 6 11 C6 6, 12 2, 12 2 Z"></path></svg>
+  </div>
 
+<script>
+/* ================= Tree growth blending (smooth, continuous) =================
+   5 layers: layerA..layerE. Each layer has distinct translate & scale baseline.
+   We'll compute a smooth progress [0..1] (linear), then compute weights via soft overlap.
+   Avoid raw path morphing; we blend opacities+transforms to get continuous effect.
+*/
 (function(){
-  const layers = ['layerA','layerB','layerC','layerD','layerE'].map(id => document.getElementById(id)).filter(Boolean);
+  const layersIds = ['layerA','layerB','layerC','layerD','layerE'];
+  const layers = layersIds.map(id => document.getElementById(id)).filter(Boolean);
   const svg = document.querySelector('.tree-svg');
   if(!layers.length || !svg) return;
 
-  // each layer transform baseline: {scale, ty} — selected to produce natural vertical growth
-  const layerParams = [
-    { scale: 0.68, ty: 18 },  // A - tiny sprout (lower on canvas)
-    { scale: 0.84, ty: 10 },  // B - young
-    { scale: 0.96, ty: 4  },  // C
-    { scale: 1.06, ty: -8 },  // D
-    { scale: 1.14, ty: -22 }  // E - adult (sit higher visually)
+  const baseParams = [
+    {scale:0.7, ty:18}, {scale:0.86, ty:10}, {scale:0.98, ty:4}, {scale:1.08, ty:-8}, {scale:1.16, ty:-24}
   ];
 
-  // ensure initial CSS for smooth transitions but we will override transforms directly in JS for perf
   layers.forEach((g,i)=>{
-    g.style.transformOrigin = '50% 95%';
-    g.style.pointerEvents = 'none';
+    g.style.transformOrigin='50% 95%';
+    g.style.pointerEvents='none';
     g.style.opacity = (i===0 ? '1' : '0');
-    const p = layerParams[i];
+    const p = baseParams[i];
     g.style.transform = `translateY(${p.ty}px) scale(${p.scale})`;
   });
 
-  // helper clamp
-  const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
-
   let ticking = false;
+  function clamp(v,a,b){ return Math.max(a,Math.min(b,v)); }
+
   function update(){
     const docH = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
     const winH = window.innerHeight || document.documentElement.clientHeight;
     const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
     const range = Math.max(1, docH - winH);
-
-    // normalized progress 0..1
     let p = clamp(scrollY / range, 0, 1);
 
-    // to match user expectation (growth more gradual near bottom) we can remap with slight ease:
-    // comment/uncomment remap to control feel
-    // linear:
-    const progress = p;
-    // optional ease (uncomment): progress = Math.pow(p, 0.95);
+    // Slight easing for more natural feel (fast early growth, slower late)
+    const progress = Math.pow(p, 0.92);
 
-    // For blending, define weights for each layer (soft bell overlapping)
-    // We'll compute for each layer a weight from progress by mapping progress to a "center" per layer
     const n = layers.length;
-    // centers spaced evenly 0..1
-    const centers = layers.map((_,i) => i / (n - 1));
-    // width controls overlap; smaller -> sharper transitions
-    const width = 1.0 / (n - 1) * 1.1; // tuned for smooth overlap
+    const centers = layers.map((_,i) => i/(n-1)); // 0..1
+    const width = 1/(n-1) * 1.05;
 
     layers.forEach((g,i)=>{
       const c = centers[i];
-      // gaussian-like weight
       const dist = Math.abs(progress - c);
-      const w = clamp( (1 - dist / width), 0, 1 );
-      // smooth the weight (pow for softness)
-      const weight = Math.pow(w, 0.95);
+      const w = clamp( (1 - dist/width), 0, 1 );
+      const weight = Math.pow(w, 0.92);
 
-      // interpolate transforms between this layer's base and neutral
-      const base = layerParams[i];
-      // bring scale a bit closer to 1 as weight decreases
+      const base = baseParams[i];
       const scale = 1 + (base.scale - 1) * weight;
       const ty = base.ty * weight;
 
@@ -434,9 +533,9 @@
       g.style.transform = `translateY(${ty}px) scale(${scale})`;
     });
 
-    // overall svg subtle scale to simulate emerging from ground (small)
-    const globalScale = 0.9 + 0.2 * progress; // from 0.9 -> 1.1
-    const globalTy = 12 * (1 - progress); // small vertical nudge
+    // global subtle emergence
+    const globalScale = 0.92 + 0.22 * progress;
+    const globalTy = 14 * (1 - progress);
     svg.style.transform = `translateY(${globalTy}px) scale(${globalScale})`;
 
     ticking = false;
@@ -451,10 +550,59 @@
 
   window.addEventListener('scroll', onScroll, {passive:true});
   window.addEventListener('resize', onScroll);
-  // initial set
   onScroll();
 })();
-</script>
 
+/* ================= Parallax header background ================ */
+(function(){
+  const header = document.querySelector('.header');
+  if(!header) return;
+  function parallax(){
+    const sc = window.scrollY || window.pageYOffset;
+    // subtle parallax: move bg-position vertically a bit
+    header.style.backgroundPosition = `center ${32 - sc*0.02}%`;
+  }
+  window.addEventListener('scroll', parallax, {passive:true});
+})();
+
+/* ================= Section appearance (no fade) =================
+   IntersectionObserver toggles .in-view on .appear elements.
+   When class .in-view present -> transform reset (no opacity used).
+*/
+(function(){
+  const obsOptions = { root: null, threshold: 0.08 };
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in-view');
+      }
+    });
+  }, obsOptions);
+
+  document.querySelectorAll('.appear').forEach(el=>{
+    io.observe(el);
+  });
+})();
+
+/* ================= Back to top ================= */
+(function(){
+  const btn = document.getElementById('backTop');
+  if(!btn) return;
+  btn.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+  // show/hide by scroll
+  window.addEventListener('scroll', ()=>{
+    if(window.scrollY > 300) btn.style.opacity = '1';
+    else btn.style.opacity = '0.0';
+  }, {passive:true});
+})();
+
+/* ================= Smooth init: mark already-visible appear elements ================= */
+window.addEventListener('load', ()=>{
+  document.querySelectorAll('.appear').forEach(el=>{
+    // small timeout to allow layout
+    setTimeout(()=> el.classList.add('in-view'), 80);
+  });
+});
+</script>
 </body>
 </html>
