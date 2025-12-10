@@ -1,450 +1,420 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <title>4Garden</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>4Garden — обновлённая версия</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  /* ========== BASE ========== */
+  :root{
+    --nav-bg: #3f2612;
+    --nav-accent: #7be27b;
+    --nav-hover-bg: #1b5e20;
+  }
+  html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;background:#fff;scroll-behavior:smooth;}
+  section{padding:60px 20px;}
+  h2{ text-align:center; font-size:2.4rem; margin-bottom:25px;}
+  p{ text-align:center; font-size:1.1rem; margin:6px 0; }
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  /* ========== HEADER (fixed, 1.2×) ========== */
+  .header{
+    width:100%;
+    height:calc(13vh * 1.2);
+    background-image: url('clearphotowithoutrights.png');
+    background-size:cover;
+    background-position:center 32%;
+    background-repeat:no-repeat;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    text-shadow:0 0 8px rgba(0,0,0,0.85);
+    position:fixed;
+    top:0; left:0;
+    z-index:50;
+  }
+  .header h1{font-size:2.6rem;margin:0;}
+  .header p{font-size:1.6rem;margin:4px 0 0 0;}
 
-    <style>
+  /* ========== NAV (fixed under header) ========== */
+  .nav-wrapper{
+    width:100%;
+    height:7vh;
+    background:#4b2e15;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border-top:2px solid black;
+    border-bottom:2px solid black;
+    position:fixed;
+    top:calc(13vh * 1.2);
+    left:0;
+    z-index:49;
+  }
+  .nav{ display:flex; gap:0; align-items:stretch; }
+  /* плитки чуть пошире: увеличен padding и min-width, закругления */
+  .nav a{
+    height:100%;
+    min-width:130px;
+    padding:0 36px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-decoration:none;
+    background:var(--nav-bg);
+    color:var(--nav-accent);
+    font-size:1.6rem;
+    font-weight:600;
+    border-right:2px solid black;
+    transition: transform .20s ease, background .20s ease, color .20s ease;
+    border-radius:14px; /* слегка закруглены */
+    margin:0 6px; /* небольшой промежуток между плитками для визуального эффекта */
+  }
+  .nav a:last-child{ border-right:none; }
+  .nav a:hover{
+    background:var(--nav-hover-bg);
+    color:#b7ff4f;
+    transform:scale(1.06);
+  }
 
-        /* ============================
-           BASE
-        ============================ */
-        body {
-            margin: 0;
-            font-family: 'Poppins', sans-serif;
-            background: #ffffff;
-            scroll-behavior: smooth;
-        }
+  /* смещение контента под фиксированные шапку+навигацию */
+  .page-offset{
+    margin-top: calc((13vh * 1.2) + 7vh);
+  }
 
-        section {
-            padding: 60px 20px;
-            transition: background 0.3s ease;
-        }
+  /* ========== HOME ========== */
+  .home{
+    background: linear-gradient(#d7f3d7,#b8e6b8);
+    text-align:center;
+    padding:110px 20px;
+  }
+  .home h2{font-size:3rem;}
+  .home button{
+    margin-top:25px;padding:14px 34px;font-size:1.15rem;border:none;background:#2e7d32;color:#fff;border-radius:10px;cursor:pointer;
+    transition:transform .18s ease, filter .18s ease;
+  }
+  .home button:hover{ transform:scale(1.04); filter:brightness(1.06); }
 
-        h2 {
-            text-align: center;
-            font-size: 2.4rem;
-            margin-bottom: 25px;
-        }
+  /* ========== SERVICES ========== */
+  .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1000px; margin:auto; }
+  .service-card{
+    padding:25px; background:#f4f4f4; border-radius:12px; text-align:center; min-height:150px;
+    transition: transform .18s ease, filter .18s ease;
+  }
+  .service-card:hover{ transform:scale(1.03); filter:brightness(1.04); }
 
-        p {
-            text-align: center;
-            font-size: 1.3rem;
-        }
+  @media (max-width:900px){ .services-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:600px){ .services-grid{ grid-template-columns:repeat(1,1fr); } }
 
-        /* ============================
-           FLOATING TREE (scroll animation)
-        ============================ */
-        .tree-container {
-            position: fixed;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-            width: 80px;
-            height: 200px;
-            pointer-events: none;
-            opacity: 0.8;
-        }
+  /* ========== PROJECTS ========== */
+  .project-placeholder{ width:80%; height:220px; background:#ddd; margin:20px auto; border-radius:12px; transition:transform .18s ease; }
+  .project-placeholder:hover{ transform:scale(1.02); filter:brightness(1.02); }
 
-        .tree-svg {
-            width: 100%;
-            height: 100%;
-            transform-origin: bottom center;
-            transition: transform 0.15s linear;
-        }
+  /* ========== REVIEWS w/ VIDEO ========== */
+  .review-card{ width:60%; background:#eee; padding:20px; margin:15px auto; border-radius:12px; transition:transform .18s ease; }
+  .review-card:hover{ transform:scale(1.02); filter:brightness(1.02); }
 
-        /* ============================
-           HEADER — now fixed and 1.2× higher
-        ============================ */
-        .header {
-            width: 100%;
-            height: calc(13vh * 1.2);
+  .video-review{ width:60%; margin:25px auto; background:#f7f7f7; padding:14px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.08); transition:transform .18s ease; }
+  .video-review iframe{ width:100%; height:320px; border-radius:10px; border:0; display:block; }
 
-            background-image: url('clearphotowithoutrights.png');
-            background-size: cover;
-            background-position: center 32%;
-            background-repeat: no-repeat;
+  /* ========== CTA / CONTACT / FOOTER ========== */
+  .cta{ background:#2e7d32; color:#fff; text-align:center; padding:60px 20px; }
+  .cta button{ margin-top:20px; padding:14px 34px; font-size:1.15rem; border-radius:8px; border:0; cursor:pointer; background:#fff; color:#2e7d32; transition:transform .18s ease; }
+  .cta button:hover{ transform:scale(1.04); }
 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+  .contact-box{ width:60%; margin:auto; background:#f5f5f5; padding:25px; border-radius:12px; }
 
-            color: white;
-            text-shadow: 0px 0px 8px rgba(0,0,0,0.8);
+  footer{ background:#333; color:#fff; padding:20px; text-align:center; }
 
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: 20;
-        }
+  /* ========== LEFT TREE (fixed) ========== */
+  .tree-wrapper{
+    position:fixed;
+    left:18px;
+    top:50%;
+    transform:translateY(-50%);
+    width:150px; /* базовая ширина; изменяется пропорционально scale */
+    height:auto;
+    z-index:40;
+    pointer-events:none; /* не мешает кликам */
+    opacity:0.98;
+  }
 
-        .header h1 {
-            font-size: 2.6rem;
-            margin: 0;
-        }
+  /* скрывать дерево на очень мелких экранах */
+  @media (max-width:900px){
+    .tree-wrapper{ display:none; }
+  }
 
-        .header p {
-            font-size: 2rem;
-            margin: 4px 0 0 0;
-        }
+  /* ускорение для анимации (подсказка браузеру) */
+  .tree-svg{ will-change:transform; transform-origin: 50% 95%; }
 
-        /* ============================
-           NAVIGATION — fixed
-        ============================ */
-        .nav-wrapper {
-            width: 100%;
-            height: 7vh;
-
-            background: #4b2e15;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            border-top: 2px solid black;
-            border-bottom: 2px solid black;
-
-            position: fixed;
-            top: calc(13vh * 1.2);
-            left: 0;
-            z-index: 20;
-        }
-
-        .nav {
-            display: flex;
-            gap: 0;
-        }
-
-        .nav a {
-            height: 100%;
-            padding: 0 25px;
-
-            text-decoration: none;
-
-            background: #3f2612;
-            color: #7be27b;
-
-            font-size: 1.9rem;
-            font-weight: 600;
-
-            border-right: 2px solid black;
-
-            transition: 0.25s;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            border-radius: 12px 12px 0 0; /* закругление сверху */
-        }
-
-        .nav a:hover {
-            background: #1b5e20;
-            color: #b7ff4f;
-            transform: scale(1.07);
-        }
-
-        /* сдвигаем контент вниз, чтоб не залезал под fixed шапку */
-        .offset {
-            margin-top: calc((13vh * 1.2) + 7vh);
-        }
-
-        /* ============================
-           HOME
-        ============================ */
-        .home {
-            background: linear-gradient(#d7f3d7, #b8e6b8);
-            text-align: center;
-            padding: 100px 20px;
-            transition: 0.3s;
-        }
-
-        .home:hover {
-            background: #c2efc2;
-        }
-
-        .home button {
-            margin-top: 25px;
-            padding: 15px 35px;
-            font-size: 1.4rem;
-            border: none;
-            background: #2e7d32;
-            color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: 0.25s;
-        }
-
-        .home button:hover {
-            background: #45a049;
-            transform: scale(1.05);
-        }
-
-        /* ============================
-           SERVICES — tiles highlight
-        ============================ */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            max-width: 1000px;
-            margin: auto;
-        }
-
-        .service-card {
-            padding: 25px;
-            background: #f4f4f4;
-            border-radius: 12px;
-            text-align: center;
-            min-height: 150px;
-            transition: 0.25s;
-        }
-
-        .service-card:hover {
-            background: #e7e7e7;
-            transform: scale(1.03);
-        }
-
-        /* responsive */
-        @media (max-width: 900px) {
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 600px) {
-            .services-grid {
-                grid-template-columns: repeat(1, 1fr);
-            }
-        }
-
-        /* ============================
-           PROJECTS
-        ============================ */
-        .project-placeholder {
-            width: 80%;
-            height: 220px;
-            background: #ddd;
-            margin: 20px auto;
-            border-radius: 12px;
-            transition: 0.3s;
-        }
-
-        .project-placeholder:hover {
-            background: #ccc;
-            transform: scale(1.02);
-        }
-
-        /* ============================
-           REVIEWS — video cards
-        ============================ */
-        .review-card {
-            width: 60%;
-            background: #eee;
-            padding: 20px;
-            margin: 15px auto;
-            border-radius: 12px;
-            transition: 0.3s;
-        }
-
-        .review-card:hover {
-            background: #e2e2e2;
-            transform: scale(1.02);
-        }
-
-        .video-review {
-            width: 60%;
-            margin: 25px auto;
-            background: #f0f0f0;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.15);
-            transition: 0.3s;
-        }
-
-        .video-review:hover {
-            background: #e8e8e8;
-            transform: scale(1.03);
-        }
-
-        .video-review iframe {
-            width: 100%;
-            height: 320px;
-            border-radius: 10px;
-            border: none;
-        }
-
-        /* ============================
-           CTA
-        ============================ */
-        .cta {
-            background: #2e7d32;
-            color: white;
-            text-align: center;
-            padding: 60px 20px;
-            transition: 0.3s;
-        }
-
-        .cta:hover {
-            background: #308a35;
-        }
-
-        .cta button {
-            margin-top: 20px;
-            padding: 15px 35px;
-            font-size: 1.4rem;
-            border: none;
-            background: white;
-            color: #2e7d32;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .cta button:hover {
-            transform: scale(1.05);
-            background: #dfffd9;
-        }
-
-    </style>
+  /* немного эстетики для листьев — сглаживание */
+  .leaf{ shape-rendering:geometricPrecision; }
+</style>
 </head>
-
 <body>
 
-    <!-- floating tree -->
-    <div class="tree-container">
-        <svg class="tree-svg" viewBox="0 0 100 200">
-            <circle cx="50" cy="40" r="30" fill="#2e7d32" />
-            <rect x="45" y="70" width="10" height="120" fill="#4b2e15"/>
-        </svg>
-    </div>
+  <!-- ===== LEFT TREE (inline SVG: реалистичнее, но оптимизировано) ===== -->
+  <div class="tree-wrapper" aria-hidden="true">
+    <!--
+      SVG построен из нескольких слоёв:
+      - корень/росток (малый в начале)
+      - ствол (path)
+      - ветки (paths)
+      - листья (группы, переиспользуется символ <use>)
+      Листья описаны как <symbol> и затем позиционируются множеством <use>, что экономит вес.
+    -->
+    <svg class="tree-svg" viewBox="0 0 300 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+      <defs>
+        <!-- leaf symbol (реалистичный упрощённый контур) -->
+        <symbol id="leafSymbol" viewBox="-10 -10 20 20">
+          <path class="leaf" d="M-4 2 C-6 -1, -1 -6, 4 -2 C1 2, -1 6, -4 2 Z" fill="#4fa84f" stroke="#2f6b2f" stroke-width="0.7" />
+        </symbol>
 
-    <!-- HEADER -->
-    <div class="header" id="home">
-        <h1>4Garden</h1>
-        <p>Lawn mowing, hedge trimming, yard cleanup & roof moss removal</p>
-    </div>
+        <!-- small sprout leaf variant -->
+        <symbol id="sproutLeaf" viewBox="-8 -8 16 16">
+          <path d="M-3 2 C-4 -1, -1 -4, 3 -1 C1 1, -1 4, -3 2 Z" fill="#6fc36f" stroke="#2f6b2f" stroke-width="0.5"/>
+        </symbol>
 
-    <!-- NAVIGATION -->
-    <div class="nav-wrapper">
-        <div class="nav">
-            <a href="#home">Home</a>
-            <a href="#services">Services</a>
-            <a href="#projects">Projects</a>
-            <a href="#reviews">Reviews</a>
-            <a href="#about">About</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </div>
+        <!-- subtle texture for trunk -->
+        <linearGradient id="trunkGrad" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stop-color="#6b3f21"/>
+          <stop offset="1" stop-color="#4b2e15"/>
+        </linearGradient>
+      </defs>
 
-    <div class="offset"></div>
+      <!-- base soil + sprout (visible at smallest scale) -->
+      <g id="soil">
+        <ellipse cx="150" cy="590" rx="80" ry="12" fill="#8b5e3c" opacity="0.9"/>
+      </g>
 
-    <!-- HOME -->
+      <!-- trunk -->
+      <g id="trunk" transform="translate(150,480)">
+        <!-- main trunk path -->
+        <path d="M0 0 C -10 -40, -8 -120, -12 -210 C -9 -285, -5 -320, -2 -350
+                 C 5 -325, 12 -300, 18 -260 C 25 -210, 22 -150, 18 -110 C 35 -90, 45 -40, 36 0 Z"
+              fill="url(#trunkGrad)" stroke="#3c2414" stroke-width="1.5" />
+        <!-- a few trunk textures -->
+        <path d="M2 -50 C -6 -80, -4 -160, 2 -200" stroke="#3a2a1a" stroke-width="0.8" fill="none" opacity="0.18"/>
+        <path d="-6 -80 C -1 -120, 3 -190, 6 -230" stroke="#2e1c11" stroke-width="0.7" fill="none" opacity="0.12"/>
+      </g>
+
+      <!-- branches group (positions relative to trunk base) -->
+      <g id="branches" transform="translate(150,240)">
+        <!-- left major branch -->
+        <path d="M0 220 C -40 170, -70 100, -90 50" stroke="#3c2414" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M-40 180 C -80 140, -120 90, -150 50" stroke="#3c2414" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+
+        <!-- right major branch -->
+        <path d="M20 210 C 55 170, 85 110, 110 60" stroke="#3c2414" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M38 175 C 75 140, 120 95, 150 60" stroke="#3c2414" stroke-width="3.2" fill="none" stroke-linecap="round"/>
+      </g>
+
+      <!-- leaves: множество use с разными трансформами, сгруппированы, чтобы GPU дружелюбно рисовал -->
+      <g id="leaves" transform="translate(150,40)">
+        <!-- верхняя крона (плотнее) -->
+        <g id="crown-top" transform="translate(0,160)">
+          <!-- row 1 -->
+          <use href="#leafSymbol" x="-20" y="-10" transform="rotate(-10) scale(1.05)"/>
+          <use href="#leafSymbol" x="-5"  y="-30" transform="rotate(-30) scale(1.1)"/>
+          <use href="#leafSymbol" x="15"  y="-22" transform="rotate(20) scale(1.08)"/>
+          <use href="#leafSymbol" x="40"  y="-8" transform="rotate(10) scale(1.0)"/>
+          <use href="#leafSymbol" x="-40" y="6"  transform="rotate(-6) scale(0.95)"/>
+          <use href="#leafSymbol" x="0"   y="2"  transform="rotate(0) scale(1.2)"/>
+          <use href="#leafSymbol" x="22"  y="5"  transform="rotate(8) scale(1.05)"/>
+        </g>
+
+        <!-- центральная крона (средняя плотность) -->
+        <g id="crown-mid" transform="translate(0,220)">
+          <use href="#leafSymbol" x="-60" y="0" transform="rotate(-12) scale(0.95)"/>
+          <use href="#leafSymbol" x="-30" y="-6" transform="rotate(-25) scale(1.0)"/>
+          <use href="#leafSymbol" x="-5"  y="-2" transform="rotate(-6) scale(1.15)"/>
+          <use href="#leafSymbol" x="22"  y="-4" transform="rotate(6) scale(1.12)"/>
+          <use href="#leafSymbol" x="50"  y="2"  transform="rotate(12) scale(0.98)"/>
+          <use href="#leafSymbol" x="85"  y="-6" transform="rotate(20) scale(0.9)"/>
+          <use href="#leafSymbol" x="-90" y="12" transform="rotate(-20) scale(0.9)"/>
+        </g>
+
+        <!-- боковые ветки (левая) -->
+        <g id="left-branch-leaves" transform="translate(-70,270)">
+          <use href="#leafSymbol" x="0" y="0" transform="rotate(-20) scale(0.9)"/>
+          <use href="#leafSymbol" x="-18" y="-10" transform="rotate(-40) scale(0.85)"/>
+          <use href="#leafSymbol" x="-32" y="6" transform="rotate(-10) scale(0.8)"/>
+          <use href="#leafSymbol" x="-48" y="-2" transform="rotate(-30) scale(0.78)"/>
+        </g>
+
+        <!-- боковые ветки (правая) -->
+        <g id="right-branch-leaves" transform="translate(90,270)">
+          <use href="#leafSymbol" x="0" y="0" transform="rotate(18) scale(0.95)"/>
+          <use href="#leafSymbol" x="18" y="-10" transform="rotate(40) scale(0.84)"/>
+          <use href="#leafSymbol" x="36" y="6" transform="rotate(10) scale(0.82)"/>
+          <use href="#leafSymbol" x="52" y="-2" transform="rotate(30) scale(0.78)"/>
+        </g>
+
+        <!-- низ кроны (несколько листьев для плотности у ствола) -->
+        <g id="lower-crown" transform="translate(0,310)">
+          <use href="#leafSymbol" x="-35" y="6" transform="rotate(-6) scale(0.9)"/>
+          <use href="#leafSymbol" x="10"   y="12" transform="rotate(10) scale(0.95)"/>
+          <use href="#leafSymbol" x="48"   y="8" transform="rotate(6) scale(0.9)"/>
+        </g>
+
+        <!-- маленькие ростки поблизости ствола -->
+        <g id="sprouts" transform="translate(0,360)">
+          <use href="#sproutLeaf" x="-12" y="0" transform="rotate(-20) scale(.7)"/>
+          <use href="#sproutLeaf" x="8"   y="4" transform="rotate(12) scale(.75)"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+
+  <!-- ===== HEADER & NAV ===== -->
+  <div class="header" id="home">
+    <h1>4Garden</h1>
+    <p>Lawn mowing, hedge trimming, yard cleanup & roof moss removal</p>
+  </div>
+
+  <div class="nav-wrapper">
+    <nav class="nav" role="navigation" aria-label="Главное меню">
+      <a href="#home">Home</a>
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="#reviews">Reviews</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+
+  <!-- смещение чтобы содержимое не скрывалось под fixed -->
+  <div class="page-offset"></div>
+
+  <!-- ===== CONTENT ===== -->
+  <main>
     <div class="home">
-        <h2>Professional Lawn & Garden Care</h2>
-        <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
-        <button>Improve Your Garden</button>
+      <h2>Professional Lawn & Garden Care</h2>
+      <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
+      <button>Improve Your Garden</button>
     </div>
 
-    <!-- SERVICES -->
     <section id="services">
-        <h2>Services</h2>
-
-        <div class="services-grid">
-            <div class="service-card">Lawn Mowing (icon)</div>
-            <div class="service-card">Hedge Trimming (icon)</div>
-            <div class="service-card">Yard Cleanup (icon)</div>
-
-            <div class="service-card">Landscape Design (icon)</div>
-            <div class="service-card">Lighting Installation (icon)</div>
-            <div class="service-card">Seasonal Maintenance (icon)</div>
-        </div>
+      <h2>Services</h2>
+      <div class="services-grid">
+        <div class="service-card">Lawn Mowing (icon)</div>
+        <div class="service-card">Hedge Trimming (icon)</div>
+        <div class="service-card">Yard Cleanup (icon)</div>
+        <div class="service-card">Landscape Design (icon)</div>
+        <div class="service-card">Lighting Installation (icon)</div>
+        <div class="service-card">Seasonal Maintenance (icon)</div>
+      </div>
     </section>
 
-    <!-- PROJECTS -->
     <section id="projects">
-        <h2>Projects</h2>
-        <div class="project-placeholder"></div>
-        <div class="project-placeholder"></div>
-        <div class="project-placeholder"></div>
+      <h2>Projects</h2>
+      <div class="project-placeholder"></div>
+      <div class="project-placeholder"></div>
+      <div class="project-placeholder"></div>
     </section>
 
-    <!-- REVIEWS -->
     <section id="reviews">
-        <h2>Reviews</h2>
+      <h2>Reviews</h2>
+      <div class="review-card">"Great service!" – Client</div>
+      <div class="review-card">"My yard looks amazing!" – Client</div>
+      <div class="review-card">"Professional and clean." – Client</div>
 
-        <div class="review-card">"Great service!" – Client</div>
-        <div class="review-card">"My yard looks amazing!" – Client</div>
-        <div class="review-card">"Professional and clean." – Client</div>
-
-        <!-- NEW VIDEO REVIEWS -->
-        <div class="video-review">
-            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
-        </div>
-
-        <div class="video-review">
-            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
-        </div>
-
+      <div class="video-review">
+        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Customer review video" allowfullscreen></iframe>
+      </div>
+      <div class="video-review">
+        <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Customer review video" allowfullscreen></iframe>
+      </div>
     </section>
 
-    <!-- ABOUT -->
     <section id="about" class="about">
-        <h2>About Us</h2>
-        <p>We provide professional landscaping and garden maintenance.</p>
-        <p>Operating for many years with passion and quality.</p>
-        <p>We value clean work, reliability and customer satisfaction.</p>
+      <h2>About Us</h2>
+      <p>We provide professional landscaping and garden maintenance.</p>
+      <p>Operating for many years with passion and quality.</p>
     </section>
 
-    <!-- CTA -->
     <div class="cta">
-        <h2>Ready to Improve Your Yard?</h2>
-        <button>Get a Free Quote</button>
+      <h2>Ready to Improve Your Yard?</h2>
+      <button>Get a Free Quote</button>
     </div>
 
-    <!-- CONTACT -->
     <section id="contact">
-        <h2>Contact Us</h2>
-
-        <div class="contact-box">
-            <p>Phone: (000) 000-0000</p>
-            <p>Email: info@4garden.com</p>
-            <p>Address: Your City, USA</p>
-
-            <p>[Map Placeholder]</p>
-            <p>[Contact Form Placeholder]</p>
-            <p>[Social Icons Placeholder]</p>
-        </div>
+      <h2>Contact Us</h2>
+      <div class="contact-box">
+        <p>Phone: (000) 000-0000</p>
+        <p>Email: info@4garden.com</p>
+        <p>Address: Your City, USA</p>
+        <p>[Map Placeholder]</p>
+        <p>[Contact Form Placeholder]</p>
+      </div>
     </section>
+  </main>
 
-    <!-- FOOTER -->
-    <footer>
-        <p>Home • Services • Projects • Reviews • About • Contact</p>
-        <p>Phone • Email</p>
-        <p>© 2025 4Garden</p>
-    </footer>
-
+  <footer>
+    <p>Home • Services • Projects • Reviews • About • Contact</p>
+    <p>Phone • Email</p>
+    <p>© 2025 4Garden</p>
+  </footer>
 
 <script>
-/* TREE growth/ shrink on scroll */
-let lastScrollY = window.scrollY;
-const tree = document.querySelector(".tree-svg");
+/*
+ Smooth, performant scaling of SVG-tree proportional to scroll.
+ Implementation notes:
+ - scaleMin = начальный масштаб (росток)
+ - scaleMax = конечный масштаб (большое дерево)
+ - вычисляем scrollPercent = scrollY / (docHeight - innerHeight)
+ - используем requestAnimationFrame + простую линейную интерполяцию
+ - will-change + pointer-events:none + ungeometrized SVG (symbol/use) — оптимизации
+*/
 
-window.addEventListener("scroll", () => {
-    const current = window.scrollY;
+(function(){
+  const svg = document.querySelector('.tree-svg');
+  if(!svg) return;
 
-    if (current > lastScrollY) {
-        tree.style.transform = "scale(1.5)";
-    } else {
-        tree.style.transform = "scale(0.8)";
+  const scaleMin = 0.18;   // почти росток
+  const scaleMax = 1.45;   // большое дерево
+  let ticking = false;
+
+  function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+
+  function update(){
+    // общая высота прокрутки
+    const docHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+    const winH = window.innerHeight || document.documentElement.clientHeight;
+    const scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+
+    const scrollRange = Math.max(1, docHeight - winH);
+    let scrollPercent = clamp(scrollY / scrollRange, 0, 1);
+
+    // Можно подкорректировать нелинейность (например ease-in)
+    // Но ты просил пропорционально — оставим линейную зависимость.
+    const scale = scaleMin + (scaleMax - scaleMin) * scrollPercent;
+
+    // небольшой нативный translateY чтобы выглядело как рост из земли:
+    // при малых масштабах немного поднимаем дерево вниз (чтобы выглядел рост)
+    const translateY = (1 - (scale - scaleMin)/(scaleMax - scaleMin)) * 30; // px
+
+    // устанавливаем трансформ аккуратно (одной строкой)
+    svg.style.transform = `translateY(${translateY}px) scale(${scale})`;
+
+    ticking = false;
+  }
+
+  function onScroll(){
+    if(!ticking){
+      ticking = true;
+      requestAnimationFrame(update);
     }
+  }
 
-    lastScrollY = current;
-});
+  // инициируем один раз при загрузке, чтобы дерево соответствовало позиции
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  // стартовое значение
+  onScroll();
+})();
 </script>
-
 </body>
 </html>
