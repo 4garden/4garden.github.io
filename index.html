@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>4Garden</title>
 
-    <!-- Шрифт -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
@@ -21,6 +20,7 @@
 
         section {
             padding: 60px 20px;
+            transition: background 0.3s ease;
         }
 
         h2 {
@@ -35,18 +35,36 @@
         }
 
         /* ============================
-           HEADER
+           FLOATING TREE (scroll animation)
+        ============================ */
+        .tree-container {
+            position: fixed;
+            top: 50%;
+            left: 20px;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 200px;
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .tree-svg {
+            width: 100%;
+            height: 100%;
+            transform-origin: bottom center;
+            transition: transform 0.15s linear;
+        }
+
+        /* ============================
+           HEADER — now fixed and 1.2× higher
         ============================ */
         .header {
             width: 100%;
-            height: 13vh;
+            height: calc(13vh * 1.2);
 
             background-image: url('clearphotowithoutrights.png');
             background-size: cover;
-
-            /* подняли ещё выше */
-            background-position: center 35%;
-
+            background-position: center 32%;
             background-repeat: no-repeat;
 
             display: flex;
@@ -56,6 +74,11 @@
 
             color: white;
             text-shadow: 0px 0px 8px rgba(0,0,0,0.8);
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 20;
         }
 
         .header h1 {
@@ -69,7 +92,7 @@
         }
 
         /* ============================
-           NAVIGATION BAR
+           NAVIGATION — fixed
         ============================ */
         .nav-wrapper {
             width: 100%;
@@ -83,6 +106,11 @@
 
             border-top: 2px solid black;
             border-bottom: 2px solid black;
+
+            position: fixed;
+            top: calc(13vh * 1.2);
+            left: 0;
+            z-index: 20;
         }
 
         .nav {
@@ -93,10 +121,6 @@
         .nav a {
             height: 100%;
             padding: 0 25px;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
 
             text-decoration: none;
 
@@ -109,29 +133,37 @@
             border-right: 2px solid black;
 
             transition: 0.25s;
-        }
 
-        .nav a:last-child {
-            border-right: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            border-radius: 12px 12px 0 0; /* закругление сверху */
         }
 
         .nav a:hover {
             background: #1b5e20;
             color: #b7ff4f;
-            transform: scale(1.05);
+            transform: scale(1.07);
+        }
+
+        /* сдвигаем контент вниз, чтоб не залезал под fixed шапку */
+        .offset {
+            margin-top: calc((13vh * 1.2) + 7vh);
         }
 
         /* ============================
-           HOME BLOCK (Шаг 2)
+           HOME
         ============================ */
         .home {
             background: linear-gradient(#d7f3d7, #b8e6b8);
             text-align: center;
             padding: 100px 20px;
+            transition: 0.3s;
         }
 
-        .home h2 {
-            font-size: 3rem;
+        .home:hover {
+            background: #c2efc2;
         }
 
         .home button {
@@ -141,12 +173,18 @@
             border: none;
             background: #2e7d32;
             color: white;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .home button:hover {
+            background: #45a049;
+            transform: scale(1.05);
         }
 
         /* ============================
-           SERVICES (Шаг 3)
+           SERVICES — tiles highlight
         ============================ */
         .services-grid {
             display: grid;
@@ -159,9 +197,15 @@
         .service-card {
             padding: 25px;
             background: #f4f4f4;
-            border-radius: 8px;
+            border-radius: 12px;
             text-align: center;
             min-height: 150px;
+            transition: 0.25s;
+        }
+
+        .service-card:hover {
+            background: #e7e7e7;
+            transform: scale(1.03);
         }
 
         /* responsive */
@@ -178,42 +222,74 @@
         }
 
         /* ============================
-           PROJECTS (Шаг 4)
+           PROJECTS
         ============================ */
         .project-placeholder {
             width: 80%;
             height: 220px;
             background: #ddd;
             margin: 20px auto;
-            border-radius: 10px;
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .project-placeholder:hover {
+            background: #ccc;
+            transform: scale(1.02);
         }
 
         /* ============================
-           REVIEWS (Шаг 5)
+           REVIEWS — video cards
         ============================ */
         .review-card {
             width: 60%;
             background: #eee;
             padding: 20px;
             margin: 15px auto;
-            border-radius: 8px;
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .review-card:hover {
+            background: #e2e2e2;
+            transform: scale(1.02);
+        }
+
+        .video-review {
+            width: 60%;
+            margin: 25px auto;
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.15);
+            transition: 0.3s;
+        }
+
+        .video-review:hover {
+            background: #e8e8e8;
+            transform: scale(1.03);
+        }
+
+        .video-review iframe {
+            width: 100%;
+            height: 320px;
+            border-radius: 10px;
+            border: none;
         }
 
         /* ============================
-           ABOUT (Шаг 6)
-        ============================ */
-        .about {
-            background: #fafafa;
-        }
-
-        /* ============================
-           CTA (Шаг 7)
+           CTA
         ============================ */
         .cta {
             background: #2e7d32;
             color: white;
             text-align: center;
             padding: 60px 20px;
+            transition: 0.3s;
+        }
+
+        .cta:hover {
+            background: #308a35;
         }
 
         .cta button {
@@ -225,27 +301,12 @@
             color: #2e7d32;
             border-radius: 5px;
             cursor: pointer;
+            transition: 0.3s;
         }
 
-        /* ============================
-           CONTACT (Шаг 8)
-        ============================ */
-        .contact-box {
-            width: 60%;
-            margin: auto;
-            background: #f5f5f5;
-            padding: 25px;
-            border-radius: 8px;
-        }
-
-        /* ============================
-           FOOTER (Шаг 9)
-        ============================ */
-        footer {
-            background: #333;
-            color: white;
-            padding: 20px;
-            text-align: center;
+        .cta button:hover {
+            transform: scale(1.05);
+            background: #dfffd9;
         }
 
     </style>
@@ -253,17 +314,21 @@
 
 <body>
 
-    <!-- ============================
-         HEADER
-    ============================ -->
+    <!-- floating tree -->
+    <div class="tree-container">
+        <svg class="tree-svg" viewBox="0 0 100 200">
+            <circle cx="50" cy="40" r="30" fill="#2e7d32" />
+            <rect x="45" y="70" width="10" height="120" fill="#4b2e15"/>
+        </svg>
+    </div>
+
+    <!-- HEADER -->
     <div class="header" id="home">
         <h1>4Garden</h1>
         <p>Lawn mowing, hedge trimming, yard cleanup & roof moss removal</p>
     </div>
 
-    <!-- ============================
-         NAVIGATION
-    ============================ -->
+    <!-- NAVIGATION -->
     <div class="nav-wrapper">
         <div class="nav">
             <a href="#home">Home</a>
@@ -275,24 +340,20 @@
         </div>
     </div>
 
-    <!-- ============================
-         HOME BLOCK
-    ============================ -->
+    <div class="offset"></div>
+
+    <!-- HOME -->
     <div class="home">
         <h2>Professional Lawn & Garden Care</h2>
         <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
-
         <button>Improve Your Garden</button>
     </div>
 
-    <!-- ============================
-         SERVICES
-    ============================ -->
+    <!-- SERVICES -->
     <section id="services">
         <h2>Services</h2>
 
         <div class="services-grid">
-
             <div class="service-card">Lawn Mowing (icon)</div>
             <div class="service-card">Hedge Trimming (icon)</div>
             <div class="service-card">Yard Cleanup (icon)</div>
@@ -300,35 +361,37 @@
             <div class="service-card">Landscape Design (icon)</div>
             <div class="service-card">Lighting Installation (icon)</div>
             <div class="service-card">Seasonal Maintenance (icon)</div>
-
         </div>
     </section>
 
-    <!-- ============================
-         PROJECTS
-    ============================ -->
+    <!-- PROJECTS -->
     <section id="projects">
         <h2>Projects</h2>
-
         <div class="project-placeholder"></div>
         <div class="project-placeholder"></div>
         <div class="project-placeholder"></div>
     </section>
 
-    <!-- ============================
-         REVIEWS
-    ============================ -->
+    <!-- REVIEWS -->
     <section id="reviews">
         <h2>Reviews</h2>
 
         <div class="review-card">"Great service!" – Client</div>
         <div class="review-card">"My yard looks amazing!" – Client</div>
         <div class="review-card">"Professional and clean." – Client</div>
+
+        <!-- NEW VIDEO REVIEWS -->
+        <div class="video-review">
+            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+        </div>
+
+        <div class="video-review">
+            <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe>
+        </div>
+
     </section>
 
-    <!-- ============================
-         ABOUT
-    ============================ -->
+    <!-- ABOUT -->
     <section id="about" class="about">
         <h2>About Us</h2>
         <p>We provide professional landscaping and garden maintenance.</p>
@@ -336,17 +399,13 @@
         <p>We value clean work, reliability and customer satisfaction.</p>
     </section>
 
-    <!-- ============================
-         CTA
-    ============================ -->
+    <!-- CTA -->
     <div class="cta">
         <h2>Ready to Improve Your Yard?</h2>
         <button>Get a Free Quote</button>
     </div>
 
-    <!-- ============================
-         CONTACT
-    ============================ -->
+    <!-- CONTACT -->
     <section id="contact">
         <h2>Contact Us</h2>
 
@@ -356,21 +415,36 @@
             <p>Address: Your City, USA</p>
 
             <p>[Map Placeholder]</p>
-
             <p>[Contact Form Placeholder]</p>
-
             <p>[Social Icons Placeholder]</p>
         </div>
     </section>
 
-    <!-- ============================
-         FOOTER
-    ============================ -->
+    <!-- FOOTER -->
     <footer>
         <p>Home • Services • Projects • Reviews • About • Contact</p>
         <p>Phone • Email</p>
         <p>© 2025 4Garden</p>
     </footer>
+
+
+<script>
+/* TREE growth/ shrink on scroll */
+let lastScrollY = window.scrollY;
+const tree = document.querySelector(".tree-svg");
+
+window.addEventListener("scroll", () => {
+    const current = window.scrollY;
+
+    if (current > lastScrollY) {
+        tree.style.transform = "scale(1.5)";
+    } else {
+        tree.style.transform = "scale(0.8)";
+    }
+
+    lastScrollY = current;
+});
+</script>
 
 </body>
 </html>
