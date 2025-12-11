@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>4Garden — premium</title>
 
-<!-- Шрифты: Poppins для заголовков, Lora для акцентов -->
+<!-- Шрифты -->
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root{
-    --header-h-mult: 1.2; 
+    --header-h-mult: 1.2;
     --base-header-h: 13vh;
     --header-h: calc(var(--base-header-h) * var(--header-h-mult));
 
-    --nav-base-h: 8.8vh;             
-    --nav-h: calc(var(--nav-base-h) * 0.9); 
-    --tile-increase: 1.15;           
-    --tile-max-occupy: 0.98;         
+    --nav-base-h: 8.8vh;
+    --nav-h: calc(var(--nav-base-h) * 0.9);
+    --tile-increase: 1.15;
+    --tile-max-occupy: 0.98;
 
     --accent-green: #7be27b;
     --nav-bg: #3f2612;
@@ -29,7 +29,7 @@
   html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;background:#fff; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; color:#12210f;}
   *{box-sizing:border-box}
 
-  /* ---------------- HEADER ---------------- */
+  /* HEADER */
   .header {
     width:100%;
     height:var(--header-h);
@@ -46,11 +46,12 @@
     z-index:120;
     text-shadow:0 0 8px rgba(0,0,0,0.7);
     transition:background-position 0.35s linear;
+    text-align:center;
   }
   .header h1{ margin:0; font-size:2.6rem; font-weight:700; letter-spacing:0.6px; }
-  .header p{ margin:6px 0 0; font-size:1.1rem; font-weight:500; font-family:'Lora', serif; opacity:0.95; text-align:center; }
-
-  /* ---------------- NAV ---------------- */
+  .header p{ margin:6px 0 0; font-size:1.1rem; font-weight:500; font-family:'Lora', serif; opacity:0.95; }
+  
+  /* NAV */
   .nav-wrapper{
     position:fixed;
     top:calc(var(--header-h));
@@ -74,10 +75,10 @@
   }
 
   .nav a{
-    height: calc(min(
-      calc(0.8 * var(--nav-base-h) * var(--tile-increase)),
+    height: min(
+      calc(0.8 * var(--nav-base-h) * var(--tile-increase) * 0.8), /* на 20% короче */
       calc(var(--nav-h) * var(--tile-max-occupy))
-    ) * 0.8);
+    );
     min-width:170px;
     padding:0 36px;
     display:inline-flex;
@@ -102,10 +103,10 @@
     color:#dfffbf;
   }
 
-  /* ---------------- PAGE OFFSET ---------------- */
+  /* PAGE OFFSET */
   .page-offset{ margin-top: calc(var(--header-h) + var(--nav-h) + 10px); }
 
-  /* ---------------- HOME ---------------- */
+  /* HOME */
   .home{
     background: linear-gradient(#eaf7ea 0%, #bfe9bf 100%);
     text-align:center;
@@ -113,39 +114,39 @@
     transition:transform .25s ease;
   }
   .home h2{ font-size:3rem; margin-bottom:6px; }
-  .home p{ font-size:calc(1.1rem + 3px); margin-bottom:14px; color:#274b27; font-weight:500; font-family:'Lora', serif; }
-  .btn-primary.home-btn{ transform: scale(1.5); }
+  .home p{ font-size:1.1rem; font-weight:500; font-family:'Lora', serif; color:#274b27; margin-bottom:14px; }
+  .home p{ font-size:calc(1.1rem + 3px); } /* увеличить на 3 единицы */
 
   .btn-primary{
     display:inline-block;
-    padding:12px 28px;
-    background:linear-gradient(180deg,#fff 0%, #f0f0f0 100%);
-    color:#2e7d32;
-    border-radius:10px;
+    padding:18px 42px; /* увеличено 1.5x */
+    background:linear-gradient(180deg,#2e7d32 0%, #1b5e20 100%);
+    color:#fff;
+    border-radius:12px;
     border:none;
     cursor:pointer;
     font-weight:600;
-    box-shadow: 0 8px 22px rgba(46,125,50,0.08);
+    font-size:1.2rem;
+    box-shadow: 0 10px 26px rgba(46,125,50,0.2);
     transition: transform .16s ease, filter .16s ease;
   }
-  .btn-primary:hover{ transform: translateY(-3px); filter:brightness(1.02); }
+  .btn-primary:hover{ transform: translateY(-3px); filter:brightness(1.08); }
 
-  /* ---------------- SERVICES ---------------- */
+  /* SERVICES */
   .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 80px; padding:0 14px; text-align:center; }
   .service-card{
     background:#fff;
     border-radius:14px;
     padding:22px;
     min-height:150px;
-    text-align:center;
-    box-shadow: 0 10px 30px rgba(6,20,8,0.04);
-    border:1px solid rgba(0,0,0,0.04);
-    transition: transform .18s ease, box-shadow .18s ease;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     gap:12px;
+    box-shadow:0 10px 30px rgba(6,20,8,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+    transition: transform .18s ease, box-shadow .18s ease;
   }
   .service-card:hover{ transform: translateY(-8px) scale(1.02); box-shadow:0 22px 48px rgba(6,20,8,0.08); }
 
@@ -155,38 +156,33 @@
   }
   .service-title{ font-weight:600; font-size:1.05rem; }
 
-  /* ---------------- PROJECTS ---------------- */
-  .projects-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:1100px; margin:auto; padding:0 14px; text-align:center; }
+  /* PROJECTS */
+  .projects-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:1100px; margin:auto; padding:0 14px; }
   .project-card{
     background:#fff; border-radius:12px; overflow:hidden; min-height:220px;
     box-shadow:0 10px 30px rgba(6,20,8,0.04); border:1px solid rgba(0,0,0,0.035);
     transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
   }
-  .project-card img{ width:100%; height:160px; object-fit:cover; display:block; }
-  .project-card:hover{ transform: translateY(-8px) scale(1.035); filter: brightness(1.06); box-shadow: 0 12px 28px rgba(0,0,0,0.14), 0 2px 6px rgba(0,0,0,0.06); }
+  .project-card img{ width:100%; height:160px; object-fit:cover; display:block; transition: transform .18s ease, filter .18s ease; }
+  .project-card:hover{ transform: translateY(-6px) scale(1.02); filter:brightness(1.08); box-shadow:0 16px 36px rgba(0,0,0,0.12); }
 
-  /* ---------------- REVIEWS ---------------- */
+  /* REVIEWS */
   .review-grid{ max-width:900px; margin:20px auto; display:grid; gap:14px; padding:0 14px; text-align:center; }
   .review-card{ background:#fff; padding:18px; border-radius:12px; box-shadow:0 10px 26px rgba(6,20,8,0.04); border:1px solid rgba(0,0,0,0.035); }
   .video-card{ background:#fff; padding:12px; border-radius:12px; box-shadow:0 12px 28px rgba(6,20,8,0.06); overflow:hidden; }
 
   .video-card iframe{ width:100%; height:320px; border:0; display:block; border-radius:8px; }
 
-  /* ---------------- CTA ---------------- */
+  /* CTA, CONTACT */
   .cta{ background:linear-gradient(180deg,#247b30,#1b6a2b); color:#fff; text-align:center; padding:56px 20px; margin-top:30px; border-radius:8px; }
-  .cta h2{ font-size:calc(2.5rem + 3px); }
-  .cta .btn-primary{ transform: scale(1.3); }
+  .cta h2{ font-size:calc(1.6rem + 3px); } /* увеличить на 3 единицы */
+  .cta .btn-primary{ padding:18px 40px; font-size:1.2rem; transform:scale(1.3); }
 
-  /* ---------------- CONTACT ---------------- */
   .contact-box{ width:70%; margin:20px auto; background:#fafafa; padding:20px; border-radius:12px; box-shadow:0 8px 22px rgba(6,20,8,0.03); text-align:center; }
 
-  /* ---------------- FOOTER ---------------- */
   footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center; margin-top:20px; position:relative; }
 
-  /* ---------------- SVG GRASS ---------------- */
-  .grass{ display:block; width:100%; height:56px; margin-top:-6px; }
-
-  /* ---------------- BACK-TO-TOP ---------------- */
+  /* BACK-TO-TOP leaf */
   .back-top{
     position:fixed;
     right:18px; bottom:18px;
@@ -199,28 +195,33 @@
   }
   .back-top:hover{ transform:translateY(-6px); }
 
-  /* ---------------- SECTION APPEAR ---------------- */
-  .appear { transform: translateY(12px) scale(0.996); transition: transform 420ms cubic-bezier(.2,.9,.2,1); will-change:transform; }
+  /* SECTION APPEAR */
+  .appear {
+    transform: translateY(12px) scale(0.996);
+    transition: transform 420ms cubic-bezier(.2,.9,.2,1);
+    will-change:transform;
+  }
   .appear.in-view { transform: translateY(0) scale(1); }
 
-  /* ---------------- RESPONSIVE ---------------- */
-  @media (max-width:1000px){
-    .services-grid, .projects-grid { grid-template-columns: repeat(2, 1fr); }
-    .projects-grid img { height:140px; }
-  }
-  @media (max-width:700px){
-    .services-grid, .projects-grid { grid-template-columns: 1fr; }
-    .nav{ gap:8px; }
-    .nav a{ min-width:110px; padding:0 14px; font-size:1.1rem; }
-  }
+  /* responsive rules */
+  @media (max-width:1000px){ .services-grid, .projects-grid { grid-template-columns: repeat(2, 1fr); } .projects-grid img { height:140px; } }
+  @media (max-width:700px){ .services-grid, .projects-grid { grid-template-columns: 1fr; } .nav{ gap:8px; } .nav a{ min-width:110px; padding:0 14px; font-size:1.1rem; } }
+
+  /* ПРОГРЕСС-ШКАЛА */
+  .progress-bar-wrapper{ position:fixed; top:0; left:0; width:6px; height:100%; background:#e0e0e0; z-index:130; }
+  .progress-bar{ width:100%; height:0%; background:#7be27b; transition:height .2s ease; }
 </style>
 </head>
 <body>
 
+  <!-- ПРОГРЕСС-ШКАЛА -->
+  <div class="progress-bar-wrapper"><div class="progress-bar" id="progressBar"></div></div>
+
   <!-- HEADER -->
   <header class="header" id="home">
     <h1>4Garden</h1>
-    <p>Professional Lawn & Garden Care — clean, green, premium</p>
+    <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
+    <button class="btn-primary">Get an Estimate</button>
   </header>
 
   <!-- NAV -->
@@ -237,12 +238,14 @@
 
   <div class="page-offset"></div>
 
+  <!-- MAIN -->
   <main>
+
     <!-- HOME -->
     <section class="home appear">
       <h2>Professional Lawn & Garden Care</h2>
       <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
-      <button class="btn-primary home-btn">Get an Estimate</button>
+      <button class="btn-primary">Get an Estimate</button>
     </section>
 
     <!-- SERVICES -->
@@ -250,28 +253,25 @@
       <h2>Services</h2>
       <div class="services-grid">
         <div class="service-card">
-          <div class="icon" aria-hidden="true"><!-- mower icon --></div>
+          <div class="icon" aria-hidden="true">
+            <!-- mower icon -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h2l1.5 2.5L8 16h8l.5-1 1.5-2.5h2"></path><circle cx="6" cy="18" r="1.8"></circle><circle cx="18" cy="18" r="1.8"></circle></svg>
+          </div>
           <div class="service-title">Lawn Mowing</div>
         </div>
         <div class="service-card">
-          <div class="icon" aria-hidden="true"><!-- hedge icon --></div>
+          <div class="icon" aria-hidden="true">
+            <!-- hedge icon -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11c2 0 3-3 6-3s4 3 6 3 4-3 6-3"></path><path d="M3 15h18"></path></svg>
+          </div>
           <div class="service-title">Hedge Trimming</div>
         </div>
         <div class="service-card">
-          <div class="icon" aria-hidden="true"><!-- cleanup icon --></div>
+          <div class="icon" aria-hidden="true">
+            <!-- cleanup icon -->
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v4"></path><path d="M16 3v4"></path><path d="M3 9h18l-1 9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2L3 9z"></path></svg>
+          </div>
           <div class="service-title">Yard Cleanup</div>
-        </div>
-        <div class="service-card">
-          <div class="icon" aria-hidden="true"><!-- design icon --></div>
-          <div class="service-title">Landscape Design</div>
-        </div>
-        <div class="service-card">
-          <div class="icon" aria-hidden="true"><!-- lighting icon --></div>
-          <div class="service-title">Lighting Installation</div>
-        </div>
-        <div class="service-card">
-          <div class="icon" aria-hidden="true"><!-- seasonal --></div>
-          <div class="service-title">Seasonal Maintenance</div>
         </div>
       </div>
     </section>
@@ -292,9 +292,6 @@
       <div class="review-grid">
         <div class="review-card appear">"Great work and punctual." — Anna</div>
         <div class="review-card appear">"My lawn looks amazing after one visit." — Mark</div>
-        <div class="video-card appear">
-          <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="Customer review" allowfullscreen></iframe>
-        </div>
       </div>
     </section>
 
@@ -320,15 +317,8 @@
         <p>Address: Your City, USA</p>
       </div>
     </section>
+
   </main>
 
-  <!-- SVG grass accent above footer -->
-  <div style="overflow:hidden;">
-    <svg class="grass" viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs>
-        <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
-          <stop offset="0" stop-color="#5fb860"/>
-          <stop offset="1" stop-color="#2f7a2f"/>
-        </linearGradient>
-      </defs>
-      <path d="M0 40 C80 0, 160 60, 240 40 C320 20, 400 60, 480 40 C560 20, 640 60, 720 40 C800 20, 880 60, 960 40 C1040 20,1120 60,1200 40 L1200 60
+  <footer>
+    <p>Home • Services • Projects •
