@@ -11,7 +11,7 @@
 :root{
     --header-h: 13vh;
     --nav-h: 8.8vh;
-    --tile-scale: 0.9; /* плашки внутри на 10% меньше */
+    --nav-tile-scale: 0.85; /* уменьшение плашек на 15% */
     --accent-green: #07b84e;
     --nav-bg: #3f2612;
     --nav-hover: #1b5e20;
@@ -49,7 +49,7 @@ html,body{
 }
 
 .header h1{ margin:0; font-size:2.6rem; font-weight:700; }
-.header p{ margin:6px 0 0; font-size:5rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
+.header p{ margin:6px 0 0; font-size:3rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
 
 /* ---------- NAVBAR ---------- */
 .nav-wrapper{
@@ -73,7 +73,7 @@ html,body{
 }
 
 .nav a{
-    height: calc(var(--nav-h) * var(--tile-scale)); /* уменьшение плашек на 10% */
+    height: calc(var(--nav-h) * var(--nav-tile-scale)); /* уменьшение плашек на 15% */
     min-width:170px;
     padding:0 36px;
     display:inline-flex;
@@ -116,7 +116,7 @@ section h2{
     padding:110px 20px;
 }
 .home h2{ font-size:6rem; margin-bottom:6px; }
-.home p{ margin-bottom:14px; color:#274b27; font-weight:500; font-family:'Lora', serif; font-size:5rem; }
+.home p{ margin-bottom:14px; color:#274b27; font-weight:500; font-family:'Lora', serif; font-size:3rem; }
 
 /* ---------- SERVICES ---------- */
 .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 80px; padding:0 14px; }
@@ -143,28 +143,71 @@ section h2{
     background: linear-gradient(180deg,#f0fff0,#e0f5e0);
 }
 .icon { width:56px; height:56px; display:inline-flex; align-items:center; justify-content:center; border-radius:12px; background:linear-gradient(180deg,#eef9ee,#e2f3e2); box-shadow: inset 0 -6px 8px rgba(0,0,0,0.03);}
+.icon.lawn{background-image:url('icons/lawnmower.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
+.icon.hedge{background-image:url('icons/hedge.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
+.icon.cleanup{background-image:url('icons/cleanup.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
+.icon.design{background-image:url('icons/design.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
+.icon.lighting{background-image:url('icons/lighting.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
+.icon.seasonal{background-image:url('icons/seasonal.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
 .service-title{ font-weight:600; font-size:1.05rem; }
 
 /* ---------- PROJECTS ---------- */
-.projects-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:1100px; margin:auto; padding:0 14px; }
-.project-card{ background:#fff; border-radius:12px; overflow:hidden; min-height:220px; box-shadow:0 10px 30px rgba(6,20,8,0.04); border:1px solid rgba(0,0,0,0.035); transition: transform .18s ease, filter .18s ease, background .18s ease; cursor:pointer; }
-.project-card img{ width:100%; height:160px; object-fit:cover; display:block; }
-.project-card .meta{ padding:12px 14px; font-weight:600; text-align:center; }
-.project-card:hover{ transform: translateY(-6px); filter:brightness(1.05); background:linear-gradient(180deg,#f0fff0,#e0f5e0); }
+.projects-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 80px; padding:0 14px; }
+.project-card{
+    background:#fff;
+    border-radius:14px;
+    padding:14px;
+    min-height:180px;
+    text-align:center;
+    box-shadow: 0 10px 30px rgba(6,20,8,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, background .18s ease;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    cursor:pointer;
+}
+.project-card:hover{
+    transform: translateY(-6px) scale(1.02);
+    box-shadow:0 22px 48px rgba(6,20,8,0.08);
+    filter:brightness(1.05);
+    background: linear-gradient(180deg,#f0fff0,#e0f5e0);
+}
 
 /* ---------- REVIEWS ---------- */
-.review-grid{ max-width:900px; margin:20px auto; display:grid; gap:14px; padding:0 14px; text-align:center;}
-.review-card{ background:#fff; padding:18px; border-radius:12px; box-shadow:0 10px 26px rgba(6,20,8,0.04); border:1px solid rgba(0,0,0,0.035); transition: transform .18s ease; cursor:pointer; }
-.review-card:hover{ transform: translateY(-4px); filter:brightness(1.05); background:linear-gradient(180deg,#f0fff0,#e0f5e0);}
-
-/* ---------- ABOUT ---------- */
-.about{ max-width:900px; margin:40px auto; padding:20px; text-align:center; }
-.about p{ margin-bottom:12px; }
+.reviews-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; max-width:900px; margin:14px auto 80px; padding:0 14px; }
+.review-card{
+    background:#fff;
+    border-radius:14px;
+    padding:20px;
+    box-shadow: 0 10px 30px rgba(6,20,8,0.04);
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, background .18s ease;
+}
+.review-card:hover{
+    transform: translateY(-4px) scale(1.01);
+    box-shadow:0 18px 36px rgba(6,20,8,0.06);
+}
 
 /* ---------- CTA ---------- */
 .cta{ background:linear-gradient(180deg,#247b30,#1b6a2b); color:#fff; text-align:center; padding:56px 20px; margin-top:30px; border-radius:8px; }
 .cta h2{ font-size:2.7rem; margin-bottom:18px; }
-.cta .btn-primary{ font-size:1.3rem; padding:16px 38px; }
+.cta .btn-primary{
+    font-size:1.3rem; 
+    padding:16px 38px; 
+    background-color: var(--accent-green);
+    border:none;
+    border-radius:12px;
+    color:#fff;
+    cursor:pointer;
+    transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
+}
+.cta .btn-primary:hover{
+    transform: scale(1.05);
+    filter:brightness(1.1);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+}
 
 /* ---------- CONTACT ---------- */
 .contact-box{ width:70%; margin:20px auto; background:#fafafa; padding:20px; border-radius:12px; box-shadow:0 8px 22px rgba(6,20,8,0.03); text-align:center; }
@@ -174,8 +217,8 @@ section h2{
 footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center; margin-top:20px; }
 
 /* ---------- RESPONSIVE ---------- */
-@media (max-width:1000px){ .services-grid, .projects-grid { grid-template-columns: repeat(2, 1fr); } .projects-grid img { height:140px; } }
-@media (max-width:700px){ .services-grid, .projects-grid { grid-template-columns: 1fr; } .nav{ gap:8px; } .nav a{ min-width:110px; padding:0 14px; font-size:1.1rem; } }
+@media (max-width:1000px){ .services-grid,.projects-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width:700px){ .services-grid,.projects-grid { grid-template-columns: 1fr; } .nav a{ min-width:110px; padding:0 14px; font-size:1.1rem; } }
 
 </style>
 </head>
@@ -206,12 +249,12 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
   <section id="services">
     <h2>Services</h2>
     <div class="services-grid">
-      <div class="service-card"><div class="icon"></div><div class="service-title">Lawn Mowing</div></div>
-      <div class="service-card"><div class="icon"></div><div class="service-title">Hedge Trimming</div></div>
-      <div class="service-card"><div class="icon"></div><div class="service-title">Yard Cleanup</div></div>
-      <div class="service-card"><div class="icon"></div><div class="service-title">Landscape Design</div></div>
-      <div class="service-card"><div class="icon"></div><div class="service-title">Lighting Installation</div></div>
-      <div class="service-card"><div class="icon"></div><div class="service-title">Seasonal Maintenance</div></div>
+      <div class="service-card"><div class="icon lawn"></div><div class="service-title">Lawn Mowing</div></div>
+      <div class="service-card"><div class="icon hedge"></div><div class="service-title">Hedge Trimming</div></div>
+      <div class="service-card"><div class="icon cleanup"></div><div class="service-title">Yard Cleanup</div></div>
+      <div class="service-card"><div class="icon design"></div><div class="service-title">Landscape Design</div></div>
+      <div class="service-card"><div class="icon lighting"></div><div class="service-title">Lighting Installation</div></div>
+      <div class="service-card"><div class="icon seasonal"></div><div class="service-title">Seasonal Maintenance</div></div>
     </div>
   </section>
 
@@ -219,27 +262,26 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
   <section id="projects">
     <h2>Projects</h2>
     <div class="projects-grid">
-      <div class="project-card"><img src="frontyard.jpg" alt="Front Yard Makeover"><div class="meta">Front Yard Makeover</div></div>
-      <div class="project-card"><img src="stonepath.jpg" alt="Stone Path & Planting"><div class="meta">Stone Path & Planting</div></div>
-      <div class="project-card"><img src="roofmoss.jpg" alt="Roof Moss Clearing"><div class="meta">Roof Moss Clearing</div></div>
+      <div class="project-card">Front Yard Makeover</div>
+      <div class="project-card">Stone Path & Planting</div>
+      <div class="project-card">Roof Moss Clearing</div>
     </div>
   </section>
 
   <!-- REVIEWS -->
   <section id="reviews">
     <h2>Reviews</h2>
-    <div class="review-grid">
-      <div class="review-card">"Fantastic work! My yard looks amazing!"</div>
-      <div class="review-card">"Professional, friendly, and efficient team."</div>
-      <div class="review-card">"Highly recommend for landscaping services."</div>
+    <div class="reviews-grid">
+      <div class="review-card">“Excellent service, highly recommend!”</div>
+      <div class="review-card">“Professional and eco-friendly approach.”</div>
     </div>
   </section>
 
   <!-- ABOUT -->
-  <section id="about" class="about">
+  <section id="about">
     <h2>About</h2>
-    <p>We combine passion, professional tools, and eco-friendly methods to keep your yard beautiful.</p>
-    <p>Long-term partnerships, careful planning, and a meticulous approach to every project.</p>
+    <p style="text-align:center; max-width:700px; margin:auto; font-size:1.2rem;">We combine passion, professional tools and eco-friendly methods to keep your yard beautiful.<br>
+    Long-term partnerships, careful planning, and a meticulous approach to every project.</p>
   </section>
 
   <!-- CTA -->
@@ -257,14 +299,12 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
       <p>Address: Your City, USA</p>
     </div>
   </section>
-
 </main>
 
-<footer>
-  &copy; 2025 4Garden. All rights reserved.
-</footer>
+<footer>© 2025 4Garden. All Rights Reserved.</footer>
 
 <script>
+  // Параллакс шапки
   window.addEventListener('scroll', ()=>{
     const scrollY = window.scrollY;
     const header = document.querySelector('.header');
