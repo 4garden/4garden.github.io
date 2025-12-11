@@ -11,7 +11,6 @@
 :root{
     --header-h: 13vh;
     --nav-h: 8.8vh;
-    --nav-tile-scale: 0.85; /* уменьшение плашек на 15% */
     --accent-green: #07b84e;
     --nav-bg: #3f2612;
     --nav-hover: #1b5e20;
@@ -49,7 +48,7 @@ html,body{
 }
 
 .header h1{ margin:0; font-size:2.6rem; font-weight:700; }
-.header p{ margin:6px 0 0; font-size:3rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
+.header p{ margin:6px 0 0; font-size:2rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
 
 /* ---------- NAVBAR ---------- */
 .nav-wrapper{
@@ -73,7 +72,7 @@ html,body{
 }
 
 .nav a{
-    height: calc(var(--nav-h) * 0.7); /* теперь плашки 70% от высоты навбара */
+    height: calc(var(--nav-h) * 0.6); /* плашки 60% от высоты навбара */
     min-width:170px;
     padding:0 36px;
     display:inline-flex;
@@ -116,7 +115,7 @@ section h2{
     padding:110px 20px;
 }
 .home h2{ font-size:6rem; margin-bottom:6px; }
-.home p{ margin-bottom:14px; color:#274b27; font-weight:500; font-family:'Lora', serif; font-size:3rem; }
+.home p{ margin-bottom:14px; color:#274b27; font-weight:500; font-family:'Lora', serif; font-size:2rem; } /* уменьшено на 3 единицы */
 
 /* ---------- SERVICES ---------- */
 .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 80px; padding:0 14px; }
@@ -142,13 +141,22 @@ section h2{
     filter:brightness(1.05);
     background: linear-gradient(180deg,#f0fff0,#e0f5e0);
 }
-.icon { width:56px; height:56px; display:inline-flex; align-items:center; justify-content:center; border-radius:12px; background:linear-gradient(180deg,#eef9ee,#e2f3e2); box-shadow: inset 0 -6px 8px rgba(0,0,0,0.03);}
-.icon.lawn{background-image:url('icons/lawnmower.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
-.icon.hedge{background-image:url('icons/hedge.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
-.icon.cleanup{background-image:url('icons/cleanup.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
-.icon.design{background-image:url('icons/design.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
-.icon.lighting{background-image:url('icons/lighting.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
-.icon.seasonal{background-image:url('icons/seasonal.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
+.icon {
+    width:56px;
+    height:56px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+}
+.icon svg{ width:50px; height:50px; }
+
+/* ---------- ICONS (minimalist line art) ---------- */
+.icon.lawn svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.icon.hedge svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.icon.cleanup svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.icon.design svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.icon.lighting svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.icon.seasonal svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
 .service-title{ font-weight:600; font-size:1.05rem; }
 
 /* ---------- PROJECTS ---------- */
@@ -249,12 +257,12 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
   <section id="services">
     <h2>Services</h2>
     <div class="services-grid">
-      <div class="service-card"><div class="icon lawn"></div><div class="service-title">Lawn Mowing</div></div>
-      <div class="service-card"><div class="icon hedge"></div><div class="service-title">Hedge Trimming</div></div>
-      <div class="service-card"><div class="icon cleanup"></div><div class="service-title">Yard Cleanup</div></div>
-      <div class="service-card"><div class="icon design"></div><div class="service-title">Landscape Design</div></div>
-      <div class="service-card"><div class="icon lighting"></div><div class="service-title">Lighting Installation</div></div>
-      <div class="service-card"><div class="icon seasonal"></div><div class="service-title">Seasonal Maintenance</div></div>
+      <div class="service-card"><div class="icon lawn"><svg viewBox="0 0 24 24"><line x1="2" y1="20" x2="22" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/><path d="M5 20l3-8h8l3 8"/></svg></div><div class="service-title">Lawn Mowing</div></div>
+      <div class="service-card"><div class="icon hedge"><svg viewBox="0 0 24 24"><line x1="2" y1="20" x2="22" y2="20"/><path d="M5 20v-4h14v4"/><line x1="12" y1="4" x2="12" y2="16"/></svg></div><div class="service-title">Hedge Trimming</div></div>
+      <div class="service-card"><div class="icon cleanup"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><line x1="4" y1="12" x2="20" y2="12"/></svg></div><div class="service-title">Yard Cleanup</div></div>
+      <div class="service-card"><div class="icon design"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><line x1="4" y1="4" x2="20" y2="20"/></svg></div><div class="service-title">Landscape Design</div></div>
+      <div class="service-card"><div class="icon lighting"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="12"/><polyline points="8,12 12,16 16,12"/></svg></div><div class="service-title">Lighting Installation</div></div>
+      <div class="service-card"><div class="icon seasonal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><line x1="12" y1="0" x2="12" y2="24"/><line x1="0" y1="12" x2="24" y2="12"/></svg></div><div class="service-title">Seasonal Maintenance</div></div>
     </div>
   </section>
 
