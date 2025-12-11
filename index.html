@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>4Garden — premium</title>
 
-<!-- Шрифты -->
+<!-- Шрифты: Poppins для заголовков, Lora для акцентов -->
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -15,49 +15,59 @@
     --header-h: calc(var(--base-header-h) * var(--header-h-mult));
 
     --nav-base-h: 8.8vh;
-    --nav-h: calc(var(--nav-base-h) * 0.9);
+    --nav-h: calc(var(--nav-base-h) * 0.9); /* уменьшили на 10% */
+    --nav-h-reduced: calc(var(--nav-h) / 1.2); /* навбар 1.2 раза уже */
     --tile-increase: 1.15;
-    --tile-max-occupy: 0.98;
+    --tile-max-occupy: 0.8; /* плитки занимают 80% nav-h */
 
-    --accent-green: #7be27b;
+    --accent-green: #07b84e;
     --nav-bg: #3f2612;
     --nav-hover: #1b5e20;
 
     --glass: rgba(255,255,255,0.06);
   }
 
-  html,body{height:100%;margin:0;font-family:'Poppins',sans-serif;background:#fff; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; color:#12210f;}
-  *{box-sizing:border-box}
+  html,body{
+    height:100%;
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    -webkit-font-smoothing:antialiased; 
+    -moz-osx-font-smoothing:grayscale;
+    color:#12210f;
+    background: linear-gradient(160deg, #eaf7ea 0%, #bfe9bf 100%);
+    background-attachment: fixed;
+  }
+  *{box-sizing:border-box;}
 
-  /* HEADER */
+  /* ---------------- HEADER ---------------- */
   .header {
     width:100%;
     height:var(--header-h);
     background-image:url('clearphotowithoutrights.png');
     background-size:cover;
     background-position:center 32%;
-    position:fixed;
-    top:0; left:0;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     color:#fff;
-    z-index:120;
-    text-shadow:0 0 8px rgba(0,0,0,0.7);
-    transition:background-position 0.35s linear;
     text-align:center;
+    text-shadow:0 0 8px rgba(0,0,0,0.7);
+    position:fixed;
+    top:0; left:0;
+    z-index:120;
+    transition: background-position 0.35s linear;
   }
   .header h1{ margin:0; font-size:2.6rem; font-weight:700; letter-spacing:0.6px; }
   .header p{ margin:6px 0 0; font-size:1.1rem; font-weight:500; font-family:'Lora', serif; opacity:0.95; }
-  
-  /* NAV */
+
+  /* ---------------- NAV ---------------- */
   .nav-wrapper{
     position:fixed;
     top:calc(var(--header-h));
     left:0;
     width:100%;
-    height:var(--nav-h);
+    height:var(--nav-h-reduced);
     background:#4b2e15;
     display:flex;
     align-items:center;
@@ -73,11 +83,10 @@
     align-items:center;
     padding:0 10px;
   }
-
   .nav a{
     height: min(
-      calc(0.8 * var(--nav-base-h) * var(--tile-increase) * 0.8), /* на 20% короче */
-      calc(var(--nav-h) * var(--tile-max-occupy))
+      calc(0.8 * var(--nav-h-reduced) * var(--tile-increase)),
+      calc(var(--nav-h-reduced) * var(--tile-max-occupy))
     );
     min-width:170px;
     padding:0 36px;
@@ -92,135 +101,123 @@
     border-radius:14px;
     border:1px solid rgba(0,0,0,0.28);
     box-shadow: 0 6px 18px rgba(0,0,0,0.10);
-    transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+    transition: transform .18s ease, filter .18s ease, box-shadow .18s ease, background .18s ease;
     margin:0 6px;
   }
   .nav a:hover{
     transform: translateY(-3px) scale(1.035);
-    filter:brightness(1.06);
+    filter:brightness(1.08);
     box-shadow: 0 12px 28px rgba(0,0,0,0.14), 0 2px 6px rgba(0,0,0,0.06);
     background: linear-gradient(180deg, var(--nav-bg), #332412);
     color:#dfffbf;
   }
 
-  /* PAGE OFFSET */
-  .page-offset{ margin-top: calc(var(--header-h) + var(--nav-h) + 10px); }
+  /* ---------------- PAGE OFFSET ---------------- */
+  .page-offset{ margin-top: calc(var(--header-h) + var(--nav-h-reduced) + 10px); }
 
-  /* HOME */
+  /* ---------------- HOME ---------------- */
   .home{
-    background: linear-gradient(#eaf7ea 0%, #bfe9bf 100%);
+    background:transparent;
     text-align:center;
     padding:110px 20px;
     transition:transform .25s ease;
   }
-  .home h2{ font-size:3rem; margin-bottom:6px; }
-  .home p{ font-size:1.1rem; font-weight:500; font-family:'Lora', serif; color:#274b27; margin-bottom:14px; }
-  .home p{ font-size:calc(1.1rem + 3px); } /* увеличить на 3 единицы */
-
+  .home h2{ font-size:6rem; margin-bottom:6px; } /* +3 размера от исходного 3rem */
+  .home p{ margin-bottom:14px; color:#274b27; font-weight:500; font-family:'Lora', serif; font-size:1.1rem + 3px; }
   .btn-primary{
     display:inline-block;
-    padding:18px 42px; /* увеличено 1.5x */
-    background:linear-gradient(180deg,#2e7d32 0%, #1b5e20 100%);
+    padding:18px 42px;
+    background:linear-gradient(180deg,#07b84e 0%, #05963c 100%);
     color:#fff;
-    border-radius:12px;
+    border-radius:14px;
     border:none;
     cursor:pointer;
     font-weight:600;
-    font-size:1.2rem;
-    box-shadow: 0 10px 26px rgba(46,125,50,0.2);
-    transition: transform .16s ease, filter .16s ease;
+    font-size:1.5rem;
+    box-shadow: 0 8px 22px rgba(46,125,50,0.25);
+    transition: transform .16s ease, filter .16s ease, box-shadow .16s ease;
   }
-  .btn-primary:hover{ transform: translateY(-3px); filter:brightness(1.08); }
+  .btn-primary:hover{ transform: translateY(-4px); filter:brightness(1.08); }
 
-  /* SERVICES */
-  .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 80px; padding:0 14px; text-align:center; }
+  /* ---------------- SERVICES ---------------- */
+  .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 80px; padding:0 14px; }
   .service-card{
     background:#fff;
     border-radius:14px;
     padding:22px;
     min-height:150px;
+    text-align:center;
+    box-shadow: 0 10px 30px rgba(6,20,8,0.04);
+    border:1px solid rgba(0,0,0,0.04);
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, background .18s ease;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     gap:12px;
-    box-shadow:0 10px 30px rgba(6,20,8,0.04);
-    border:1px solid rgba(0,0,0,0.04);
-    transition: transform .18s ease, box-shadow .18s ease;
+    cursor:pointer;
   }
-  .service-card:hover{ transform: translateY(-8px) scale(1.02); box-shadow:0 22px 48px rgba(6,20,8,0.08); }
-
+  .service-card:hover{
+    transform: translateY(-6px) scale(1.02);
+    box-shadow:0 22px 48px rgba(6,20,8,0.08);
+    filter:brightness(1.05);
+    background: linear-gradient(180deg,#f0fff0,#e0f5e0);
+  }
   .icon {
     width:56px; height:56px; display:inline-flex; align-items:center; justify-content:center;
     border-radius:12px; background:linear-gradient(180deg,#eef9ee,#e2f3e2); box-shadow: inset 0 -6px 8px rgba(0,0,0,0.03);
   }
   .service-title{ font-weight:600; font-size:1.05rem; }
 
-  /* PROJECTS */
+  /* ---------------- PROJECTS ---------------- */
   .projects-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; max-width:1100px; margin:auto; padding:0 14px; }
   .project-card{
     background:#fff; border-radius:12px; overflow:hidden; min-height:220px;
     box-shadow:0 10px 30px rgba(6,20,8,0.04); border:1px solid rgba(0,0,0,0.035);
-    transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+    transition: transform .18s ease, filter .18s ease, background .18s ease;
+    cursor:pointer;
   }
-  .project-card img{ width:100%; height:160px; object-fit:cover; display:block; transition: transform .18s ease, filter .18s ease; }
-  .project-card:hover{ transform: translateY(-6px) scale(1.02); filter:brightness(1.08); box-shadow:0 16px 36px rgba(0,0,0,0.12); }
+  .project-card img{ width:100%; height:160px; object-fit:cover; display:block; }
+  .project-card .meta{ padding:12px 14px; font-weight:600; text-align:center; }
+  .project-card:hover{ transform: translateY(-6px); filter:brightness(1.05); background:linear-gradient(180deg,#f0fff0,#e0f5e0); }
 
-  /* REVIEWS */
-  .review-grid{ max-width:900px; margin:20px auto; display:grid; gap:14px; padding:0 14px; text-align:center; }
-  .review-card{ background:#fff; padding:18px; border-radius:12px; box-shadow:0 10px 26px rgba(6,20,8,0.04); border:1px solid rgba(0,0,0,0.035); }
-  .video-card{ background:#fff; padding:12px; border-radius:12px; box-shadow:0 12px 28px rgba(6,20,8,0.06); overflow:hidden; }
+  /* ---------------- REVIEWS ---------------- */
+  .review-grid{ max-width:900px; margin:20px auto; display:grid; gap:14px; padding:0 14px; text-align:center;}
+  .review-card{ background:#fff; padding:18px; border-radius:12px; box-shadow:0 10px 26px rgba(6,20,8,0.04); border:1px solid rgba(0,0,0,0.035); transition: transform .18s ease; cursor:pointer; }
+  .review-card:hover{ transform: translateY(-4px); filter:brightness(1.05); background:linear-gradient(180deg,#f0fff0,#e0f5e0);}
+  .video-card{ background:#fff; padding:12px; border-radius:12px; box-shadow:0 12px 28px rgba(6,20,8,0.06); overflow:hidden; transition: transform .18s ease; }
+  .video-card:hover{ transform: translateY(-4px); filter:brightness(1.05); }
 
   .video-card iframe{ width:100%; height:320px; border:0; display:block; border-radius:8px; }
 
-  /* CTA, CONTACT */
+  /* ---------------- CTA ---------------- */
   .cta{ background:linear-gradient(180deg,#247b30,#1b6a2b); color:#fff; text-align:center; padding:56px 20px; margin-top:30px; border-radius:8px; }
-  .cta h2{ font-size:calc(1.6rem + 3px); } /* увеличить на 3 единицы */
-  .cta .btn-primary{ padding:18px 40px; font-size:1.2rem; transform:scale(1.3); }
+  .cta h2{ font-size:2.7rem; margin-bottom:18px; } /* +3 размера */
+  .cta .btn-primary{ font-size:1.3rem; padding:16px 38px; }
 
+  /* ---------------- CONTACT ---------------- */
   .contact-box{ width:70%; margin:20px auto; background:#fafafa; padding:20px; border-radius:12px; box-shadow:0 8px 22px rgba(6,20,8,0.03); text-align:center; }
 
   footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center; margin-top:20px; position:relative; }
 
-  /* BACK-TO-TOP leaf */
-  .back-top{
-    position:fixed;
-    right:18px; bottom:18px;
-    width:56px; height:56px; border-radius:50%;
-    background:linear-gradient(180deg,#e9fbe9,#d9f6d4);
-    border:1px solid rgba(0,0,0,0.06);
-    box-shadow:0 12px 32px rgba(6,20,8,0.12);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer; z-index:140; transition:transform .16s ease;
+  /* ---------------- Responsive ---------------- */
+  @media (max-width:1000px){
+    .services-grid, .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    .projects-grid img { height:140px; }
   }
-  .back-top:hover{ transform:translateY(-6px); }
-
-  /* SECTION APPEAR */
-  .appear {
-    transform: translateY(12px) scale(0.996);
-    transition: transform 420ms cubic-bezier(.2,.9,.2,1);
-    will-change:transform;
+  @media (max-width:700px){
+    .services-grid, .projects-grid { grid-template-columns: 1fr; }
+    .nav{ gap:8px; }
+    .nav a{ min-width:110px; padding:0 14px; font-size:1.1rem; }
   }
-  .appear.in-view { transform: translateY(0) scale(1); }
-
-  /* responsive rules */
-  @media (max-width:1000px){ .services-grid, .projects-grid { grid-template-columns: repeat(2, 1fr); } .projects-grid img { height:140px; } }
-  @media (max-width:700px){ .services-grid, .projects-grid { grid-template-columns: 1fr; } .nav{ gap:8px; } .nav a{ min-width:110px; padding:0 14px; font-size:1.1rem; } }
-
-  /* ПРОГРЕСС-ШКАЛА */
-  .progress-bar-wrapper{ position:fixed; top:0; left:0; width:6px; height:100%; background:#e0e0e0; z-index:130; }
-  .progress-bar{ width:100%; height:0%; background:#7be27b; transition:height .2s ease; }
 </style>
 </head>
 <body>
 
-  <!-- ПРОГРЕСС-ШКАЛА -->
-  <div class="progress-bar-wrapper"><div class="progress-bar" id="progressBar"></div></div>
-
   <!-- HEADER -->
   <header class="header" id="home">
     <h1>4Garden</h1>
-    <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
+    <p style="font-size:1.3rem;">Quality landscaping services for clean, fresh and beautiful yards.</p>
     <button class="btn-primary">Get an Estimate</button>
   </header>
 
@@ -238,79 +235,69 @@
 
   <div class="page-offset"></div>
 
-  <!-- MAIN -->
   <main>
-
-    <!-- HOME -->
-    <section class="home appear">
-      <h2>Professional Lawn & Garden Care</h2>
-      <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
-      <button class="btn-primary">Get an Estimate</button>
-    </section>
 
     <!-- SERVICES -->
     <section id="services" class="appear">
-      <h2>Services</h2>
+      <h2 style="text-align:center;">Services</h2>
       <div class="services-grid">
         <div class="service-card">
           <div class="icon" aria-hidden="true">
-            <!-- mower icon -->
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h2l1.5 2.5L8 16h8l.5-1 1.5-2.5h2"></path><circle cx="6" cy="18" r="1.8"></circle><circle cx="18" cy="18" r="1.8"></circle></svg>
           </div>
           <div class="service-title">Lawn Mowing</div>
         </div>
         <div class="service-card">
           <div class="icon" aria-hidden="true">
-            <!-- hedge icon -->
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11c2 0 3-3 6-3s4 3 6 3 4-3 6-3"></path><path d="M3 15h18"></path></svg>
           </div>
           <div class="service-title">Hedge Trimming</div>
         </div>
         <div class="service-card">
           <div class="icon" aria-hidden="true">
-            <!-- cleanup icon -->
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3v4"></path><path d="M16 3v4"></path><path d="M3 9h18l-1 9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2L3 9z"></path></svg>
           </div>
           <div class="service-title">Yard Cleanup</div>
+        </div>
+        <div class="service-card">
+          <div class="icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a9 9 0 0 0-14.8 0"></path></svg>
+          </div>
+          <div class="service-title">Landscape Design</div>
+        </div>
+        <div class="service-card">
+          <div class="icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="M5 7l1.4 1.4"></path><path d="M18 7l-1.4 1.4"></path><path d="M7 17l1.4-1.4"></path><path d="M17 17l-1.4-1.4"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </div>
+          <div class="service-title">Lighting Installation</div>
+        </div>
+        <div class="service-card">
+          <div class="icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2e7d32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"></path><path d="M12 16v6"></path><path d="M4 8l4 8"></path><path d="M20 8l-4 8"></path></svg>
+          </div>
+          <div class="service-title">Seasonal Maintenance</div>
         </div>
       </div>
     </section>
 
     <!-- PROJECTS -->
     <section id="projects" class="appear">
-      <h2>Projects</h2>
+      <h2 style="text-align:center;">Projects</h2>
       <div class="projects-grid">
-        <div class="project-card appear"><img src="https://picsum.photos/800/400?random=1" alt="project 1"><div class="meta"><strong>Front Yard Makeover</strong></div></div>
-        <div class="project-card appear"><img src="https://picsum.photos/800/400?random=2" alt="project 2"><div class="meta"><strong>Stone Path & Planting</strong></div></div>
-        <div class="project-card appear"><img src="https://picsum.photos/800/400?random=3" alt="project 3"><div class="meta"><strong>Roof Moss Clearing</strong></div></div>
+        <div class="project-card"><img src="frontyard.jpg" alt="Front Yard Makeover"><div class="meta">Front Yard Makeover</div></div>
+        <div class="project-card"><img src="stonepath.jpg" alt="Stone Path & Planting"><div class="meta">Stone Path & Planting</div></div>
+        <div class="project-card"><img src="roofmoss.jpg" alt="Roof Moss Clearing"><div class="meta">Roof Moss Clearing</div></div>
       </div>
-    </section>
-
-    <!-- REVIEWS -->
-    <section id="reviews" class="appear">
-      <h2>Reviews</h2>
-      <div class="review-grid">
-        <div class="review-card appear">"Great work and punctual." — Anna</div>
-        <div class="review-card appear">"My lawn looks amazing after one visit." — Mark</div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section id="about" class="appear">
-      <h2>About Us</h2>
-      <p>We combine passion, professional tools and eco-friendly methods to keep your yard beautiful.</p>
-      <p style="font-family:'Lora',serif; color:#2f5b2f;">Long-term partnerships, careful planning, and a meticulous approach to every project.</p>
     </section>
 
     <!-- CTA -->
-    <section class="cta appear">
+    <section class="cta">
       <h2>Ready to Improve Your Yard?</h2>
       <button class="btn-primary">Get a Free Quote</button>
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="appear">
-      <h2>Contact</h2>
+    <section id="contact">
       <div class="contact-box">
         <p>Phone: (000) 000-0000</p>
         <p>Email: info@4garden.com</p>
@@ -321,4 +308,18 @@
   </main>
 
   <footer>
-    <p>Home • Services • Projects •
+    &copy; 2025 4Garden. All rights reserved.
+  </footer>
+
+<script>
+  // Плавный параллакс шапки
+  window.addEventListener('scroll', ()=>{
+    const scrollY = window.scrollY;
+    const header = document.querySelector('.header');
+    const move = Math.min(Math.max(scrollY/20, -10), 10); // -10% до +10%
+    header.style.backgroundPosition = `center ${32+move}%`;
+  });
+</script>
+
+</body>
+</html>
