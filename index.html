@@ -49,7 +49,7 @@ html,body{
 }
 
 .header h1{ margin:0; font-size:2.6rem; font-weight:700; }
-.header p{ margin:6px 0 0; font-size:6rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
+.header p{ margin:6px 0 0; font-size:5rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
 
 /* ---------- NAVBAR ---------- */
 .nav-wrapper{
@@ -73,7 +73,7 @@ html,body{
 }
 
 .nav a{
-    height: calc(var(--nav-h) * var(--tile-scale));
+    height: calc(var(--nav-h) * var(--tile-scale)); /* уменьшение плашек на 10% */
     min-width:170px;
     padding:0 36px;
     display:inline-flex;
@@ -102,6 +102,13 @@ html,body{
 /* ---------- PAGE OFFSET ---------- */
 .page-offset{ margin-top: calc(var(--header-h) + var(--nav-h) + 10px); text-align:center; }
 
+/* ---------- SECTION HEADERS CENTERED ---------- */
+section h2{
+    text-align:center;
+    font-size:2.2rem;
+    margin:20px 0;
+}
+
 /* ---------- HOME ---------- */
 .home{
     background:transparent;
@@ -109,7 +116,7 @@ html,body{
     padding:110px 20px;
 }
 .home h2{ font-size:6rem; margin-bottom:6px; }
-.home p{ margin-bottom:14px; color:#274b27; font-weight:500; font-family:'Lora', serif; font-size:6rem; }
+.home p{ margin-bottom:14px; color:#274b27; font-weight:500; font-family:'Lora', serif; font-size:5rem; }
 
 /* ---------- SERVICES ---------- */
 .services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 80px; padding:0 14px; }
@@ -152,7 +159,7 @@ html,body{
 
 /* ---------- ABOUT ---------- */
 .about{ max-width:900px; margin:40px auto; padding:20px; text-align:center; }
-.about h2{ font-size:2.2rem; margin-bottom:16px; }
+.about p{ margin-bottom:12px; }
 
 /* ---------- CTA ---------- */
 .cta{ background:linear-gradient(180deg,#247b30,#1b6a2b); color:#fff; text-align:center; padding:56px 20px; margin-top:30px; border-radius:8px; }
