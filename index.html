@@ -1,316 +1,301 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>4Garden — Premium Landscaping</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4Garden Landscaping</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
-:root{
-    --header-h: 13vh;
-    --nav-h: 8.8vh;
-    --nav-tile-scale: 0.85; /* уменьшение плашек на 15% */
-    --accent-green: #07b84e;
-    --nav-bg: #3f2612;
-    --nav-hover: #1b5e20;
-}
+    /* --- Общие стили --- */
+    body, html {
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+        scroll-behavior: smooth;
+        background: linear-gradient(120deg, #f5f5f5, #e0e0e0); /* красивый фон */
+    }
 
-html,body{
-    margin:0;
-    padding:0;
-    font-family:'Poppins',sans-serif;
-    height:100%;
-    background: linear-gradient(160deg, #eaf7ea 0%, #bfe9bf 100%);
-}
+    a { text-decoration: none; color: inherit; }
 
-*{box-sizing:border-box;}
+    h1,h2,h3 { margin: 0; }
 
-/* ---------- HEADER ---------- */
-.header {
-    width:100%;
-    height: var(--header-h);
-    background-image:url('clearphotowithoutrights.png');
-    background-size:cover;
-    background-position:center 32%;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    text-align:center;
-    text-shadow:0 0 8px rgba(0,0,0,0.7);
-    position:fixed;
-    top:0;
-    left:0;
-    z-index:120;
-    transition: background-position 0.35s linear;
-}
+    .container {
+        width: 90%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
 
-.header h1{ margin:0; font-size:2.6rem; font-weight:700; }
-.header p{ margin:6px 0 0; font-size:3rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
+    /* --- Шапка --- */
+    header {
+        position: relative;
+        height: 600px;
+        background: url('images/header-bg.jpg') center/cover no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
 
-/* ---------- NAVBAR ---------- */
-.nav-wrapper{
-    position:fixed;
-    top: var(--header-h);
-    left:0;
-    width:100%;
-    height: var(--nav-h);
-    background:#4b2e15;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-top:2px solid rgba(0,0,0,0.6);
-    border-bottom:2px solid rgba(0,0,0,0.6);
-    z-index:115;
-}
+    header h1 {
+        font-size: 36px;
+        color: #fff;
+        margin-bottom: 16px;
+    }
 
-.nav{
-    display:flex;
-    gap:12px;
-}
+    header p {
+        font-size: 28px; /* уменьшено на 8 единиц */
+        color: #fff;
+        text-align: center;
+        max-width: 800px;
+    }
 
-.nav a{
-    height: calc(var(--nav-h) * var(--nav-tile-scale)); /* уменьшение плашек на 15% */
-    min-width:170px;
-    padding:0 36px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    background: var(--nav-bg);
-    color: var(--accent-green);
-    font-size:1.55rem;
-    font-weight:600;
-    text-decoration:none;
-    border-radius:14px;
-    border:1px solid rgba(0,0,0,0.28);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.10);
-    margin:0 6px;
-    transition: transform .18s ease, filter .18s ease, box-shadow .18s ease, background .18s ease;
-}
+    /* --- Плавный параллакс --- */
+    header::after {
+        content: '';
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.2);
+    }
 
-.nav a:hover{
-    transform: translateY(-3px) scale(1.035);
-    filter:brightness(1.08);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.14), 0 2px 6px rgba(0,0,0,0.06);
-    background: linear-gradient(180deg, var(--nav-bg), #332412);
-    color:#dfffbf;
-}
+    /* --- Навигация --- */
+    nav {
+        background-color: #8B5E3C; /* коричневая полоса */
+        display: flex;
+        justify-content: center;
+    }
 
-/* ---------- PAGE OFFSET ---------- */
-.page-offset{ margin-top: calc(var(--header-h) + var(--nav-h) + 10px); text-align:center; }
+    .nav-links {
+        display: flex;
+        list-style: none;
+        height: 60px;
+        align-items: center;
+    }
 
-/* ---------- SECTION HEADERS CENTERED ---------- */
-section h2{
-    text-align:center;
-    font-size:2.2rem;
-    margin:20px 0;
-}
+    .nav-links li {
+        margin: 0 16px;
+    }
 
-/* ---------- HOME ---------- */
-.home{
-    background:transparent;
-    text-align:center;
-    padding:110px 20px;
-}
-.home h2{ font-size:6rem; margin-bottom:6px; }
-.home p{ margin-bottom:14px; color:#274b27; font-weight:500; font-family:'Lora', serif; font-size:3rem; }
+    .nav-links li a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 75%; /* 75% от высоты навбара */
+        padding: 0 12px;
+        color: #fff;
+        font-weight: 700;
+        transition: all 0.3s;
+    }
 
-/* ---------- SERVICES ---------- */
-.services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 80px; padding:0 14px; }
-.service-card{
-    background:#fff;
-    border-radius:14px;
-    padding:22px;
-    min-height:150px;
-    text-align:center;
-    box-shadow: 0 10px 30px rgba(6,20,8,0.04);
-    border:1px solid rgba(0,0,0,0.04);
-    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, background .18s ease;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:12px;
-    cursor:pointer;
-}
-.service-card:hover{
-    transform: translateY(-6px) scale(1.02);
-    box-shadow:0 22px 48px rgba(6,20,8,0.08);
-    filter:brightness(1.05);
-    background: linear-gradient(180deg,#f0fff0,#e0f5e0);
-}
-.icon { width:56px; height:56px; display:inline-flex; align-items:center; justify-content:center; border-radius:12px; background:linear-gradient(180deg,#eef9ee,#e2f3e2); box-shadow: inset 0 -6px 8px rgba(0,0,0,0.03);}
-.icon.lawn{background-image:url('icons/lawnmower.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
-.icon.hedge{background-image:url('icons/hedge.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
-.icon.cleanup{background-image:url('icons/cleanup.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
-.icon.design{background-image:url('icons/design.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
-.icon.lighting{background-image:url('icons/lighting.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
-.icon.seasonal{background-image:url('icons/seasonal.svg'); background-size:50%; background-repeat:no-repeat; background-position:center;}
-.service-title{ font-weight:600; font-size:1.05rem; }
+    .nav-links li a:hover {
+        background-color: #7a4f32;
+        border-radius: 6px;
+    }
 
-/* ---------- PROJECTS ---------- */
-.projects-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 80px; padding:0 14px; }
-.project-card{
-    background:#fff;
-    border-radius:14px;
-    padding:14px;
-    min-height:180px;
-    text-align:center;
-    box-shadow: 0 10px 30px rgba(6,20,8,0.04);
-    border:1px solid rgba(0,0,0,0.04);
-    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, background .18s ease;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:12px;
-    cursor:pointer;
-}
-.project-card:hover{
-    transform: translateY(-6px) scale(1.02);
-    box-shadow:0 22px 48px rgba(6,20,8,0.08);
-    filter:brightness(1.05);
-    background: linear-gradient(180deg,#f0fff0,#e0f5e0);
-}
+    /* --- Кнопка Get a Free Quote --- */
+    .btn-quote {
+        background-color: #28a745;
+        color: #fff;
+        padding: 14px 28px;
+        font-size: 16px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+    }
 
-/* ---------- REVIEWS ---------- */
-.reviews-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; max-width:900px; margin:14px auto 80px; padding:0 14px; }
-.review-card{
-    background:#fff;
-    border-radius:14px;
-    padding:20px;
-    box-shadow: 0 10px 30px rgba(6,20,8,0.04);
-    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, background .18s ease;
-}
-.review-card:hover{
-    transform: translateY(-4px) scale(1.01);
-    box-shadow:0 18px 36px rgba(6,20,8,0.06);
-}
+    .btn-quote:hover {
+        background-color: #218838;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    }
 
-/* ---------- CTA ---------- */
-.cta{ background:linear-gradient(180deg,#247b30,#1b6a2b); color:#fff; text-align:center; padding:56px 20px; margin-top:30px; border-radius:8px; }
-.cta h2{ font-size:2.7rem; margin-bottom:18px; }
-.cta .btn-primary{
-    font-size:1.3rem; 
-    padding:16px 38px; 
-    background-color: var(--accent-green);
-    border:none;
-    border-radius:12px;
-    color:#fff;
-    cursor:pointer;
-    transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
-}
-.cta .btn-primary:hover{
-    transform: scale(1.05);
-    filter:brightness(1.1);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.22);
-}
+    /* --- Секция Services --- */
+    .services {
+        padding: 80px 0;
+        text-align: center;
+    }
 
-/* ---------- CONTACT ---------- */
-.contact-box{ width:70%; margin:20px auto; background:#fafafa; padding:20px; border-radius:12px; box-shadow:0 8px 22px rgba(6,20,8,0.03); text-align:center; }
-.contact-box h2{ font-size:2rem; margin-bottom:12px; }
+    .services h2 {
+        font-size: 32px;
+        margin-bottom: 40px;
+    }
 
-/* ---------- FOOTER ---------- */
-footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center; margin-top:20px; }
+    .service-cards {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+    }
 
-/* ---------- RESPONSIVE ---------- */
-@media (max-width:1000px){ .services-grid,.projects-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width:700px){ .services-grid,.projects-grid { grid-template-columns: 1fr; } .nav a{ min-width:110px; padding:0 14px; font-size:1.1rem; } }
+    .service-card {
+        width: 250px;
+        padding: 24px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .service-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+    }
+
+    .service-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 16px;
+    }
+
+    .service-icon img {
+        width: 100%;
+        height: 100%;
+    }
+
+    .service-card h3 {
+        font-size: 20px;
+        margin-bottom: 12px;
+    }
+
+    /* --- Секции Projects, Reviews, About, Contact --- */
+    section {
+        padding: 80px 0;
+        text-align: center;
+    }
+
+    section h2 {
+        font-size: 32px;
+        margin-bottom: 40px;
+    }
+
+    .projects-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+    }
+
+    .project-card {
+        width: 300px;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .project-card img {
+        width: 100%;
+        display: block;
+    }
+
+    .project-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+    }
+
+    /* --- Контакты --- */
+    .contact-info {
+        font-size: 18px;
+        line-height: 1.8;
+    }
 
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header class="header" id="home">
-  <h1>4Garden</h1>
-  <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
+<!-- Шапка -->
+<header id="header">
+    <h1>4Garden</h1>
+    <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
 </header>
 
-<!-- NAVBAR -->
-<div class="nav-wrapper" role="navigation" aria-label="Главное меню">
-  <nav class="nav">
-    <a href="#home">Home</a>
-    <a href="#services">Services</a>
-    <a href="#projects">Projects</a>
-    <a href="#reviews">Reviews</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
-  </nav>
-</div>
+<!-- Навигация -->
+<nav>
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
 
-<div class="page-offset"></div>
-
-<main>
-  <!-- SERVICES -->
-  <section id="services">
-    <h2>Services</h2>
-    <div class="services-grid">
-      <div class="service-card"><div class="icon lawn"></div><div class="service-title">Lawn Mowing</div></div>
-      <div class="service-card"><div class="icon hedge"></div><div class="service-title">Hedge Trimming</div></div>
-      <div class="service-card"><div class="icon cleanup"></div><div class="service-title">Yard Cleanup</div></div>
-      <div class="service-card"><div class="icon design"></div><div class="service-title">Landscape Design</div></div>
-      <div class="service-card"><div class="icon lighting"></div><div class="service-title">Lighting Installation</div></div>
-      <div class="service-card"><div class="icon seasonal"></div><div class="service-title">Seasonal Maintenance</div></div>
+<!-- Services -->
+<section class="services" id="services">
+    <h2>Our Services</h2>
+    <div class="service-cards">
+        <div class="service-card">
+            <div class="service-icon"><img src="icons/lawn-mower.svg" alt="Lawn Mowing"></div>
+            <h3>Lawn Mowing</h3>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><img src="icons/hedge-trimming.svg" alt="Hedge Trimming"></div>
+            <h3>Hedge Trimming</h3>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><img src="icons/yard-cleanup.svg" alt="Yard Cleanup"></div>
+            <h3>Yard Cleanup</h3>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><img src="icons/landscape-design.svg" alt="Landscape Design"></div>
+            <h3>Landscape Design</h3>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><img src="icons/lighting.svg" alt="Lighting Installation"></div>
+            <h3>Lighting Installation</h3>
+        </div>
+        <div class="service-card">
+            <div class="service-icon"><img src="icons/seasonal-maintenance.svg" alt="Seasonal Maintenance"></div>
+            <h3>Seasonal Maintenance</h3>
+        </div>
     </div>
-  </section>
+</section>
 
-  <!-- PROJECTS -->
-  <section id="projects">
+<!-- Projects -->
+<section id="projects">
     <h2>Projects</h2>
     <div class="projects-grid">
-      <div class="project-card">Front Yard Makeover</div>
-      <div class="project-card">Stone Path & Planting</div>
-      <div class="project-card">Roof Moss Clearing</div>
+        <div class="project-card"><img src="images/project1.jpg" alt="Front Yard Makeover"></div>
+        <div class="project-card"><img src="images/project2.jpg" alt="Stone Path & Planting"></div>
+        <div class="project-card"><img src="images/project3.jpg" alt="Roof Moss Clearing"></div>
     </div>
-  </section>
+</section>
 
-  <!-- REVIEWS -->
-  <section id="reviews">
+<!-- Reviews -->
+<section id="reviews">
     <h2>Reviews</h2>
-    <div class="reviews-grid">
-      <div class="review-card">“Excellent service, highly recommend!”</div>
-      <div class="review-card">“Professional and eco-friendly approach.”</div>
-    </div>
-  </section>
+    <p>Client reviews will be here.</p>
+</section>
 
-  <!-- ABOUT -->
-  <section id="about">
+<!-- About -->
+<section id="about">
     <h2>About</h2>
-    <p style="text-align:center; max-width:700px; margin:auto; font-size:1.2rem;">We combine passion, professional tools and eco-friendly methods to keep your yard beautiful.<br>
-    Long-term partnerships, careful planning, and a meticulous approach to every project.</p>
-  </section>
+    <p>We combine passion, professional tools and eco-friendly methods to keep your yard beautiful.</p>
+    <p>Long-term partnerships, careful planning, and a meticulous approach to every project.</p>
+</section>
 
-  <!-- CTA -->
-  <section class="cta">
-    <h2>Ready to Improve Your Yard?</h2>
-    <button class="btn-primary">Get a Free Quote</button>
-  </section>
-
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="contact-box">
-      <h2>Contact</h2>
-      <p>Phone: (000) 000-0000</p>
-      <p>Email: info@4garden.com</p>
-      <p>Address: Your City, USA</p>
+<!-- Contact -->
+<section id="contact">
+    <h2>Contact</h2>
+    <div class="contact-info">
+        <p>Phone: (000) 000-0000</p>
+        <p>Email: info@4garden.com</p>
+        <p>Address: Your City, USA</p>
     </div>
-  </section>
-</main>
-
-<footer>© 2025 4Garden. All Rights Reserved.</footer>
+    <button class="btn-quote">Get a Free Quote</button>
+</section>
 
 <script>
-  // Параллакс шапки
-  window.addEventListener('scroll', ()=>{
-    const scrollY = window.scrollY;
-    const header = document.querySelector('.header');
-    const move = Math.min(Math.max(scrollY/20, -10), 10); // параллакс -10%/+10%
-    header.style.backgroundPosition = `center ${32+move}%`;
-  });
+    // --- Плавный параллакс шапки ---
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+        const scroll = window.scrollY;
+        header.style.backgroundPositionY = `${scroll * 0.1}px`;
+    });
 </script>
 
 </body>
