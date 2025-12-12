@@ -14,12 +14,20 @@
     --accent-green: #07b84e;
 }
 
+/* body: тот же единый фон как в index (если хотите — можно вынести в common CSS) */
 html,body{
     margin:0;
     padding:0;
     font-family:'Poppins',sans-serif;
     height:100%;
-    background: linear-gradient(160deg, #eaf7ea 0%, #bfe9bf 100%);
+    background-image:
+      linear-gradient(160deg, rgba(234,247,234,0.95) 0%, rgba(191,233,191,0.95) 100%),
+      url('clearphotowithoutrights.png');
+    background-repeat:no-repeat;
+    background-position:center top;
+    background-size:cover;
+    background-attachment:scroll;
+    color:#143214;
 }
 
 *{box-sizing:border-box;}
@@ -28,27 +36,24 @@ html,body{
 .header {
     width:100%;
     height: var(--header-h);
-    background-image:url('clearphotowithoutrights.png');
-    background-size:cover;
-    background-position:center 32%;
+    background: transparent;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     color:#fff;
     text-align:center;
-    text-shadow:0 0 8px rgba(0,0,0,0.7);
+    text-shadow:0 0 8px rgba(0,0,0,0.45);
     position:fixed;
     top:0;
     left:0;
     z-index:120;
     transition: background-position 0.35s linear;
 }
-
 .header h1{ margin:0; font-size:2.6rem; font-weight:700; }
 .header p{ margin:6px 0 0; font-size:2rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
 
-/* ---------- NAVBAR (текстура земли) ---------- */
+/* ---------- NAVBAR ---------- */
 .nav-wrapper{
     position:fixed;
     top: var(--header-h);
@@ -107,9 +112,12 @@ html,body{
     max-width:1000px;
     margin:40px auto 80px;
     padding:0 20px;
+    background: rgba(255,255,255,0.9);
+    border-radius:10px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.06);
 }
 .item-content h2{
-    font-size:1.8rem; /* меньше на 2 размера */
+    font-size:1.8rem;
     color:#000;
     text-align:left;
     margin-bottom:18px;
@@ -147,11 +155,11 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
 <div class="nav-wrapper" role="navigation" aria-label="Главное меню">
   <nav class="nav">
     <a href="index.html">Home</a>
-    <a href="#services">Services</a>
-    <a href="#projects">Projects</a>
-    <a href="#reviews">Reviews</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
+    <a href="index.html#services">Services</a>
+    <a href="index.html#projects">Projects</a>
+    <a href="index.html#reviews">Reviews</a>
+    <a href="index.html#about">About</a>
+    <a href="index.html#contact">Contact</a>
   </nav>
 </div>
 
@@ -160,11 +168,12 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
 <!-- ITEM CONTENT -->
 <div class="item-content" id="item-content">
   <h2 id="item-title">About this Service/Project</h2>
-  <img id="item-image" src="placeholder.png" alt="Service/Project Image">
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur lectus nec ligula facilisis, ac tincidunt libero finibus.</p>
-  <p>Curabitur a semper est. Sed fringilla nunc vel leo suscipit, ac hendrerit arcu efficitur.</p>
-  <p>Donec fermentum orci nec tortor viverra, at tincidunt justo eleifend.</p>
-  <video controls>
+  <img id="item-image" src="placeholder.png" alt="About image">
+  <p id="p1">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur lectus nec ligula facilisis, ac tincidunt libero finibus.</p>
+  <p id="p2">Curabitur a semper est. Sed fringilla nunc vel leo suscipit, ac hendrerit arcu efficitur.</p>
+  <p id="p3">Donec fermentum orci nec tortor viverra, at tincidunt justo eleifend.</p>
+
+  <video controls style="width:100%; margin-top:18px;">
     <source id="item-video" src="placeholder.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
@@ -173,35 +182,69 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
 <footer>© 2025 4Garden. All Rights Reserved.</footer>
 
 <script>
-  // Плавный скролл по меню
+  // Плавный скролл по меню (если ссылки с хешем)
   document.querySelectorAll('.nav a').forEach(link=>{
     link.addEventListener('click', e=>{
-      if(link.getAttribute('href').startsWith('#')){
-        e.preventDefault();
-        const targetId = link.getAttribute('href').substring(1);
-        const target = document.getElementById(targetId);
-        const offset = target ? target.offsetTop - (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) + parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))) : 0;
-        window.scrollTo({top:offset, behavior:'smooth'});
-      }
+      // ссылки ведут на index с хешом — оставляем переход
     });
   });
 
-  // Динамическая подстановка заголовка
+  // Динамическая подстановка заголовка и медиа
   function loadItem() {
     const params = new URLSearchParams(window.location.search);
-    const item = params.get('item');
-    const type = params.get('type'); // service или project
-    if(item){
-      const titleEl = document.getElementById('item-title');
-      titleEl.textContent = type === 'project' ? "About this Project" : "About this Service";
+    const title = params.get('title') || params.get('item') || 'Item';
+    const type = (params.get('type') || 'service').toLowerCase(); // service или project
 
-      // картинки и видео
-      document.getElementById('item-image').src = `${item}-image.png`;
-      document.getElementById('item-video').src = `${item}-video.mp4`;
-      document.getElementById('item-video').load();
+    // корректируем заголовок
+    const titleEl = document.getElementById('item-title');
+    if(type === 'project') titleEl.textContent = "About this Project";
+    else titleEl.textContent = "About this Service";
+
+    // подставляем картинку:
+    // правило формирования имени: aboutprojectN.png / aboutserviceN.png
+    // если в title есть число в конце — используем его, иначе N = 1
+    function getTrailingNumber(s){
+      const m = s.trim().match(/(\d+)\s*$/);
+      return m ? m[1] : null;
     }
+    const num = getTrailingNumber(title) || '1';
+    const base = type === 'project' ? 'aboutproject' : 'aboutservice';
+    const imgName = `${base}${num}.png`;
+    const videoName = `${base}${num}.mp4`;
+
+    // поставить alt более осмысленно
+    const imgEl = document.getElementById('item-image');
+    imgEl.src = imgName;
+    imgEl.alt = `${title} image (${imgName})`;
+
+    // видео
+    const vidSource = document.getElementById('item-video');
+    vidSource.src = videoName;
+    // обновим видео (если есть)
+    const videoEl = vidSource.parentElement;
+    if(videoEl && typeof videoEl.load === 'function') {
+      try { videoEl.load(); } catch(e){ /* ignore */ }
+    }
+
+    // Если хочешь — можно заменить текст описания на более точный контент по title.
+    // Сейчас оставляем статические абзацы (можно расширить под JSON данных).
+    document.getElementById('p1').textContent = `${title} — professional service performed by 4Garden.`;
+    document.getElementById('p2').textContent = `We deliver careful and eco-friendly results for ${title}.`;
+    document.getElementById('p3').textContent = `Contact us for a quote and timeline for ${title}.`;
   }
   loadItem();
+
+  // Секция кликабельна: при клике по пустому месту — открываем index.html#<section>
+  const sectionIds = ['item-content'];
+  sectionIds.forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.addEventListener('click', function(e){
+      if(e.target.closest('a') || e.target.closest('button') || e.target.closest('.card')) return;
+      // откроем index.html#about (логично вернуться в ту часть)
+      location.href = 'index.html#projects';
+    });
+  });
 </script>
 
 </body>
