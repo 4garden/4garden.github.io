@@ -6,22 +6,20 @@
 <title>4Garden — Premium Landscaping</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-
 <style>
 :root{
     --header-h: 13vh;
     --nav-h: 8.8vh;
     --accent-green: #07b84e;
+    --nav-bg: #3f2612; /* коричневый навбар */
+    --nav-hover: #1b5e20;
+    --btn-radius: 12px;
+    --btn-padding: 16px 38px;
+    --btn-font: 1.3rem;
 }
 
-html,body{
-    margin:0;
-    padding:0;
-    font-family:'Poppins',sans-serif;
-    height:100%;
-    background: linear-gradient(160deg, #eaf7ea 0%, #bfe9bf 100%);
-}
-
+/* базовые стили */
+html,body{ margin:0; padding:0; font-family:'Poppins',sans-serif; height:100%; background: linear-gradient(160deg, #eaf7ea 0%, #bfe9bf 100%); color:#143214; }
 *{box-sizing:border-box;}
 
 /* ---------- HEADER ---------- */
@@ -44,36 +42,25 @@ html,body{
     z-index:120;
     transition: background-position 0.35s linear;
 }
-
 .header h1{ margin:0; font-size:2.6rem; font-weight:700; }
-.header p{ margin:6px 0 0; font-size:2rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
+.header p{ margin:6px 0 0; font-size:1.35rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
 
-/* ---------- NAVBAR (текстура земли) ---------- */
+/* ---------- NAVBAR ---------- */
 .nav-wrapper{
     position:fixed;
-    top: var(--header-h);
+    top: calc(var(--header-h));
     left:0;
     width:100%;
     height: var(--nav-h);
-    background-color: #5a3b1b;
-    background-image: 
-        radial-gradient(circle, rgba(90,60,27,0.3) 1px, transparent 1px),
-        radial-gradient(circle, rgba(80,50,20,0.3) 1px, transparent 1px);
-    background-size: 20px 20px;
-    background-position: 0 0, 10px 10px;
+    background:var(--nav-bg);
     display:flex;
     align-items:center;
     justify-content:center;
-    border-top:2px solid rgba(0,0,0,0.4);
-    border-bottom:2px solid rgba(0,0,0,0.4);
+    border-top:2px solid rgba(0,0,0,0.18);
+    border-bottom:2px solid rgba(0,0,0,0.18);
     z-index:115;
 }
-
-.nav{
-    display:flex;
-    gap:12px;
-}
-
+.nav{ display:flex; gap:12px; }
 .nav a{
     height: calc(var(--nav-h) * 0.6);
     min-width:170px;
@@ -81,7 +68,7 @@ html,body{
     display:inline-flex;
     align-items:center;
     justify-content:center;
-    background: rgba(40,25,12,0.82);
+    background: var(--nav-bg);
     color: var(--accent-green);
     font-size:1.55rem;
     font-weight:600;
@@ -89,66 +76,44 @@ html,body{
     border-radius:14px;
     border:1px solid rgba(0,0,0,0.28);
     box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+    margin:0 6px;
     transition: transform .18s ease, filter .18s ease, box-shadow .18s ease, background .18s ease;
 }
-
 .nav a:hover{
     transform: translateY(-3px) scale(1.035);
     filter:brightness(1.08);
-    background: rgba(30,20,9,0.9);
-    color:#e8ffd0;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.14), 0 2px 6px rgba(0,0,0,0.06);
+    background: linear-gradient(180deg, #3f2612, #332412);
+    color:#dfffbf;
 }
 
-/* ---------- PAGE OFFSET ---------- */
+/* ---------- PAGE OFFSET (динамически корректируемый JS) ---------- */
 .page-offset{ margin-top: calc(var(--header-h) + var(--nav-h) + 10px); text-align:center; }
 
-/* ---------- SECTION HEADERS ---------- */
-section h2{
-    text-align:center;
-    font-size:2.2rem;
-    margin:20px 0;
-}
+/* ---------- общие заголовки ---------- */
+section h2{ text-align:center; font-size:2.2rem; margin:20px 0; color:#123a1b; }
 
 /* ---------- HOME ---------- */
-.home{
-    background:transparent;
-    text-align:center;
-    padding:110px 20px;
-}
+.home{ background:transparent; text-align:center; padding:110px 20px; }
 .home h2{ font-size:6rem; margin-bottom:6px; }
-.home p{ margin-bottom:14px; color:#274b27; font-weight:500; font-family:'Lora', serif; font-size:2rem; }
+.home p{ margin-bottom:14px; color:#274b27; font-weight:500; font-family:'Lora', serif; font-size:1.7rem; }
 
-/* ---------- SERVICES ---------- */
-.services-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 40px; padding:0 14px; }
-.service-card{
-    background:#fff;
-    border-radius:14px;
-    padding:22px;
-    min-height:150px;
-    text-align:center;
+/* ---------- GRID CARD STYLES (общие) ---------- */
+.grid{ display:grid; gap:22px; padding:0 14px; max-width:1100px; margin:14px auto 80px; }
+.card{
+    background:#fff; border-radius:14px; padding:18px;
+    min-height:140px; text-align:center;
     box-shadow: 0 10px 30px rgba(6,20,8,0.04);
     border:1px solid rgba(0,0,0,0.04);
     transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, background .18s ease;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:12px;
-    cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; cursor:pointer;
 }
-.service-card:hover{
-    transform: translateY(-6px) scale(1.02);
-    box-shadow:0 22px 48px rgba(6,20,8,0.08);
-    filter:brightness(1.05);
-    background: linear-gradient(180deg,#f0fff0,#e0f5e0);
-}
-.icon {
-    width:56px;
-    height:56px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-}
+.card:hover{ transform: translateY(-6px) scale(1.02); box-shadow:0 22px 48px rgba(6,20,8,0.08); filter:brightness(1.05); background: linear-gradient(180deg,#f0fff0,#e0f5e0); }
+
+/* ---------- SERVICES ---------- */
+.services-grid{ grid-template-columns:repeat(3,1fr); }
+.service-card{ min-height:150px; padding:22px; cursor:pointer; }
+.icon { width:56px; height:56px; display:inline-flex; align-items:center; justify-content:center; }
 .icon svg{ width:50px; height:50px; }
 .icon.lawn svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
 .icon.hedge svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
@@ -159,74 +124,44 @@ section h2{
 .service-title{ font-weight:600; font-size:1.05rem; }
 
 /* ---------- PROJECTS ---------- */
-.projects-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; max-width:1100px; margin:14px auto 40px; padding:0 14px; }
-.project-card{
-    background:#fff;
-    border-radius:14px;
-    padding:14px;
-    min-height:180px;
-    text-align:center;
-    box-shadow: 0 10px 30px rgba(6,20,8,0.04);
-    border:1px solid rgba(0,0,0,0.04);
-    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, background .18s ease;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    gap:12px;
-    cursor:pointer;
-}
-.project-card:hover{
-    transform: translateY(-6px) scale(1.02);
-    box-shadow:0 22px 48px rgba(6,20,8,0.08);
-    filter:brightness(1.05);
-    background: linear-gradient(180deg,#f0fff0,#e0f5e0);
-}
+.projects-grid{ grid-template-columns:repeat(3,1fr); }
+.project-card{ min-height:180px; padding:14px; }
+.project-card img{ width:56px; height:56px; object-fit:cover; border-radius:8px; }
 
 /* ---------- REVIEWS ---------- */
-.reviews-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; max-width:900px; margin:14px auto 40px; padding:0 14px; }
-.review-card{
-    background:#fff;
-    border-radius:14px;
-    padding:20px;
-    box-shadow: 0 10px 30px rgba(6,20,8,0.04);
-    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, background .18s ease;
-}
-.review-card:hover{
-    transform: translateY(-4px) scale(1.01);
-    box-shadow:0 18px 36px rgba(6,20,8,0.06);
-}
+.reviews-grid{ grid-template-columns:repeat(2,1fr); max-width:900px; }
+.review-card{ padding:20px; }
+.review-video{ width:100%; height:220px; border-radius:12px; overflow:hidden; }
 
-/* ---------- CTA ---------- */
+/* ---------- CTA (универсальные кнопки) ---------- */
+.btn {
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:var(--btn-font); padding:var(--btn-padding); border:none; border-radius:var(--btn-radius);
+    cursor:pointer; transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+}
+.btn:focus{ outline:3px solid rgba(7,184,78,0.18); }
+
+/* primary (зелёный) */
+.btn-primary{ background-color: var(--accent-green); color:#fff; box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+.btn-primary:hover{ transform:scale(1.03); filter:brightness(1.06); }
+
+/* secondary: адаптируется под секцию через --section-btn-bg и --section-btn-color */
+.btn-section{ background-color: var(--section-btn-bg, #4b2e15); color: var(--section-btn-color, #fff); box-shadow: 0 6px 18px rgba(0,0,0,0.12); }
+.btn-section:hover{ transform:scale(1.03); filter:brightness(1.06); }
+
+/* утопленные кнопки под навигационный размер */
 .cta{ background:linear-gradient(180deg,#247b30,#1b6a2b); color:#fff; text-align:center; padding:56px 20px; margin-top:30px; border-radius:8px; }
 .cta h2{ font-size:2.7rem; margin-bottom:18px; }
-.cta .btn-primary{
-    font-size:1.3rem; 
-    padding:16px 38px; 
-    background-color: var(--accent-green);
-    border:none;
-    border-radius:12px;
-    color:#fff;
-    cursor:pointer;
-    transition: transform .2s ease, filter .2s ease, box-shadow .2s ease;
-}
-.cta .btn-primary:hover{
-    transform: scale(1.05);
-    filter:brightness(1.1);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.22);
-}
 
-/* ---------- CONTACT ---------- */
-.contact-box{ width:70%; margin:20px auto; background:#fafafa; padding:20px; border-radius:12px; box-shadow:0 8px 22px rgba(6,20,8,0.03); text-align:center; }
-.contact-box h2{ font-size:2rem; margin-bottom:12px; }
+/* helper для центрирования кнопок секций */
+.section-actions{ display:flex; justify-content:center; gap:12px; margin-top:10px; }
 
 /* ---------- FOOTER ---------- */
 footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center; margin-top:20px; }
 
 /* ---------- RESPONSIVE ---------- */
-@media (max-width:1000px){ .services-grid,.projects-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width:1000px){ .services-grid,.projects-grid { grid-template-columns: repeat(2, 1fr); } .reviews-grid{ grid-template-columns:1fr; } }
 @media (max-width:700px){ .services-grid,.projects-grid { grid-template-columns: 1fr; } .nav a{ min-width:110px; padding:0 14px; font-size:1.1rem; } }
-
 </style>
 </head>
 <body>
@@ -239,83 +174,119 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
 
 <!-- NAVBAR -->
 <div class="nav-wrapper" role="navigation" aria-label="Главное меню">
-  <nav class="nav">
-    <a href="#home">Home</a>
-    <a href="#services">Services</a>
-    <a href="#projects">Projects</a>
-    <a href="#reviews">Reviews</a>
-    <a href="#about">About</a>
-    <a href="#contact">Contact</a>
+  <nav class="nav" id="mainNav">
+    <a href="#home" data-target="home">Home</a>
+    <a href="#services" data-target="services">Services</a>
+    <a href="#projects" data-target="projects">Projects</a>
+    <a href="#reviews" data-target="reviews">Reviews</a>
+    <a href="#about" data-target="about">About</a>
+    <a href="#contact" data-target="contact">Contact</a>
   </nav>
 </div>
 
 <div class="page-offset"></div>
 
 <main>
+  <!-- HOME -->
+  <section class="home" id="homeSection">
+    <h2>Welcome to 4Garden</h2>
+    <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
+  </section>
+
   <!-- SERVICES -->
-  <section id="services">
-    <h2>Services</h2>
-    <div class="services-grid">
-      <div class="service-card" onclick="location.href='item.html?item=lawn-mowing'">
-        <div class="icon lawn"><svg viewBox="0 0 24 24"><line x1="2" y1="20" x2="22" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/><path d="M5 20l3-8h8l3 8"/></svg></div>
-        <div class="service-title">Lawn Mowing</div>
-      </div>
-      <div class="service-card" onclick="location.href='item.html?item=hedge-trimming'">
-        <div class="icon hedge"><svg viewBox="0 0 24 24"><line x1="2" y1="20" x2="22" y2="20"/><path d="M5 20v-4h14v4"/><line x1="12" y1="4" x2="12" y2="16"/></svg></div>
-        <div class="service-title">Hedge Trimming</div>
-      </div>
-      <div class="service-card"><div class="icon cleanup"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><line x1="4" y1="12" x2="20" y2="12"/></svg></div><div class="service-title">Yard Cleanup</div></div>
-      <div class="service-card"><div class="icon design"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><line x1="4" y1="4" x2="20" y2="20"/></svg></div><div class="service-title">Landscape Design</div></div>
-      <div class="service-card"><div class="icon lighting"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="12"/><polyline points="8,12 12,16 16,12"/></svg></div><div class="service-title">Lighting Installation</div></div>
-      <div class="service-card"><div class="icon seasonal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><line x1="12" y1="0" x2="12" y2="24"/><line x1="0" y1="12" x2="24" y2="12"/></svg></div><div class="service-title">Seasonal Maintenance</div></div>
+  <section id="services" aria-labelledby="servicesTitle">
+    <h2 id="servicesTitle">Services</h2>
+
+    <div class="services-grid grid" id="servicesGrid">
+      <!-- начальные 6 услуг -->
+      <div class="card service-card" data-title="Lawn Mowing"><div class="icon lawn"><svg viewBox="0 0 24 24"><line x1="2" y1="20" x2="22" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/><path d="M5 20l3-8h8l3 8"/></svg></div><div class="service-title">Lawn Mowing</div></div>
+
+      <div class="card service-card" data-title="Hedge Trimming"><div class="icon hedge"><svg viewBox="0 0 24 24"><line x1="2" y1="20" x2="22" y2="20"/><path d="M5 20v-4h14v4"/><line x1="12" y1="4" x2="12" y2="16"/></svg></div><div class="service-title">Hedge Trimming</div></div>
+
+      <div class="card service-card" data-title="Yard Cleanup"><div class="icon cleanup"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><line x1="4" y1="12" x2="20" y2="12"/></svg></div><div class="service-title">Yard Cleanup</div></div>
+
+      <div class="card service-card" data-title="Landscape Design"><div class="icon design"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><line x1="4" y1="4" x2="20" y2="20"/></svg></div><div class="service-title">Landscape Design</div></div>
+
+      <div class="card service-card" data-title="Lighting Installation"><div class="icon lighting"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="12"/><polyline points="8,12 12,16 16,12"/></svg></div><div class="service-title">Lighting Installation</div></div>
+
+      <div class="card service-card" data-title="Seasonal Maintenance"><div class="icon seasonal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><line x1="12" y1="0" x2="12" y2="24"/><line x1="0" y1="12" x2="24" y2="12"/></svg></div><div class="service-title">Seasonal Maintenance</div></div>
     </div>
-    <div style="text-align:center; margin-bottom:40px;">
-      <button class="btn-primary" onclick="alert('Развернуть дополнительные услуги')">. . .</button>
+
+    <div class="section-actions">
+      <!-- кнопка . . . (точно такой текст) -->
+      <button class="btn btn-section" id="servicesMoreBtn" aria-expanded="false" style="--section-btn-bg:#f0f7f0; --section-btn-color:#123a1b;">. . .</button>
+      <!-- Get a Free Quote (как CTA) -->
+      <button class="btn btn-primary" id="quoteFromServices">Get a Free Quote</button>
     </div>
   </section>
 
   <!-- PROJECTS -->
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="projects-grid">
-      <div class="project-card" onclick="location.href='item.html?item=front-yard-makeover'">Front Yard Makeover</div>
-      <div class="project-card" onclick="location.href='item.html?item=stone-path-planting'">Stone Path & Planting</div>
-      <div class="project-card" onclick="location.href='item.html?item=roof-moss-clearing'">Roof Moss Clearing</div>
+  <section id="projects" aria-labelledby="projectsTitle" style="--section-btn-bg:#f7efe6; --section-btn-color:#4b2e15;">
+    <h2 id="projectsTitle">Projects</h2>
+
+    <div class="projects-grid grid" id="projectsGrid">
+      <!-- начальные 3 проекта (с маленькой картинкой) -->
+      <div class="card project-card" data-title="Front Yard Makeover">
+        <img src="project-icon1.png" alt="Front Yard Makeover icon"/>
+        <div class="service-title">Front Yard Makeover</div>
+      </div>
+
+      <div class="card project-card" data-title="Stone Path & Planting">
+        <img src="project-icon2.png" alt="Stone Path icon"/>
+        <div class="service-title">Stone Path &amp; Planting</div>
+      </div>
+
+      <div class="card project-card" data-title="Roof Moss Clearing">
+        <img src="project-icon3.png" alt="Roof Moss Clearing icon"/>
+        <div class="service-title">Roof Moss Clearing</div>
+      </div>
     </div>
-    <div style="text-align:center; margin-bottom:40px;">
-      <button class="btn-primary" onclick="alert('Развернуть дополнительные проекты')">. . .</button>
+
+    <div class="section-actions" style="margin-bottom:8px;">
+      <button class="btn btn-section" id="projectsMoreBtn" aria-expanded="false" style="--section-btn-bg:#f7efe6; --section-btn-color:#4b2e15;">. . .</button>
+      <button class="btn btn-primary" id="quoteFromProjects">Get a Free Quote</button>
     </div>
   </section>
 
   <!-- REVIEWS -->
-  <section id="reviews">
-    <h2>Reviews</h2>
-    <div class="reviews-grid">
-      <div class="review-card">“Excellent service, highly recommend!”</div>
-      <div class="review-card">“Professional and eco-friendly approach.”</div>
-      <div class="review-card">Video review placeholder</div>
+  <section id="reviews" aria-labelledby="reviewsTitle" style="--section-btn-bg:#fff4e8; --section-btn-color:#4b2e15;">
+    <h2 id="reviewsTitle">Reviews</h2>
+
+    <div class="reviews-grid grid" id="reviewsGrid">
+      <div class="review-card">“Excellent service, highly recommend!” — Alex</div>
+      <div class="review-card">“Professional and eco-friendly approach.” — Maria</div>
+
+      <!-- видео отзыв -->
+      <div class="review-video" style="grid-column:1 / -1; max-width:900px; margin:0 auto;">
+        <!-- Заменишь ссылку на своё видео -->
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video review" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
     </div>
-    <div style="text-align:center; margin-bottom:40px;">
-      <button class="btn-primary">See More</button>
+
+    <div class="section-actions" style="margin-top:6px;">
+      <!-- кнопка See More, как Get a Free Quote по размерам -->
+      <button class="btn btn-section" id="seeMoreReviews" style="--section-btn-bg:var(--section-btn-bg); --section-btn-color:var(--section-btn-color);">See More</button>
+      <!-- копия CTA -->
+      <button class="btn btn-primary" id="quoteFromReviews">Get a Free Quote</button>
     </div>
   </section>
 
   <!-- ABOUT -->
   <section id="about">
     <h2>About</h2>
-    <p style="text-align:center; max-width:700px; margin:auto; font-size:1.2rem;">We combine passion, professional tools and eco-friendly methods to keep your yard beautiful.<br>
+    <p style="text-align:center; max-width:700px; margin:auto; font-size:1.1rem;">We combine passion, professional tools and eco-friendly methods to keep your yard beautiful.<br>
     Long-term partnerships, careful planning, and a meticulous approach to every project.</p>
   </section>
 
   <!-- CTA -->
   <section class="cta">
     <h2>Ready to Improve Your Yard?</h2>
-    <button class="btn-primary">Get a Free Quote</button>
+    <button class="btn btn-primary">Get a Free Quote</button>
   </section>
 
   <!-- CONTACT -->
   <section id="contact">
-    <div class="contact-box">
+    <div class="contact-box" style="width:70%; margin:20px auto; background:#fafafa; padding:20px; border-radius:12px; box-shadow:0 8px 22px rgba(6,20,8,0.03); text-align:center;">
       <h2>Contact</h2>
       <p>Phone: (000) 000-0000</p>
       <p>Email: info@4garden.com</p>
@@ -327,24 +298,168 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
 <footer>© 2025 4Garden. All Rights Reserved.</footer>
 
 <script>
-  // Параллакс шапки
+/* ---------- utils: корректный скролл с учётом высоты header+nav ---------- */
+(function(){
+  const header = document.querySelector('.header');
+  const navWrapper = document.querySelector('.nav-wrapper');
+  let offset = 0;
+
+  function updateOffset(){
+    // считаем реальные пиксели header+nav (на случай изменений)
+    const headerRect = header.getBoundingClientRect();
+    const navRect = navWrapper.getBoundingClientRect();
+    // headerRect.height и navRect.height вернут видимую высоту
+    offset = Math.ceil(headerRect.height + navRect.height + 8); // небольшой отступ
+  }
+
+  // скролл на элемент с учётом offset
+  function scrollToSectionEl(el){
+    updateOffset();
+    const top = window.scrollY + el.getBoundingClientRect().top - offset;
+    window.scrollTo({ top: Math.max(0, Math.floor(top)), behavior: 'smooth' });
+  }
+
+  // перехват кликов навигации
+  document.querySelectorAll('.nav a').forEach(a=>{
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      const targetId = this.getAttribute('data-target');
+      if(targetId === 'home'){
+        // туда где header начинается (верх страницы)
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      const el = document.getElementById(targetId);
+      if(el) scrollToSectionEl(el);
+    });
+  });
+
+  // корректировка при загрузке если в хеше есть секция
+  window.addEventListener('load', ()=>{
+    updateOffset();
+    // плавный переход если в URL есть hash
+    if(location.hash){
+      const id = location.hash.replace('#','');
+      const el = document.getElementById(id);
+      if(el) setTimeout(()=>scrollToSectionEl(el), 80);
+    }
+  });
+
+  // пересчитать при ресайзе
+  window.addEventListener('resize', updateOffset);
+
+  // уменьшение/параллакс шапки (оставлено как было)
   window.addEventListener('scroll', ()=>{
     const scrollY = window.scrollY;
-    const header = document.querySelector('.header');
     const move = Math.min(Math.max(scrollY/20, -10), 10);
     header.style.backgroundPosition = `center ${32+move}%`;
   });
 
-  // Плавный скролл
-  document.querySelectorAll('.nav a').forEach(link=>{
-    link.addEventListener('click', e=>{
-      e.preventDefault();
-      const targetId = link.getAttribute('href').substring(1);
-      const target = document.getElementById(targetId);
-      const offset = target ? target.offsetTop - (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) + parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))) : 0;
-      window.scrollTo({top:offset, behavior:'smooth'});
-    });
+  /* ---------- поведение плиток: открытие отдельной страницы item.html?title=... ---------- */
+  function goToItem(title, type){
+    const url = new URL('item.html', location.href);
+    url.searchParams.set('title', title);
+    if(type) url.searchParams.set('type', type);
+    location.assign(url.toString());
+  }
+
+  // назначаем клики для начальных service-card и project-card
+  document.addEventListener('click', function(e){
+    const svc = e.target.closest('.service-card');
+    if(svc){ const title = svc.dataset.title || svc.textContent.trim(); goToItem(title, 'service'); return; }
+    const proj = e.target.closest('.project-card');
+    if(proj){ const title = proj.dataset.title || proj.textContent.trim(); goToItem(title, 'project'); return; }
   });
+
+  /* ---------- кнопки . . . для Services и Projects (раскрытие дополнительных плиток) ---------- */
+  const servicesGrid = document.getElementById('servicesGrid');
+  const servicesMoreBtn = document.getElementById('servicesMoreBtn');
+  let servicesExpanded = false;
+
+  // данные для дополнительных услуг (примерные названия и иконки)
+  const moreServices = [
+    {title:'Irrigation Setup', icon:'design'},
+    {title:'Tree Pruning', icon:'hedge'},
+    {title:'Mulch & Soil', icon:'cleanup'},
+    {title:'Seasonal Planting', icon:'seasonal'},
+    {title:'Weed Control', icon:'lawn'},
+    {title:'Garden Edging', icon:'design'}
+  ];
+
+  servicesMoreBtn.addEventListener('click', ()=>{
+    if(!servicesExpanded){
+      // добавляем еще 6 карточек
+      moreServices.forEach((it)=>{
+        const div = document.createElement('div');
+        div.className = 'card service-card';
+        div.dataset.title = it.title;
+        div.innerHTML = `<div class="icon ${it.icon}"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><line x1="4" y1="12" x2="20" y2="12"/></svg></div><div class="service-title">${it.title}</div>`;
+        servicesGrid.appendChild(div);
+      });
+      servicesMoreBtn.setAttribute('aria-expanded','true');
+      servicesExpanded = true;
+      servicesMoreBtn.textContent = '. . .';
+    } else {
+      // убираем последние 6
+      for(let i=0;i<moreServices.length;i++){
+        const last = servicesGrid.lastElementChild;
+        if(last) last.remove();
+      }
+      servicesMoreBtn.setAttribute('aria-expanded','false');
+      servicesExpanded = false;
+      servicesMoreBtn.textContent = '. . .';
+    }
+  });
+
+  /* ---------- Projects: добавить 9 дополнительных плиток с placeholder картинками ---------- */
+  const projectsGrid = document.getElementById('projectsGrid');
+  const projectsMoreBtn = document.getElementById('projectsMoreBtn');
+  let projectsExpanded = false;
+
+  // генерируем 9 placeholder-иконок project-icon4..project-icon12.png
+  const moreProjectsCount = 9;
+  projectsMoreBtn.addEventListener('click', ()=>{
+    if(!projectsExpanded){
+      for(let i=4;i<4+moreProjectsCount;i++){
+        const div = document.createElement('div');
+        div.className = 'card project-card';
+        const iconIdx = i; // project-icon4..12
+        div.dataset.title = `Project ${i}`;
+        div.innerHTML = `<img src="project-icon${iconIdx}.png" alt="project ${iconIdx}"/><div class="service-title">Project ${i}</div>`;
+        projectsGrid.appendChild(div);
+      }
+      projectsMoreBtn.setAttribute('aria-expanded','true');
+      projectsExpanded = true;
+    } else {
+      // удалить добавленные 9 (последние 9)
+      for(let i=0;i<moreProjectsCount;i++){
+        const last = projectsGrid.lastElementChild;
+        if(last) last.remove();
+      }
+      projectsMoreBtn.setAttribute('aria-expanded','false');
+      projectsExpanded = false;
+    }
+  });
+
+  /* ---------- Кнопки Get a Free Quote / See More (пример поведения) ---------- */
+  document.getElementById('quoteFromServices').addEventListener('click', ()=> alert('Get a Free Quote — contact form or modal can be implemented here.'));
+  document.getElementById('quoteFromProjects').addEventListener('click', ()=> alert('Get a Free Quote — contact form or modal can be implemented here.'));
+  document.getElementById('quoteFromReviews').addEventListener('click', ()=> alert('Get a Free Quote — contact form or modal can be implemented here.'));
+  document.getElementById('seeMoreReviews').addEventListener('click', ()=> {
+    // показ примера — добавляем 2 текстовых и 1 видео (можно сделать загрузку из API)
+    const grid = document.getElementById('reviewsGrid');
+    // если уже добавлены — убрать
+    if(document.querySelector('.reviews-grid .more-added')){
+      document.querySelectorAll('.reviews-grid .more-added').forEach(n=>n.remove());
+      return;
+    }
+    const r1 = document.createElement('div'); r1.className='review-card more-added'; r1.textContent='“Fast, friendly, and reliable.” — Elena';
+    const r2 = document.createElement('div'); r2.className='review-card more-added'; r2.textContent='“Great attention to detail.” — Pavel';
+    const v = document.createElement('div'); v.className='review-video more-added'; v.style.gridColumn='1 / -1'; v.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="More review" frameborder="0" allowfullscreen></iframe>`;
+    grid.appendChild(r1); grid.appendChild(r2); grid.appendChild(v);
+  });
+
+})();
 </script>
 
 </body>
