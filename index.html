@@ -6,7 +6,211 @@
     <title>4Garden — Home</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+
+    <style>
+        :root {
+            --header-h: 13vh;
+            --nav-h: 8.8vh;
+            --accent-green: #07b84e;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            height: 100%;
+            background: linear-gradient(160deg, #eaf7ea 0%, #bfe9bf 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* ---------- HEADER ---------- */
+        .header {
+            width: 100%;
+            height: var(--header-h);
+            background-image: url('clearphotowithoutrights.png');
+            background-size: cover;
+            background-position: center 32%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-align: center;
+            text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 120;
+            transition: background-position 0.35s linear;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 2.6rem;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            font-size: 2rem;
+            font-weight: 500;
+            font-family: 'Lora', serif;
+        }
+
+        /* ---------- NAVBAR ---------- */
+        .nav-wrapper {
+            position: fixed;
+            top: var(--header-h);
+            left: 0;
+            width: 100%;
+            height: var(--nav-h);
+            background-color: #5a3b1b;
+            background-image: radial-gradient(circle, rgba(90, 60, 27, 0.3) 1px, transparent 1px),
+                              radial-gradient(circle, rgba(80, 50, 20, 0.3) 1px, transparent 1px);
+            background-size: 20px 20px;
+            background-position: 0 0, 10px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-top: 2px solid rgba(0, 0, 0, 0.4);
+            border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+            z-index: 115;
+        }
+
+        .nav {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav a {
+            height: calc(var(--nav-h) * 0.6);
+            min-width: 170px;
+            padding: 0 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(40, 25, 12, 0.82);
+            color: var(--accent-green);
+            font-size: 1.55rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 14px;
+            border: 1px solid rgba(0, 0, 0, 0.28);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+            transition: transform .18s ease, filter .18s ease, box-shadow .18s ease, background .18s ease;
+        }
+
+        .nav a:hover {
+            transform: translateY(-3px) scale(1.035);
+            filter: brightness(1.08);
+            background: rgba(30, 20, 9, 0.9);
+            color: #e8ffd0;
+        }
+
+        /* ---------- PAGE OFFSET ---------- */
+        .page-offset {
+            margin-top: calc(var(--header-h) + var(--nav-h) + 10px);
+            text-align: center;
+        }
+
+        /* ---------- ITEM CONTENT ---------- */
+        .item-content {
+            max-width: 1000px;
+            margin: 40px auto 80px;
+            padding: 0 20px;
+        }
+
+        .item-content h2 {
+            font-size: 1.8rem;
+            color: #000;
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .item-content img {
+            max-width: 100%;
+            display: block;
+            margin: 0 0 24px 0;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-content p {
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        /* ---------- FOOTER ---------- */
+        footer {
+            background: #0f1a12;
+            color: #d9edd3;
+            padding: 24px 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        /* ---------- SERVICES, PROJECTS, REVIEWS ---------- */
+        .services-list, .projects-list, .reviews-list {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .service-item, .project-item {
+            width: 30%;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .service-item img, .project-item img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .service-item a, .project-item a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: var(--accent-green);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .service-item a:hover, .project-item a:hover {
+            background-color: #3c8d3c;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 1000px) {
+            .nav a {
+                min-width: 140px;
+                padding: 0 18px;
+                font-size: 1.3rem;
+            }
+
+            .service-item, .project-item {
+                width: 45%;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .nav a {
+                min-width: 110px;
+                padding: 0 14px;
+                font-size: 1.1rem;
+            }
+
+            .service-item, .project-item {
+                width: 100%;
+            }
+        }
+
+    </style>
 </head>
 <body>
 
@@ -28,10 +232,7 @@
     </nav>
 </div>
 
-<!-- PAGE OFFSET -->
 <div class="page-offset"></div>
-
-<!-- MAIN CONTENT -->
 
 <!-- SERVICES SECTION -->
 <section id="services">
@@ -129,7 +330,6 @@
 </footer>
 
 <script>
-    // Плавный скролл по меню
     document.querySelectorAll('.nav a').forEach(link => {
         link.addEventListener('click', e => {
             if(link.getAttribute('href').startsWith('#')) {
@@ -137,7 +337,7 @@
                 const targetId = link.getAttribute('href').substring(1);
                 const target = document.getElementById(targetId);
                 const offset = target ? target.offsetTop - (parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-h')) + parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'))) : 0;
-                window.scrollTo({top: offset, behavior: 'smooth'});
+                window.scrollTo({ top: offset, behavior: 'smooth' });
             }
         });
     });
