@@ -16,26 +16,41 @@
     --btn-radius: 12px;
     --btn-padding: 16px 38px;
     --btn-font: 1.3rem;
+    --cta-green: #c7fbd0; /* яркий светло-зеленый для CTA */
 }
 
 /* базовые стили */
-html,body{ margin:0; padding:0; font-family:'Poppins',sans-serif; height:100%; background: linear-gradient(160deg, #eaf7ea 0%, #bfe9bf 100%); color:#143214; }
+html,body{ margin:0; padding:0; font-family:'Poppins',sans-serif; min-height:100%; color:#143214; }
+
+/* --- единый фон: градиент + картинка, растягивается по всей странице --- */
+body {
+  background-image:
+    linear-gradient(160deg, rgba(234,247,234,0.95) 0%, rgba(191,233,191,0.95) 100%),
+    url('clearphotowithoutrights.png');
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  background-attachment: scroll;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* общий box-sizing */
 *{box-sizing:border-box;}
 
 /* ---------- HEADER ---------- */
 .header {
     width:100%;
     height: var(--header-h);
-    background-image:url('clearphotowithoutrights.png');
-    background-size:cover;
-    background-position:center 32%;
+    /* снимем background-image с хедера — фон теперь на body */
+    background: transparent;
     display:flex;
     flex-direction:column;
     align-items:center;
     justify-content:center;
     color:#fff;
     text-align:center;
-    text-shadow:0 0 8px rgba(0,0,0,0.7);
+    text-shadow:0 0 8px rgba(0,0,0,0.45);
     position:fixed;
     top:0;
     left:0;
@@ -43,7 +58,7 @@ html,body{ margin:0; padding:0; font-family:'Poppins',sans-serif; height:100%; b
     transition: background-position 0.35s linear;
 }
 .header h1{ margin:0; font-size:2.6rem; font-weight:700; }
-.header p{ margin:6px 0 0; font-size:1.35rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
+.header p{ margin:6px 0 0; font-size:2rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
 
 /* ---------- NAVBAR ---------- */
 .nav-wrapper{
@@ -115,12 +130,6 @@ section h2{ text-align:center; font-size:2.2rem; margin:20px 0; color:#123a1b; }
 .service-card{ min-height:150px; padding:22px; cursor:pointer; }
 .icon { width:56px; height:56px; display:inline-flex; align-items:center; justify-content:center; }
 .icon svg{ width:50px; height:50px; }
-.icon.lawn svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
-.icon.hedge svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
-.icon.cleanup svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
-.icon.design svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
-.icon.lighting svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
-.icon.seasonal svg{ stroke:#07b84e; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
 .service-title{ font-weight:600; font-size:1.05rem; }
 
 /* ---------- PROJECTS ---------- */
@@ -151,9 +160,8 @@ section h2{ text-align:center; font-size:2.2rem; margin:20px 0; color:#123a1b; }
 
 /* утопленные кнопки под навигационный размер */
 .cta{ background:linear-gradient(180deg,#247b30,#1b6a2b); color:#fff; text-align:center; padding:56px 20px; margin-top:30px; border-radius:8px; }
-.cta h2{ font-size:2.7rem; margin-bottom:18px; }
+.cta h2{ font-size:2.7rem; margin-bottom:18px; color:var(--cta-green); }
 
-/* helper для центрирования кнопок секций */
 .section-actions{ display:flex; justify-content:center; gap:12px; margin-top:10px; }
 
 /* ---------- FOOTER ---------- */
@@ -199,24 +207,41 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
 
     <div class="services-grid grid" id="servicesGrid">
       <!-- начальные 6 услуг -->
-      <div class="card service-card" data-title="Lawn Mowing"><div class="icon lawn"><svg viewBox="0 0 24 24"><line x1="2" y1="20" x2="22" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/><path d="M5 20l3-8h8l3 8"/></svg></div><div class="service-title">Lawn Mowing</div></div>
+      <div class="card service-card" data-title="Lawn Mowing" data-icon="mower">
+        <div class="icon" aria-hidden="true"></div>
+        <div class="service-title">Lawn Mowing</div>
+      </div>
 
-      <div class="card service-card" data-title="Hedge Trimming"><div class="icon hedge"><svg viewBox="0 0 24 24"><line x1="2" y1="20" x2="22" y2="20"/><path d="M5 20v-4h14v4"/><line x1="12" y1="4" x2="12" y2="16"/></svg></div><div class="service-title">Hedge Trimming</div></div>
+      <div class="card service-card" data-title="Hedge Trimming" data-icon="hedge">
+        <div class="icon" aria-hidden="true"></div>
+        <div class="service-title">Hedge Trimming</div>
+      </div>
 
-      <div class="card service-card" data-title="Yard Cleanup"><div class="icon cleanup"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><line x1="4" y1="12" x2="20" y2="12"/></svg></div><div class="service-title">Yard Cleanup</div></div>
+      <div class="card service-card" data-title="Yard Cleanup" data-icon="cleanup">
+        <div class="icon" aria-hidden="true"></div>
+        <div class="service-title">Yard Cleanup</div>
+      </div>
 
-      <div class="card service-card" data-title="Landscape Design"><div class="icon design"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16"/><line x1="4" y1="4" x2="20" y2="20"/></svg></div><div class="service-title">Landscape Design</div></div>
+      <div class="card service-card" data-title="Landscape Design" data-icon="design">
+        <div class="icon" aria-hidden="true"></div>
+        <div class="service-title">Landscape Design</div>
+      </div>
 
-      <div class="card service-card" data-title="Lighting Installation"><div class="icon lighting"><svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="12"/><polyline points="8,12 12,16 16,12"/></svg></div><div class="service-title">Lighting Installation</div></div>
+      <div class="card service-card" data-title="Lighting Installation" data-icon="lighting">
+        <div class="icon" aria-hidden="true"></div>
+        <div class="service-title">Lighting Installation</div>
+      </div>
 
-      <div class="card service-card" data-title="Seasonal Maintenance"><div class="icon seasonal"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/><line x1="12" y1="0" x2="12" y2="24"/><line x1="0" y1="12" x2="24" y2="12"/></svg></div><div class="service-title">Seasonal Maintenance</div></div>
+      <div class="card service-card" data-title="Seasonal Maintenance" data-icon="seasonal">
+        <div class="icon" aria-hidden="true"></div>
+        <div class="service-title">Seasonal Maintenance</div>
+      </div>
     </div>
 
     <div class="section-actions">
       <!-- кнопка . . . (точно такой текст) -->
       <button class="btn btn-section" id="servicesMoreBtn" aria-expanded="false" style="--section-btn-bg:#f0f7f0; --section-btn-color:#123a1b;">. . .</button>
-      <!-- Get a Free Quote (как CTA) -->
-      <button class="btn btn-primary" id="quoteFromServices">Get a Free Quote</button>
+      <!-- removed "Get a Free Quote" per request -->
     </div>
   </section>
 
@@ -244,7 +269,7 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
 
     <div class="section-actions" style="margin-bottom:8px;">
       <button class="btn btn-section" id="projectsMoreBtn" aria-expanded="false" style="--section-btn-bg:#f7efe6; --section-btn-color:#4b2e15;">. . .</button>
-      <button class="btn btn-primary" id="quoteFromProjects">Get a Free Quote</button>
+      <!-- removed "Get a Free Quote" per request -->
     </div>
   </section>
 
@@ -264,10 +289,9 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
     </div>
 
     <div class="section-actions" style="margin-top:6px;">
-      <!-- кнопка See More, как Get a Free Quote по размерам -->
+      <!-- кнопка See More -->
       <button class="btn btn-section" id="seeMoreReviews" style="--section-btn-bg:var(--section-btn-bg); --section-btn-color:var(--section-btn-color);">See More</button>
-      <!-- копия CTA -->
-      <button class="btn btn-primary" id="quoteFromReviews">Get a Free Quote</button>
+      <!-- removed "Get a Free Quote" per request -->
     </div>
   </section>
 
@@ -290,7 +314,7 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
       <h2>Contact</h2>
       <p>Phone: (000) 000-0000</p>
       <p>Email: info@4garden.com</p>
-      <p>Address: Your City, USA</p>
+      <p>Instagram: <a href="https://instagram.com/yourprofile" target="_blank" rel="noopener">@yourprofile</a></p>
     </div>
   </section>
 </main>
@@ -305,11 +329,9 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
   let offset = 0;
 
   function updateOffset(){
-    // считаем реальные пиксели header+nav (на случай изменений)
     const headerRect = header.getBoundingClientRect();
     const navRect = navWrapper.getBoundingClientRect();
-    // headerRect.height и navRect.height вернут видимую высоту
-    offset = Math.ceil(headerRect.height + navRect.height + 8); // небольшой отступ
+    offset = Math.ceil(headerRect.height + navRect.height + 8);
   }
 
   // скролл на элемент с учётом offset
@@ -325,19 +347,27 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
       e.preventDefault();
       const targetId = this.getAttribute('data-target');
       if(targetId === 'home'){
-        // туда где header начинается (верх страницы)
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        history.replaceState && history.replaceState(null, '', '#');
         return;
       }
       const el = document.getElementById(targetId);
-      if(el) scrollToSectionEl(el);
+      if(el) {
+        // если мы на index, просто скроллим
+        if(location.pathname.endsWith('index.html') || location.pathname.endsWith('/') || location.pathname === window.location.pathname){
+          scrollToSectionEl(el);
+          history.replaceState && history.replaceState(null, '', `#${targetId}`);
+        } else {
+          // если на другой странице, открываем index с хешем
+          location.href = `index.html#${targetId}`;
+        }
+      }
     });
   });
 
   // корректировка при загрузке если в хеше есть секция
   window.addEventListener('load', ()=>{
     updateOffset();
-    // плавный переход если в URL есть hash
     if(location.hash){
       const id = location.hash.replace('#','');
       const el = document.getElementById(id);
@@ -348,14 +378,35 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
   // пересчитать при ресайзе
   window.addEventListener('resize', updateOffset);
 
-  // уменьшение/параллакс шапки (оставлено как было)
+  // лёгкий параллакс шапки
   window.addEventListener('scroll', ()=>{
     const scrollY = window.scrollY;
     const move = Math.min(Math.max(scrollY/20, -10), 10);
-    header.style.backgroundPosition = `center ${32+move}%`;
+    header.style.transform = `translateY(${Math.max(-20, -scrollY/10)}px)`;
   });
 
-  /* ---------- поведение плиток: открытие отдельной страницы item.html?title=... ---------- */
+  /* ---------- генерация минималистичных SVG-иконок для всех service-card ---------- */
+  function getIconSVG(name){
+    // возвращаем строку с SVG (минималистично)
+    switch(name){
+      case 'mower': return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 18h18" stroke="#07b84e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M6 14l1-4h10l1 4" stroke="#07b84e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`;
+      case 'hedge': return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="10" r="3" stroke="#07b84e" stroke-width="2" fill="none"/><circle cx="17" cy="10" r="3" stroke="#07b84e" stroke-width="2" fill="none"/><rect x="2" y="16" width="20" height="2" fill="#07b84e" opacity="0.12"/></svg>`;
+      case 'cleanup': return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" stroke="#07b84e" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M9 12v6" stroke="#07b84e" stroke-width="2" stroke-linecap="round"/><path d="M15 12v6" stroke="#07b84e" stroke-width="2" stroke-linecap="round"/></svg>`;
+      case 'design': return `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="12" stroke="#07b84e" stroke-width="2" fill="none"/><path d="M4 16h16" stroke="#07b84e" stroke-width="2" fill="none"/></svg>`;
+      case 'lighting': return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v6" stroke="#07b84e" stroke-width="2" fill="none"/><path d="M8 10h8" stroke="#07b84e" stroke-width="2" fill="none"/><path d="M10 14l2 6 2-6" stroke="#07b84e" stroke-width="2" fill="none"/></svg>`;
+      case 'seasonal': return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3" stroke="#07b84e" stroke-width="2" fill="none"/><path d="M12 11v8" stroke="#07b84e" stroke-width="2" fill="none"/></svg>`;
+      default: return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="#07b84e" stroke-width="2" fill="none"/></svg>`;
+    }
+  }
+
+  // рендерим иконки в существующих карточках
+  document.querySelectorAll('.service-card').forEach(card=>{
+    const iconWrap = card.querySelector('.icon');
+    const name = card.dataset.icon || 'default';
+    iconWrap.innerHTML = getIconSVG(name);
+  });
+
+  /* ---------- поведение плиток: открытие отдельной страницы item.html?title=...&type=... ---------- */
   function goToItem(title, type){
     const url = new URL('item.html', location.href);
     url.searchParams.set('title', title);
@@ -363,44 +414,54 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
     location.assign(url.toString());
   }
 
-  // назначаем клики для начальных service-card и project-card
+  // назначаем клики для service-card и project-card (делегирование)
   document.addEventListener('click', function(e){
+    // если клик внутри секции и не по интерактивному — будем обрабатывать отдельно
     const svc = e.target.closest('.service-card');
-    if(svc){ const title = svc.dataset.title || svc.textContent.trim(); goToItem(title, 'service'); return; }
+    if(svc){
+      const title = svc.dataset.title || svc.textContent.trim();
+      goToItem(title, 'service');
+      return;
+    }
     const proj = e.target.closest('.project-card');
-    if(proj){ const title = proj.dataset.title || proj.textContent.trim(); goToItem(title, 'project'); return; }
+    if(proj){
+      const title = proj.dataset.title || proj.textContent.trim();
+      goToItem(title, 'project');
+      return;
+    }
   });
 
-  /* ---------- кнопки . . . для Services и Projects (раскрытие дополнительных плиток) ---------- */
+  /* ---------- кнопка . . . для Services: динамическое добавление ---------- */
   const servicesGrid = document.getElementById('servicesGrid');
   const servicesMoreBtn = document.getElementById('servicesMoreBtn');
   let servicesExpanded = false;
 
-  // данные для дополнительных услуг (примерные названия и иконки)
   const moreServices = [
     {title:'Irrigation Setup', icon:'design'},
     {title:'Tree Pruning', icon:'hedge'},
-    {title:'Mulch & Soil', icon:'cleanup'},
-    {title:'Seasonal Planting', icon:'seasonal'},
-    {title:'Weed Control', icon:'lawn'},
-    {title:'Garden Edging', icon:'design'}
+    {title:'Mulch & Soil Delivery', icon:'cleanup'},
+    {title:'Garden Bed Edging', icon:'mower'},
+    {title:'Bush Removal', icon:'hedge'},
+    {title:'Weed Control', icon:'cleanup'}
   ];
+
+  function createServiceCard(item){
+    const div = document.createElement('div');
+    div.className = 'card service-card';
+    div.dataset.title = item.title;
+    div.dataset.icon = item.icon || 'default';
+    div.innerHTML = `<div class="icon" aria-hidden="true">${getIconSVG(item.icon)}</div><div class="service-title">${item.title}</div>`;
+    return div;
+  }
 
   servicesMoreBtn.addEventListener('click', ()=>{
     if(!servicesExpanded){
-      // добавляем еще 6 карточек
-      moreServices.forEach((it)=>{
-        const div = document.createElement('div');
-        div.className = 'card service-card';
-        div.dataset.title = it.title;
-        div.innerHTML = `<div class="icon ${it.icon}"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><line x1="4" y1="12" x2="20" y2="12"/></svg></div><div class="service-title">${it.title}</div>`;
-        servicesGrid.appendChild(div);
-      });
+      moreServices.forEach((it)=> servicesGrid.appendChild(createServiceCard(it)));
       servicesMoreBtn.setAttribute('aria-expanded','true');
       servicesExpanded = true;
-      servicesMoreBtn.textContent = '. . .';
+      servicesMoreBtn.textContent = 'Less';
     } else {
-      // убираем последние 6
+      // убрать добавленные (последние moreServices.length)
       for(let i=0;i<moreServices.length;i++){
         const last = servicesGrid.lastElementChild;
         if(last) last.remove();
@@ -411,54 +472,98 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
     }
   });
 
-  /* ---------- Projects: добавить 9 дополнительных плиток с placeholder картинками ---------- */
+  /* ---------- Projects: добавить дополнительные плитки ---------- */
   const projectsGrid = document.getElementById('projectsGrid');
   const projectsMoreBtn = document.getElementById('projectsMoreBtn');
   let projectsExpanded = false;
 
-  // генерируем 9 placeholder-иконок project-icon4..project-icon12.png
-  const moreProjectsCount = 9;
+  const moreProjects = [
+    {title:'Backyard Redesign', img:'project-icon4.png'},
+    {title:'Garden Beds Installation', img:'project-icon5.png'},
+    {title:'Irrigation Upgrade', img:'project-icon6.png'},
+    {title:'Deck Border Plants', img:'project-icon7.png'},
+    {title:'Hillside Groundcover', img:'project-icon8.png'},
+    {title:'Patio Planters', img:'project-icon9.png'},
+    {title:'Rain Garden', img:'project-icon10.png'},
+    {title:'Driveway Border', img:'project-icon11.png'},
+    {title:'Play Area Turf', img:'project-icon12.png'}
+  ];
+
+  function createProjectCard(item){
+    const div = document.createElement('div');
+    div.className = 'card project-card';
+    div.dataset.title = item.title;
+    div.innerHTML = `<img src="${item.img}" alt="${item.title} icon"/><div class="service-title">${item.title}</div>`;
+    return div;
+  }
+
   projectsMoreBtn.addEventListener('click', ()=>{
     if(!projectsExpanded){
-      for(let i=4;i<4+moreProjectsCount;i++){
-        const div = document.createElement('div');
-        div.className = 'card project-card';
-        const iconIdx = i; // project-icon4..12
-        div.dataset.title = `Project ${i}`;
-        div.innerHTML = `<img src="project-icon${iconIdx}.png" alt="project ${iconIdx}"/><div class="service-title">Project ${i}</div>`;
-        projectsGrid.appendChild(div);
-      }
+      moreProjects.forEach(p => projectsGrid.appendChild(createProjectCard(p)));
       projectsMoreBtn.setAttribute('aria-expanded','true');
       projectsExpanded = true;
+      projectsMoreBtn.textContent = 'Less';
     } else {
-      // удалить добавленные 9 (последние 9)
-      for(let i=0;i<moreProjectsCount;i++){
+      for(let i=0;i<moreProjects.length;i++){
         const last = projectsGrid.lastElementChild;
         if(last) last.remove();
       }
       projectsMoreBtn.setAttribute('aria-expanded','false');
       projectsExpanded = false;
+      projectsMoreBtn.textContent = '. . .';
     }
   });
 
-  /* ---------- Кнопки Get a Free Quote / See More (пример поведения) ---------- */
-  document.getElementById('quoteFromServices').addEventListener('click', ()=> alert('Get a Free Quote — contact form or modal can be implemented here.'));
-  document.getElementById('quoteFromProjects').addEventListener('click', ()=> alert('Get a Free Quote — contact form or modal can be implemented here.'));
-  document.getElementById('quoteFromReviews').addEventListener('click', ()=> alert('Get a Free Quote — contact form or modal can be implemented here.'));
-  document.getElementById('seeMoreReviews').addEventListener('click', ()=> {
-    // показ примера — добавляем 2 текстовых и 1 видео (можно сделать загрузку из API)
-    const grid = document.getElementById('reviewsGrid');
-    // если уже добавлены — убрать
-    if(document.querySelector('.reviews-grid .more-added')){
-      document.querySelectorAll('.reviews-grid .more-added').forEach(n=>n.remove());
-      return;
+  /* ---------- Reviews: See More ---------- */
+  const seeMoreReviews = document.getElementById('seeMoreReviews');
+  const reviewsGrid = document.getElementById('reviewsGrid');
+  let reviewsExpanded = false;
+  const moreReviews = [
+    '“Very fast and high-quality work.” — Daniel',
+    '“Great attention to detail, thank you!” — Sarah',
+    '“Will hire again.” — Chris'
+  ];
+  seeMoreReviews.addEventListener('click', ()=>{
+    if(!reviewsExpanded){
+      moreReviews.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'review-card';
+        div.textContent = r;
+        reviewsGrid.appendChild(div);
+      });
+      seeMoreReviews.textContent = 'Hide';
+      reviewsExpanded = true;
+    } else {
+      // remove last three
+      for(let i=0;i<moreReviews.length;i++){
+        const last = reviewsGrid.lastElementChild;
+        if(last && last.classList.contains('review-card') && last.textContent.includes('—')) last.remove();
+      }
+      seeMoreReviews.textContent = 'See More';
+      reviewsExpanded = false;
     }
-    const r1 = document.createElement('div'); r1.className='review-card more-added'; r1.textContent='“Fast, friendly, and reliable.” — Elena';
-    const r2 = document.createElement('div'); r2.className='review-card more-added'; r2.textContent='“Great attention to detail.” — Pavel';
-    const v = document.createElement('div'); v.className='review-video more-added'; v.style.gridColumn='1 / -1'; v.innerHTML = `<iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="More review" frameborder="0" allowfullscreen></iframe>`;
-    grid.appendChild(r1); grid.appendChild(r2); grid.appendChild(v);
   });
 
+  /* ---------- Секции кликабельны: если клик на саму секцию (не на карточку), открываем index.html#section --- */
+  const sectionIds = ['homeSection','services','projects','reviews','about','contact'];
+  sectionIds.forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.addEventListener('click', function(e){
+      // если клик на интерактивный элемент — игнорируем (карточки/кнопки/ссылки)
+      if(e.target.closest('.card') || e.target.closest('a') || e.target.closest('button') || e.target.closest('iframe')) return;
+      // если мы на index — просто скроллим к этой секции
+      if(location.pathname.endsWith('index.html') || location.pathname.endsWith('/') || location.pathname === window.location.pathname){
+        scrollToSectionEl(el);
+        history.replaceState && history.replaceState(null, '', `#${id==='homeSection'?'home':id}`);
+      } else {
+        // иначе открываем index с нужным хешом
+        location.href = `index.html#${id==='homeSection'?'home':id}`;
+      }
+    });
+  });
+
+  // дополнительная инициализация: обработка кликов на dynamically added cards (делегирование уже выше покрывает)
 })();
 </script>
 
