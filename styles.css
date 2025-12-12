@@ -1,0 +1,276 @@
+:root{
+    --header-h: 13vh;
+    --nav-h: 8.8vh;
+    --accent-green: #07b84e;
+    --nav-bg: #3f2612; /* коричневый навбар */
+    --nav-hover: #1b5e20;
+    --btn-radius: 12px;
+    --btn-padding: 16px 38px;
+    --btn-font: 1.3rem;
+}
+
+/* базовые стили */
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    height: 100%;
+    background: linear-gradient(160deg, #eaf7ea 0%, #bfe9bf 100%);
+    color: #143214;
+}
+* {
+    box-sizing: border-box;
+}
+
+/* ---------- HEADER ---------- */
+.header {
+    width: 100%;
+    height: var(--header-h);
+    background-image: url('clearphotowithoutrights.png');
+    background-size: cover;
+    background-position: center 32%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 120;
+    transition: background-position 0.35s linear;
+}
+.header h1 {
+    margin: 0;
+    font-size: 2.6rem;
+    font-weight: 700;
+}
+.header p {
+    margin: 6px 0 0;
+    font-size: 1.35rem;
+    font-weight: 500;
+    font-family: 'Lora', serif;
+    text-align: center;
+}
+
+/* ---------- NAVBAR ---------- */
+.nav-wrapper {
+    position: fixed;
+    top: calc(var(--header-h));
+    left: 0;
+    width: 100%;
+    height: var(--nav-h);
+    background: var(--nav-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: 2px solid rgba(0, 0, 0, 0.18);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.18);
+    z-index: 115;
+}
+.nav {
+    display: flex;
+    gap: 12px;
+}
+.nav a {
+    height: calc(var(--nav-h) * 0.6);
+    min-width: 170px;
+    padding: 0 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--nav-bg);
+    color: var(--accent-green);
+    font-size: 1.55rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.28);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+    margin: 0 6px;
+    transition: transform .18s ease, filter .18s ease, box-shadow .18s ease, background .18s ease;
+}
+.nav a:hover {
+    transform: translateY(-3px) scale(1.035);
+    filter: brightness(1.08);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.06);
+    background: linear-gradient(180deg, #3f2612, #332412);
+    color: #dfffbf;
+}
+
+/* ---------- PAGE OFFSET (динамически корректируемый JS) ---------- */
+.page-offset {
+    margin-top: calc(var(--header-h) + var(--nav-h) + 10px);
+    text-align: center;
+}
+
+/* ---------- общие заголовки ---------- */
+section h2 {
+    text-align: center;
+    font-size: 2.2rem;
+    margin: 20px 0;
+    color: #123a1b;
+}
+
+/* ---------- HOME ---------- */
+.home {
+    background: transparent;
+    text-align: center;
+    padding: 110px 20px;
+}
+.home h2 {
+    font-size: 6rem;
+    margin-bottom: 6px;
+}
+.home p {
+    margin-bottom: 14px;
+    color: #274b27;
+    font-weight: 500;
+    font-family: 'Lora', serif;
+    font-size: 1.7rem;
+}
+
+/* ---------- GRID CARD STYLES (общие) ---------- */
+.grid {
+    display: grid;
+    gap: 22px;
+    padding: 0 14px;
+    max-width: 1100px;
+    margin: 14px auto 80px;
+}
+.card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px;
+    min-height: 140px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(6, 20, 8, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    transition: transform .18s ease, box-shadow .18s ease, filter .18s ease, background .18s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+}
+.card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 22px 48px rgba(6, 20, 8, 0.08);
+    filter: brightness(1.05);
+    background: linear-gradient(180deg, #f0fff0, #e0f5e0);
+}
+
+/* ---------- SERVICES ---------- */
+.services-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+.service-card {
+    min-height: 150px;
+    padding: 22px;
+    cursor: pointer;
+}
+.icon {
+    width: 56px;
+    height: 56px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon svg {
+    width: 50px;
+    height: 50px;
+}
+.icon.lawn svg,
+.icon.hedge svg,
+.icon.cleanup svg,
+.icon.design svg,
+.icon.lighting svg,
+.icon.seasonal svg {
+    stroke: #07b84e;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+.service-title {
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+
+/* ---------- PROJECTS ---------- */
+.projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+}
+.project-card {
+    min-height: 180px;
+    padding: 14px;
+}
+.project-card img {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* ---------- REVIEWS ---------- */
+.reviews-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 900px;
+}
+.review-card {
+    padding: 20px;
+}
+.review-video {
+    width: 100%;
+    height: 220px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* ---------- CTA (универсальные кнопки) ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--btn-font);
+    padding: var(--btn-padding);
+    border: none;
+    border-radius: var(--btn-radius);
+    cursor: pointer;
+    transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+}
+.btn:focus {
+    outline: 3px solid rgba(7, 184, 78, 0.18);
+}
+
+/* primary (зелёный) */
+.btn-primary {
+    background-color: var(--accent-green);
+    color: #fff;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.btn-primary:hover {
+    transform: scale(1.03);
+    filter: brightness(1.06);
+}
+
+/* secondary: адаптируется под секцию через --section-btn-bg и --section-btn-color */
+.btn-section {
+    background-color: var(--section-btn-bg, #4b2e15);
+    color: var(--section-btn-color, #fff);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+.btn-section:hover {
+    transform: scale(1.03);
+    filter: brightness(1.06);
+}
+
+/* утопленные кнопки под навигационный размер */
+.cta {
+    background: linear-gradient(180deg, #247b30, #1b6a2b);
+    color: #fff;
+    text-align: center;
+    padding
