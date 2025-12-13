@@ -40,78 +40,73 @@ body {
 
 /* ---------- HEADER ---------- */
 .header {
-    width: 100%;
+    width:100%;
     height: var(--header-h);
-    /* Фон будет с маской */
-    background: url('your-image-url.jpg') no-repeat center center/cover;
-    /* Применяем маску только к фону */
-    -webkit-mask-image: linear-gradient(160deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
-    mask-image: linear-gradient(160deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    text-align: center;
-    text-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 120;
+    /* снимем background-image с хедера — фон теперь на body */
+    background: transparent;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    text-align:center;
+    text-shadow:0 0 8px rgba(0,0,0,0.2);
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:120;
     transition: background-position 0.35s linear;
 }
-
-.header h1 {
-    margin: 0;
-    font-size: 2.6rem;
-    font-weight: 700;
-    color: white; /* Белый цвет текста */
-}
-
-.header p {
-    margin: 6px 0 0;
-    font-size: 2rem;
-    font-weight: 500;
-    font-family: 'Lora', serif;
-    text-align: center;
-}
+.header h1{ margin:0; font-size:2.6rem; font-weight:700; }
+.header p{ margin:6px 0 0; font-size:2rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
 
 /* ---------- NAVBAR ---------- */
-.navbar {
+.nav-wrapper {
+    position: fixed;
+    top: calc(var(--header-h));
+    left: 0;
     width: 100%;
-    height: var(--navbar-h);
-    background: url('your-image-url.jpg') no-repeat center center/cover;
-    /* Применяем маску только к фону */
-    -webkit-mask-image: linear-gradient(160deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
-    mask-image: linear-gradient(160deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.7));
-    -webkit-mask-size: 100% 100%;
-    mask-size: 100% 100%;
+    height: var(--nav-h);
+    background: transparent; /* Сделать фон полосы меню прозрачным */
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 100;
+    justify-content: center;
+    border-top: none;
+    border-bottom: none;
+    z-index: 115;
 }
 
-/* Ссылки в навбаре */
-.navbar a {
-    color: #fff;
-    font-size: 1.6rem;
+/* Стили для кнопок в меню */
+.nav {
+    display: flex;
+    gap: 12px;
+}
+
+.nav a {
+    height: calc(var(--nav-h) * 0.6);
+    min-width: 170px;
+    padding: 0 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--nav-bg); /* Задаем фон кнопки */
+    color: var(--accent-green); /* Цвет текста кнопки */
+    font-size: 1.55rem;
+    font-weight: 600;
     text-decoration: none;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.28);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+    margin: 0 6px;
+    transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
 
-/* ---------- BUTTONS (не затрагиваем кнопки) ---------- */
-.navbar a, .btn {
-    background-color: transparent; /* Прозрачный фон */
-    color: var(--accent-green); /* Цвет текста */
-    /* Убираем маску с кнопок */
-    -webkit-mask-image: none;
-    mask-image: none;
+.nav a:hover {
+    transform: translateY(-3px) scale(1.035);
+    filter: brightness(1.08);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.06);
+    background: linear-gradient(180deg, #3f2612, #332412); /* Меняется фон кнопки при наведении */
+    color: #dfffbf;
 }
 
 /* ---------- PAGE OFFSET (динамически корректируемый JS) ---------- */
