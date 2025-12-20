@@ -591,6 +591,22 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
   });
 
   // дополнительная инициализация: обработка кликов на dynamically added cards (делегирование уже выше покрывает)
+    /* ---------- hide/show navbar on scroll ---------- */
+let lastScrollY = window.scrollY;
+
+window.addEventListener('scroll', () => {
+  const currentScrollY = window.scrollY;
+
+  if (currentScrollY > lastScrollY && currentScrollY > 100) {
+    // скролл вниз — скрываем меню
+    navWrapper.classList.add('hide');
+  } else {
+    // скролл вверх — показываем меню
+    navWrapper.classList.remove('hide');
+  }
+
+  lastScrollY = currentScrollY;
+});
 })();
 </script>
 
