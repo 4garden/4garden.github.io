@@ -67,13 +67,24 @@ body {
     left: 0;
     width: 100%;
     height: var(--nav-h);
-    background: transparent; /* Сделать фон полосы меню прозрачным */
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
     border-top: none;
     border-bottom: none;
     z-index: 115;
+
+    /* ДОБАВЛЕНО */
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    will-change: transform;
+}
+
+/* ДОБАВЛЕНО */
+.nav-wrapper.hide {
+    transform: translateY(-120%);
+    opacity: 0;
+    pointer-events: none;
 }
 
 /* Стили для кнопок в меню */
