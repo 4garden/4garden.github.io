@@ -12,96 +12,133 @@
     --header-h: 13vh;
     --nav-h: 8.8vh;
     --accent-green: #07b84e;
+    --nav-bg: #3f2612; /* коричневый навбар */
+    --nav-hover: #1b5e20;
+    --btn-radius: 12px;
+    --btn-padding: 16px 38px;
+    --btn-font: 1.3rem;
+    --cta-green: #c7fbd0; /* яркий светло-зеленый для CTA */
 }
 
-/* body: тот же единый фон как в index (если хотите — можно вынести в common CSS) */
-html,body{
-    margin:0;
-    padding:0;
-    font-family:'Poppins',sans-serif;
-    height:100%;
-    background-image:
-      linear-gradient(160deg, rgba(80, 200, 120, 0.03) 0%, rgba(0, 128, 64, 0.15) 100%),
-      url('clearphotowithoutrights.png');
-    background-repeat:no-repeat;
-    background-position:center top;
-    background-size:cover;
-    background-attachment:scroll;
-    color:#143214;
+/* базовые стили */
+html,body{ margin:0; padding:0; font-family:'Poppins',sans-serif; min-height:100%; color:#143214; }
+
+/* фон страницы */
+body {
+  background-image:
+    linear-gradient(160deg, rgba(80, 200, 120, 0.03) 0%, rgba(0, 128, 64, 0.15) 100%),
+    url('clearphotowithoutrights.png');
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: cover;
+  background-attachment: scroll;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
 
 *{box-sizing:border-box;}
 
 /* ---------- HEADER ---------- */
 .header {
-    width:100%;
+    width: 100%;
     height: var(--header-h);
-    background: transparent;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    text-align:center;
-    text-shadow:0 0 8px rgba(0,0,0,0.45);
-    position:fixed;
-    top:0;
-    left:0;
-    z-index:120;
-    transition: background-position 0.35s linear;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 120;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+
+    overflow: hidden;
 }
-.header h1{ margin:0; font-size:2.6rem; font-weight:700; }
-.header p{ margin:6px 0 0; font-size:2rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
+
+.header img {
+    max-height: 90%;
+    width: auto;
+    display: block;
+    z-index: 1;
+    position: relative;
+}
+
+.header h1,
+.header p {
+    position: relative;
+    z-index: 1;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2.6rem;
+    font-weight: 700;
+}
+
+.header p {
+    margin-top: 6px;
+    font-size: 2rem;
+    font-family: 'Lora', serif;
+}
 
 /* ---------- NAVBAR ---------- */
-.nav-wrapper{
-    position:fixed;
-    top: var(--header-h);
-    left:0;
-    width:100%;
+.nav-wrapper {
+    position: fixed;
+    top: calc(var(--header-h));
+    left: 0;
+    width: 100%;
     height: var(--nav-h);
-    background-color: #5a3b1b;
-    background-image: 
-        radial-gradient(circle, rgba(90,60,27,0.3) 1px, transparent 1px),
-        radial-gradient(circle, rgba(80,50,20,0.3) 1px, transparent 1px);
-    background-size: 20px 20px;
-    background-position: 0 0, 10px 10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    border-top:2px solid rgba(0,0,0,0.4);
-    border-bottom:2px solid rgba(0,0,0,0.4);
-    z-index:115;
+    background: var(--nav-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 115;
+
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    will-change: transform;
 }
 
-.nav{
-    display:flex;
-    gap:12px;
+.nav-wrapper.hide {
+    transform: translateY(-120%);
+    opacity: 0;
+    pointer-events: none;
 }
 
-.nav a{
+.nav {
+    display: flex;
+    gap: 12px;
+}
+
+.nav a {
     height: calc(var(--nav-h) * 0.6);
-    min-width:170px;
-    padding:0 36px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    background: rgba(40,25,12,0.82);
-    color: var(--accent-green);
-    font-size:1.55rem;
-    font-weight:600;
-    text-decoration:none;
-    border-radius:14px;
-    border:1px solid rgba(0,0,0,0.28);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.10);
-    transition: transform .18s ease, filter .18s ease, box-shadow .18s ease, background .18s ease;
+    min-width: 170px;
+    padding: 0 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(55, 35, 18, 0.8);
+    color: #c7fbd0;
+    font-size: 1.55rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
 
-.nav a:hover{
+.nav a:hover {
     transform: translateY(-3px) scale(1.035);
-    filter:brightness(1.08);
-    background: rgba(30,20,9,0.9);
-    color:#e8ffd0;
+    filter: brightness(1.1);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.06);
+    background: rgba(55, 35, 18, 0.95);
+    color: #e0ffc5;
 }
 
 /* ---------- PAGE OFFSET ---------- */
@@ -134,6 +171,11 @@ html,body{
     margin-bottom:12px;
     line-height:1.6;
 }
+.item-content video{
+    width:100%;
+    margin-top:18px;
+    border-radius:8px;
+}
 
 /* ---------- FOOTER ---------- */
 footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center; margin-top:20px; }
@@ -147,6 +189,7 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
 
 <!-- HEADER -->
 <header class="header">
+  <img src="logoimage.png" alt="4Garden Logo">
   <h1>4Garden</h1>
   <p>Quality landscaping services for clean, fresh and beautiful yards.</p>
 </header>
@@ -173,7 +216,7 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
   <p id="p2">Curabitur a semper est. Sed fringilla nunc vel leo suscipit, ac hendrerit arcu efficitur.</p>
   <p id="p3">Donec fermentum orci nec tortor viverra, at tincidunt justo eleifend.</p>
 
-  <video controls style="width:100%; margin-top:18px;">
+  <video controls>
     <source id="item-video" src="placeholder.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
@@ -182,27 +225,34 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
 <footer>© 2025 4Garden. All Rights Reserved.</footer>
 
 <script>
-  // Плавный скролл по меню (если ссылки с хешем)
-  document.querySelectorAll('.nav a').forEach(link=>{
-    link.addEventListener('click', e=>{
-      // ссылки ведут на index с хешом — оставляем переход
+(function(){
+  const header = document.querySelector('.header');
+  const navWrapper = document.querySelector('.nav-wrapper');
+  let offset = 0;
+
+  function updateOffset(){
+    const headerRect = header.getBoundingClientRect();
+    const navRect = navWrapper.getBoundingClientRect();
+    offset = Math.ceil(headerRect.height + navRect.height + 8);
+  }
+
+  // Плавный скролл на index
+  document.querySelectorAll('.nav a').forEach(a=>{
+    a.addEventListener('click', function(e){
+      // ссылки ведут на index — оставляем переход
     });
   });
 
-  // Динамическая подстановка заголовка и медиа
+  // Подстановка заголовка, картинки и видео по query string
   function loadItem() {
     const params = new URLSearchParams(window.location.search);
     const title = params.get('title') || params.get('item') || 'Item';
-    const type = (params.get('type') || 'service').toLowerCase(); // service или project
+    const type = (params.get('type') || 'service').toLowerCase();
 
-    // корректируем заголовок
     const titleEl = document.getElementById('item-title');
     if(type === 'project') titleEl.textContent = "About this Project";
     else titleEl.textContent = "About this Service";
 
-    // подставляем картинку:
-    // правило формирования имени: aboutprojectN.png / aboutserviceN.png
-    // если в title есть число в конце — используем его, иначе N = 1
     function getTrailingNumber(s){
       const m = s.trim().match(/(\d+)\s*$/);
       return m ? m[1] : null;
@@ -212,39 +262,31 @@ footer{ background:#0f1a12; color:#d9edd3; padding:24px 12px; text-align:center;
     const imgName = `${base}${num}.png`;
     const videoName = `${base}${num}.mp4`;
 
-    // поставить alt более осмысленно
     const imgEl = document.getElementById('item-image');
     imgEl.src = imgName;
     imgEl.alt = `${title} image (${imgName})`;
 
-    // видео
     const vidSource = document.getElementById('item-video');
     vidSource.src = videoName;
-    // обновим видео (если есть)
     const videoEl = vidSource.parentElement;
-    if(videoEl && typeof videoEl.load === 'function') {
-      try { videoEl.load(); } catch(e){ /* ignore */ }
-    }
+    if(videoEl && typeof videoEl.load === 'function') videoEl.load();
 
-    // Если хочешь — можно заменить текст описания на более точный контент по title.
-    // Сейчас оставляем статические абзацы (можно расширить под JSON данных).
     document.getElementById('p1').textContent = `${title} — professional service performed by 4Garden.`;
     document.getElementById('p2').textContent = `We deliver careful and eco-friendly results for ${title}.`;
     document.getElementById('p3').textContent = `Contact us for a quote and timeline for ${title}.`;
   }
   loadItem();
 
-  // Секция кликабельна: при клике по пустому месту — открываем index.html#<section>
-  const sectionIds = ['item-content'];
-  sectionIds.forEach(id=>{
-    const el = document.getElementById(id);
-    if(!el) return;
-    el.addEventListener('click', function(e){
-      if(e.target.closest('a') || e.target.closest('button') || e.target.closest('.card')) return;
-      // откроем index.html#about (логично вернуться в ту часть)
-      location.href = 'index.html#projects';
-    });
+  // hide/show navbar on scroll
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    const currentScrollY = window.scrollY;
+    if (currentScrollY > lastScrollY && currentScrollY > 100) navWrapper.classList.add('hide');
+    else navWrapper.classList.remove('hide');
+    lastScrollY = currentScrollY;
   });
+
+})();
 </script>
 
 </body>
