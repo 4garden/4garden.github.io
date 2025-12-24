@@ -40,25 +40,67 @@ body {
 
 /* ---------- HEADER ---------- */
 .header {
-    width:100%;
+    width: 100%;
     height: var(--header-h);
-    /* снимем background-image с хедера — фон теперь на body */
+
     background: transparent;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    text-align:center;
-    text-shadow:0 0 8px rgba(0,0,0,0.2);
-    position:fixed;
-    top:0;
-    left:0;
-    z-index:120;
-    transition: background-position 0.35s linear;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.6);
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 120;
+
+    overflow: hidden; /* важно */
 }
-.header h1{ margin:0; font-size:2.6rem; font-weight:700; }
-.header p{ margin:6px 0 0; font-size:2rem; font-weight:500; font-family:'Lora', serif; text-align:center; }
+
+/* ФОН ШАПКИ */
+.header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background-image:
+        linear-gradient(
+            rgba(0,0,0,0.45),
+            rgba(0,0,0,0.45)
+        ),
+        url("my-header-image.jpg"); /* ← ТВОЯ КАРТИНКА */
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    z-index: 0;
+}
+
+/* ТЕКСТ ПОВЕРХ КАРТИНКИ */
+.header h1,
+.header p {
+    position: relative;
+    z-index: 1;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2.6rem;
+    font-weight: 700;
+}
+
+.header p {
+    margin: 6px 0 0;
+    font-size: 2rem;
+    font-weight: 500;
+    font-family: 'Lora', serif;
+}
 
 /* ---------- NAVBAR ---------- */
 .nav-wrapper {
