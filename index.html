@@ -134,29 +134,29 @@ body {
     align-items: center;
     justify-content: center;
     
-    /* мягкий, почти прозрачный светлый коричневый */
-    background: rgba(180, 160, 150, 0.35); /* светло-коричневый, 35% прозрачности */
+    /* цвет плитки + лёгкая прозрачность */
+    background: rgba(55, 35, 18, 0.8); /* тёмно-коричневый с 80% непрозрачности */
     
-    color: #07b84e; /* зелёный текст, хорошо видимый */
+    color: #c7fbd0; /* светло-зелёный текст для контраста */
     font-size: 1.55rem;
     font-weight: 600;
     text-decoration: none;
     border-radius: 14px;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
     margin: 0 6px;
     transition: transform 0.18s ease, filter 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
 
 .nav a:hover {
-    transform: translateY(-2px) scale(1.03);
-    filter: brightness(1.12);
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.06);
+    transform: translateY(-3px) scale(1.035);
+    filter: brightness(1.1);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14), 0 2px 6px rgba(0, 0, 0, 0.06);
     
-    /* при наведении чуть более заметный фон */
-    background: rgba(180, 160, 150, 0.55);
+    /* фон чуть светлее на hover */
+    background: rgba(55, 35, 18, 0.95);
     
-    color: #e0ffcb; /* светлый текст при hover */
+    color: #e0ffc5; /* светлый текст при наведении */
 }
 
 /* ---------- PAGE OFFSET (динамически корректируемый JS) ---------- */
