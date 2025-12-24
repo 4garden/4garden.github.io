@@ -43,7 +43,10 @@ body {
     width: 100%;
     height: var(--header-h);
 
-    background: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 120;
 
     display: flex;
     flex-direction: column;
@@ -54,26 +57,20 @@ body {
     text-align: center;
     text-shadow: 0 2px 12px rgba(0,0,0,0.6);
 
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 120;
-
-    overflow: hidden; /* важно */
+    overflow: hidden;
 }
 
 /* ФОН ШАПКИ */
-.header::before {
-    content: "";
+.header-bg {
     position: absolute;
     inset: 0;
 
     background-image:
         linear-gradient(
-            rgba(0,0,0,0.45),
-            rgba(0,0,0,0.45)
+            rgba(0,0,0,0.75),
+            rgba(0,0,0,0.75)
         ),
-        url("my-header-image.jpg"); /* ← ТВОЯ КАРТИНКА */
+        url("my-header-image.jpg"); /* ← ПРОВЕРЬ ПУТЬ */
 
     background-size: cover;
     background-position: center;
@@ -82,7 +79,7 @@ body {
     z-index: 0;
 }
 
-/* ТЕКСТ ПОВЕРХ КАРТИНКИ */
+/* ТЕКСТ */
 .header h1,
 .header p {
     position: relative;
@@ -96,9 +93,8 @@ body {
 }
 
 .header p {
-    margin: 6px 0 0;
+    margin-top: 6px;
     font-size: 2rem;
-    font-weight: 500;
     font-family: 'Lora', serif;
 }
 
